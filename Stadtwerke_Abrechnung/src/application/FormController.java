@@ -136,7 +136,7 @@ public class FormController {
 	}
 	
 	public void action_menu_neue_zahlung() {
-		
+		Main.setStage("neue_zahlung");
 	}
 
 	public void action_menu_auswertung() {

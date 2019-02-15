@@ -36,8 +36,29 @@ public class Main extends Application {
 		}
 	}
 	
-	public static Stage getStage() {
-		return window;
+	public static void setStage(String scene_name) {
+		Scene scene = new Scene(root,1536,864);
+		
+		switch (scene_name) {
+			case "uebersicht":
+				getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
+				break;
+			case "neue_zahlung":
+				getStylesheets().add(getClass().getResource("Zahlung.css").toExternalForm());
+				break;
+			case "auswertung":
+				
+				break;
+			case "aufteilen":
+				
+				break;
+			case "einstellung":
+				
+				break;
+			default: 
+				
+				break;
+		}
 	}
 	
 	
