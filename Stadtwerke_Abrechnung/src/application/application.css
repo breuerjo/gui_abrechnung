@@ -1,0 +1,39 @@
+.root {
+	-fx-background-color: #383838;
+	-fx-font-family: "Calibri Light";
+}
+
+.label {
+	-fx-text-fill: #f8f8f8;
+	-fx-font-size: 18;
+}
+
+#label-bold {
+	-fx-font-weight: bold;
+}
+
+.lb-menu {
+	-fx-font-weight: bold;
+	-fx-font-size: 20;
+	-fx-text-fill: #f8f8f8;
+	-fx-background-color: transparent;
+}
+
+.btn-menu {
+	-fx-font-weight: bold;
+	-fx-color: #F8F8F8;
+		
+}
+
+.btn-menu:hover {
+	-fx-background-color: #202332;
+	-fx-font-weight: bold;
+	-fx-color: #F8F8F8;
+}
+
+.box {
+	-fx-border-color: #7C8184;
+	-fx-border-width: 2px, 0px, 0px, 0px;
+}
+
+
