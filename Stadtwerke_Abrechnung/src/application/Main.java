@@ -1,10 +1,11 @@
 package application;
 	
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 
@@ -23,41 +24,30 @@ public class Main extends Application {
 		window = primaryStage;
 		
 		try { 
-			BorderPane root = FXMLLoader.load(getClass().getResource("Main.fxml"));  
-			Scene scene_start = new Scene(root,1536,864);
+			BorderPane root =  (BorderPane) FXMLLoader.load(Main.class.getResource("Uebersicht.fxml"));
+			Scene scene_start = new Scene(root,1920,998);
 			scene_start.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
-			primaryStage.setScene(scene_start);
-			primaryStage.show();
+			window.setScene(scene_start);
+			window.show();
+			window.setTitle("Abrechnungsprogramm");
 			
-			primaryStage.setTitle("Abrechnungsprogramm");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static void setStage(String scene_name) {
-		Scene scene = new Scene(root,1536,864);
-		
-		switch (scene_name) {
-			case "uebersicht":
-				getStylesheets().add(getClass().getResource("Main.css").toExternalForm());
-				break;
-			case "neue_zahlung":
-				getStylesheets().add(getClass().getResource("Zahlung.css").toExternalForm());
-				break;
-			case "auswertung":
-				
-				break;
-			case "aufteilen":
-				
-				break;
-			case "einstellung":
-				
-				break;
-			default: 
-				
-				break;
+		try {
+			BorderPane root = null;		
+			root = FXMLLoader.load(Main.class.getResource(scene_name+".fxml")); 
+			
+			Scene scene = new Scene(root,1920,998);
+			scene.getStylesheets().add(Main.class.getResource("application.css").toExternalForm());
+			window.setScene(scene);
+			window.show();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

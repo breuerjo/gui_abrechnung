@@ -1,36 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormController">
+<BorderPane minHeight="998.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormControllerZahlung">
+   <bottom>
+      <AnchorPane prefHeight="20.0" style="-fx-background-color: #00A2D3;" BorderPane.alignment="CENTER" />
+   </bottom>
+   <top>
+      <AnchorPane prefHeight="20.0" style="-fx-background-color: #00A2D3;" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <AnchorPane prefWidth="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="958.0" prefWidth="193.0" style="-fx-background-color: #333645;">
+               <children>
+                  <HBox alignment="CENTER" onMouseClicked="#action_menu_uebersicht" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+                     <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="TABLE" size="1.5em" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <Label styleClass="lb-menu" text="Übersicht" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding></HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="48.0" onMouseClicked="#action_menu_neue_zahlung" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #202332;" styleClass="btn-menu" stylesheets="@application.css">
+                     <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="MONEY" size="1.5em" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <Label styleClass="lb-menu" text="Neue Zahlung" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="148.0" onMouseClicked="#action_menu_auswertung" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+                     <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <Label styleClass="lb-menu" text="Auswertung" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aufteilen" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+                     <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <Label styleClass="lb-menu" text="Aufteilen" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="348.0" onMouseClicked="#action_menu_settings" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+                     <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="COG" size="1.5em" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </FontAwesomeIcon>
+                        <Label styleClass="lb-menu" text="Einstellungen" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+                  
+                  </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefWidth="20.0" style="-fx-background-color: #202332;" stylesheets="@application.css" BorderPane.alignment="CENTER" />
+   </right>
    <center>
-      <TabPane prefHeight="817.0" prefWidth="1300.0" tabClosingPolicy="UNAVAILABLE">
+      <JFXTabPane BorderPane.alignment="CENTER">
          <tabs>
-            <Tab text="Übersicht letzte Zahlungen">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-            </Tab>
-            <Tab text="Neue Daten eingeben">
-               <content>
+            <Tab styleClass="tabs-zahlung" text="Strom">
+              <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <HBox layoutX="24.0" layoutY="22.0">
+                        <HBox layoutX="24.0" layoutY="22.0" prefHeight="320.0" prefWidth="1683.0">
                            <children>
-                              <VBox prefHeight="320.0" prefWidth="851.0">
+                              <VBox prefHeight="320.0" prefWidth="914.0">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
@@ -44,21 +143,21 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <DatePicker fx:id="dp_zeitraum_von">
+                                          <JFXDatePicker fx:id="dp_zeitraum_von" defaultColor="#202332" onHiding="#action_datum_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </DatePicker>
+                                          </JFXDatePicker>
                                           <Label text="bis:">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <DatePicker fx:id="dp_zeitraum_bis">
+                                          <JFXDatePicker fx:id="dp_zeitraum_bis" defaultColor="#202332" layoutX="163.0" layoutY="10.0" onHiding="#action_datum_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </DatePicker>
+                                          </JFXDatePicker>
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0" />
@@ -69,7 +168,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <ComboBox fx:id="cb_zaehler_strom" prefWidth="100.0" promptText="Zähler">
+                                          <ComboBox fx:id="cb_zaehler_strom" prefWidth="120.0" promptText="Zähler">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
@@ -79,21 +178,21 @@
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_strom_alt">
+                                          <JFXTextField fx:id="tf_strom_alt" focusColor="#202332" onAction="#action_strom_berechnen" onKeyTyped="#action_strom_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                           <Label text="neu:">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_strom_neu">
+                                          <JFXTextField fx:id="tf_strom_neu" focusColor="#202332" layoutX="250.0" layoutY="10.0" onAction="#action_strom_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
@@ -103,7 +202,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <ComboBox fx:id="cb_zaehler_erdgas" prefWidth="100.0" promptText="Zähler">
+                                          <ComboBox fx:id="cb_zaehler_erdgas" prefWidth="120.0" promptText="Zähler">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
@@ -113,21 +212,21 @@
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_erdgas_alt">
+                                          <JFXTextField fx:id="tf_erdgas_alt" focusColor="#202332" onAction="#action_ergas_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                           <Label text="neu(m3):">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_erdgas_neu">
+                                          <JFXTextField fx:id="tf_erdgas_neu" focusColor="#202332" layoutX="284.0" layoutY="10.0" onAction="#action_ergas_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
@@ -137,7 +236,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <ComboBox fx:id="cb_zaehler_wasser" prefWidth="100.0" promptText="Zähler">
+                                          <ComboBox fx:id="cb_zaehler_wasser" prefWidth="120.0" promptText="Zähler">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
@@ -147,21 +246,21 @@
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_wasser_alt">
+                                          <JFXTextField fx:id="tf_wasser_alt" focusColor="#202332" onAction="#action_wasser_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                           <Label text="neu:">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_wasser_neu">
+                                          <JFXTextField fx:id="tf_wasser_neu" focusColor="#202332" layoutX="250.0" layoutY="10.0" onAction="#action_wasser_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                        </children>
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
@@ -171,7 +270,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <ComboBox fx:id="cb_zaehler_abwasser" prefWidth="100.0" promptText="Zähler">
+                                          <ComboBox fx:id="cb_zaehler_abwasser" prefWidth="120.0" promptText="Zähler">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
@@ -181,47 +280,42 @@
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_abwasser_alt">
+                                          <JFXTextField fx:id="tf_abwasser_alt" focusColor="#202332" onAction="#action_abwasser_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                           <Label text="neu:">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="tf_abwasser_neu">
+                                          <JFXTextField fx:id="tf_abwasser_neu" focusColor="#202332" layoutX="250.0" layoutY="10.0" onAction="#action_abwasser_berechnen">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
-                                          </TextField>
+                                          </JFXTextField>
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0" />
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button fx:id="bt_init" mnemonicParsing="false" onAction="#action_bt_init" text="Init">
+                                          <JFXButton fx:id="bt_berechnen" layoutX="298.0" layoutY="20.0" style="-fx-background-color: #333645; -fx-text-fill: #f8f8f8;" styleClass="btn-main" stylesheets="@application.css" text="Berechnen">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="bt_berechnen" mnemonicParsing="false" onAction="#action_bt_berechnen" text="Berechnen">
+                                          </JFXButton>
+                                          <JFXButton fx:id="bt_speichern" onAction="#action_bt_speichern" style="-fx-background-color: #333645; -fx-text-fill: #f8f8f8;" styleClass="btn-main" stylesheets="@application.css" text="Speichern">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="bt_speichern" mnemonicParsing="false" onAction="#action_bt_speichern" text="Speichern">
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Button>
+                                          </JFXButton>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <VBox prefHeight="320.0" prefWidth="576.0">
+                              <VBox prefHeight="320.0" prefWidth="762.0">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
@@ -266,7 +360,7 @@
                                           </Label>
                                           <Label fx:id="lb_menge_strom" prefHeight="21.0" prefWidth="150.0">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" top="10.0" />
+                                                <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
                                           <Label prefHeight="21.0" prefWidth="124.0" text="kWh">
@@ -305,7 +399,7 @@
                                           </Label>
                                           <Label fx:id="lb_menge_erdgas" prefHeight="21.0" prefWidth="150.0">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" top="10.0" />
+                                                <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
                                           <Label prefHeight="21.0" prefWidth="124.0" text="kWh">
@@ -344,7 +438,7 @@
                                           </Label>
                                           <Label fx:id="lb_menge_wasser" prefHeight="21.0" prefWidth="150.0">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" top="10.0" />
+                                                <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
                                           <Label prefHeight="21.0" prefWidth="124.0" text="m3">
@@ -383,7 +477,7 @@
                                           </Label>
                                           <Label fx:id="lb_menge_abwasser" prefHeight="21.0" prefWidth="150.0">
                                              <HBox.margin>
-                                                <Insets bottom="10.0" top="10.0" />
+                                                <Insets bottom="10.0" left="10.0" top="10.0" />
                                              </HBox.margin>
                                           </Label>
                                           <Label prefHeight="21.0" prefWidth="124.0" text="m3">
@@ -402,100 +496,22 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Auswertungen">
+            <Tab styleClass="tabs-zahlung" text="Erdgas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab styleClass="tabs-zahlung" text="Wasser">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab styleClass="tabs-zahlung" text="Abwasser">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </Tab>
          </tabs>
-      </TabPane>
+      </JFXTabPane>
    </center>
-   <bottom>
-      <AnchorPane prefHeight="20.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER" />
-   </bottom>
-   <top>
-      <AnchorPane prefHeight="20.0" style="-fx-background-color: #00A2D3;" BorderPane.alignment="CENTER" />
-   </top>
-   <left>
-      <AnchorPane prefWidth="20.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
-         <children>
-            <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="817.0" prefWidth="193.0" style="-fx-background-color: #333645;">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="38.0" prefWidth="193.0" style="-fx-background-color: #00A2D3;" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
-                     <children>
-                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="TABLE" size="1.5em" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </FontAwesomeIcon>
-                        <Label styleClass="lb-menu" text="Übersicht" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding></HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="48.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #202332;" styleClass="btn-menu" stylesheets="@application.css">
-                     <children>
-                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="MONEY" size="1.5em" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </FontAwesomeIcon>
-                        <Label styleClass="lb-menu" text="Neue Zahlung" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="148.0" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
-                     <children>
-                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </FontAwesomeIcon>
-                        <Label styleClass="lb-menu" text="Auswertung" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
-                     <children>
-                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </FontAwesomeIcon>
-                        <Label styleClass="lb-menu" text="Aufteilen" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </HBox>
-                  
-                  </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </left>
-   <right>
-      <AnchorPane prefWidth="20.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
-   </right>
 </BorderPane>

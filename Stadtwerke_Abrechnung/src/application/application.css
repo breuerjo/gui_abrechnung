@@ -1,11 +1,23 @@
-.root {
-	-fx-background-color: #383838;
-	-fx-font-family: "Calibri Light";
+* {
+	-fx-blue-dark: #00A2D3;
+	-fx-blue-light: #72D3FE;
+	-fx-grey-dark: #202332;
+	-fx-grey-light: #333645;
+	-fx-orange: #eda676;
+	-fx-white: #f8f8f8
+	
 }
 
+.root {
+	-fx-background-color: -fx-white;
+	-fx-font-family: "Calibri Light";
+	-fx-text-fill: -fx-blue-dark;
+	-fx-font-size: 20;
+}
+
+
 .label {
-	-fx-text-fill: #f8f8f8;
-	-fx-font-size: 18;
+	
 }
 
 #label-bold {
@@ -15,13 +27,13 @@
 .lb-menu {
 	-fx-font-weight: bold;
 	-fx-font-size: 20;
-	-fx-text-fill: #f8f8f8;
+	-fx-text-fill: -fx-white;
 	-fx-background-color: transparent;
 }
 
 .btn-menu {
 	-fx-font-weight: bold;
-	-fx-color: #F8F8F8;
+	-fx-color: -fx-white;
 		
 }
 
@@ -29,6 +41,28 @@
 	-fx-background-color: #202332;
 	-fx-font-weight: bold;
 	-fx-color: #F8F8F8;
+}
+
+.btn-main {
+	-fx-border-color: -fx-blue-light;
+	-fx-border-radius: 20px;
+	-fx-background-radius: 20px;
+}
+
+.tabs-zahlung {
+	-fx-background-color: #333645;
+	-fx-pref-height: 50;
+	-fx-pref-width:  200;
+	-fx-font-weight: bold;
+	-fx-font-size: 25;
+}
+
+.tab-header-background {
+	-fx-background-color: #333645;
+}
+
+.tab:hover {
+	-fx-background-color: #202332;
 }
 
 .box {
