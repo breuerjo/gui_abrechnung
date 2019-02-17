@@ -1,27 +1,56 @@
 package application;
 
-import java.sql.*;  
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;  
 
 public class DB {
 	
 	private Connection con;
 
-	public Connection getConnection() {
+	public DB() {
 			
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ui_stadtwerke_db","root","");
+			System.out.println(this.con);
 		}catch (Exception e) {}
+		
+		
+		
+	}
+	
+	public Connection getConnection() {
+		//Get actual connection to data base
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ui_stadtwerke_db","root","");
+			System.out.println(this.con);
+		} catch (Exception e) {}
 		
 		return this.con;
 	}
 	
-	public ResultSet getResultSet() {
+	public int executeUpdate(PreparedStatement ps) {
+		int generated_key =-1;
+		try {			
+		  ps.executeUpdate();
+		  ResultSet rs = ps.getGeneratedKeys();
+		  if(rs.next())
+			  generated_key = rs.getInt(1);
+		} catch (Exception e) {}
+		
+		return generated_key;
+	}
+	
+	public ResultSet executeQueryWithResult(String query) {
+		System.out.println(query);
 		PreparedStatement ps=null;
 		ResultSet rs = null;
 		try {
-		    String query="select * from zahlung";
 		    ps= this.con.prepareStatement(query);
+
 		    rs=ps.executeQuery();
 		    		  
 		} catch (Exception e) {}
@@ -46,5 +75,6 @@ public class DB {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 }

@@ -1,16 +1,18 @@
 package application;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.temporal.ChronoUnit;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.time.temporal.*;
 
 
 public class FormControllerZahlung {
@@ -72,10 +74,12 @@ public class FormControllerZahlung {
 	@FXML
 	private Button bt_berechnen;
 	
+	
 	public static final double ERDGAS_FKTR_ZSTNDZHL = 0.9533;
 	public static final double ERDGAS_FKTR_BRNWRT = 11.331;
 	
 	public void initialize() {
+		
 		
 		lb_menge_strom.setId("label-bold");
 		
@@ -163,18 +167,48 @@ public class FormControllerZahlung {
 	}
 	
 	public void action_bt_speichern () {
-				
-		//07.02.2019 - 2019-02-07
-		dp_zeitraum_von.getValue().getDayOfMonth();	//7
-		dp_zeitraum_von.getValue().getMonthValue();	//2
-		dp_zeitraum_von.getValue().getYear();		//2019
 		
+		//Get Connection
 		DB db = new DB();
-		Connection db_con = db.getConnection();
+		Connection con = db.getConnection();
 		
-		ResultSet rs = db.getResultSet();
-		db.printResultSet(rs);
+		String zeitraum_von_tag = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getDayOfMonth());	
+		String zeitraum_von_monat = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getMonthValue());	
+		String zeitraum_von_jahr = ""+ dp_zeitraum_von.getValue().getYear();
 		
+		String zeitraum_bis_tag = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getDayOfMonth());	
+		String zeitraum_bis_monat = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getMonthValue());	
+		String zeitraum_bis_jahr = ""+ dp_zeitraum_bis.getValue().getYear();
+		
+		
+		
+		int betrag = 1234;
+				
+		java.sql.Date sql_date_zeitraum_von = DateConversion.dateConversion(zeitraum_von_jahr+"-"+zeitraum_von_monat+"-"+zeitraum_von_tag);
+		java.sql.Date sql_date_zeitraum_bis = DateConversion.dateConversion(""+zeitraum_bis_jahr+"-"+zeitraum_bis_monat+"-"+zeitraum_bis_tag);
+			
+				
+		String sql = "INSERT INTO `zeitraum`(`zeitraum_von`, `zeitraum_bis`, `zeitraum_von_jahr`, `zeitraum_von_monat`, `zeitraum_von_tag`, `zeitraum_bis_jahr`, `zeitraum_bis_monat`, `zeitraum_bis_tag`) VALUES(?,?,?,?,?,?,?,?)";
+				
+		try {
+			PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
+			
+			ps.setDate(1, sql_date_zeitraum_von);
+		    ps.setDate(2, sql_date_zeitraum_bis);
+		    ps.setInt(3, dp_zeitraum_von.getValue().getYear());
+		    ps.setInt(4, dp_zeitraum_von.getValue().getMonthValue());
+		    ps.setInt(5, dp_zeitraum_von.getValue().getDayOfMonth());
+		    ps.setInt(6, dp_zeitraum_bis.getValue().getYear());
+		    ps.setInt(7, dp_zeitraum_bis.getValue().getMonthValue());
+		    ps.setInt(8, dp_zeitraum_bis.getValue().getDayOfMonth());
+		    
+		    
+		    int generated_key = db.executeUpdate(ps);
+		    System.out.println(generated_key);
+		    
+			//db.printResultSet(rs);
+		} catch (SQLException e) {}
+				
 		
 	}
 	

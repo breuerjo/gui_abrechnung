@@ -4,7 +4,11 @@
 	-fx-grey-dark: #202332;
 	-fx-grey-light: #333645;
 	-fx-orange: #eda676;
-	-fx-white: #f8f8f8
+	-fx-white: #f8f8f8;
+	
+	-fx-new-green: #5bc787;
+	-fx-new-blues: #0088d7;
+	-fx-new-orange: #fabf26;
 	
 }
 
@@ -44,7 +48,7 @@
 }
 
 .btn-main {
-	-fx-border-color: -fx-blue-light;
+	-fx-border-color: -fx-new-orange;
 	-fx-border-radius: 20px;
 	-fx-background-radius: 20px;
 }
