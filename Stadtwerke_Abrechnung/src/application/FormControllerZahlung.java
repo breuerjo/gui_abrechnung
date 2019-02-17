@@ -172,6 +172,8 @@ public class FormControllerZahlung {
 		DB db = new DB();
 		Connection con = db.getConnection();
 		
+		
+		//SPEICHERN ZEITRAUM
 		String zeitraum_von_tag = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getDayOfMonth());	
 		String zeitraum_von_monat = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getMonthValue());	
 		String zeitraum_von_jahr = ""+ dp_zeitraum_von.getValue().getYear();
@@ -179,19 +181,16 @@ public class FormControllerZahlung {
 		String zeitraum_bis_tag = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getDayOfMonth());	
 		String zeitraum_bis_monat = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getMonthValue());	
 		String zeitraum_bis_jahr = ""+ dp_zeitraum_bis.getValue().getYear();
-		
-		
-		
-		int betrag = 1234;
-				
+						
 		java.sql.Date sql_date_zeitraum_von = DateConversion.dateConversion(zeitraum_von_jahr+"-"+zeitraum_von_monat+"-"+zeitraum_von_tag);
 		java.sql.Date sql_date_zeitraum_bis = DateConversion.dateConversion(""+zeitraum_bis_jahr+"-"+zeitraum_bis_monat+"-"+zeitraum_bis_tag);
 			
 				
-		String sql = "INSERT INTO `zeitraum`(`zeitraum_von`, `zeitraum_bis`, `zeitraum_von_jahr`, `zeitraum_von_monat`, `zeitraum_von_tag`, `zeitraum_bis_jahr`, `zeitraum_bis_monat`, `zeitraum_bis_tag`) VALUES(?,?,?,?,?,?,?,?)";
-				
+		String sql_zeitraum = "INSERT INTO `zeitraum`(`zeitraum_von`, `zeitraum_bis`, `zeitraum_von_jahr`, `zeitraum_von_monat`, `zeitraum_von_tag`, `zeitraum_bis_jahr`, `zeitraum_bis_monat`, `zeitraum_bis_tag`) VALUES(?,?,?,?,?,?,?,?)";
+		
+		int gen_key_zeitraum = 0;
 		try {
-			PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
+			PreparedStatement ps= con.prepareStatement(sql_zeitraum, Statement.RETURN_GENERATED_KEYS); 
 			
 			ps.setDate(1, sql_date_zeitraum_von);
 		    ps.setDate(2, sql_date_zeitraum_bis);
@@ -203,10 +202,34 @@ public class FormControllerZahlung {
 		    ps.setInt(8, dp_zeitraum_bis.getValue().getDayOfMonth());
 		    
 		    
-		    int generated_key = db.executeUpdate(ps);
-		    System.out.println(generated_key);
+		    gen_key_zeitraum = db.executeUpdate(ps);
+		    System.out.println(gen_key_zeitraum);
 		    
-			//db.printResultSet(rs);
+		    //db.printResultSet(rs);
+		    
+		} catch (SQLException e) {}
+		
+		
+		
+		//SPEICHERN ZAHLUNG 
+	    String sql_zahlung = "INSERT INTO `zahlung`(`menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `zeitraum_id`) VALUES(?,?,?,?,?)";
+		
+	    try {
+			PreparedStatement ps_zahlung= con.prepareStatement(sql_zahlung, Statement.RETURN_GENERATED_KEYS); 
+			
+			ps_zahlung.setFloat(1, Float.parseFloat(lb_menge_strom.getText()));
+			ps_zahlung.setFloat(2, Float.parseFloat(lb_menge_erdgas.getText()));
+			ps_zahlung.setFloat(3, Float.parseFloat(lb_menge_wasser.getText()));
+			ps_zahlung.setFloat(4, Float.parseFloat(lb_menge_abwasser.getText()));
+			ps_zahlung.setInt(5, gen_key_zeitraum);
+			
+		    
+		    
+		    int gen_key = db.executeUpdate(ps_zahlung);
+		    System.out.println(gen_key);
+		    
+		    //db.printResultSet(rs);
+		    
 		} catch (SQLException e) {}
 				
 		
