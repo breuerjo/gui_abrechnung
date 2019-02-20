@@ -3,42 +3,33 @@ package application;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ZahlungData {
-    public SimpleStringProperty menge_strom = new SimpleStringProperty();
-    public SimpleStringProperty menge_erdgas = new SimpleStringProperty();
-    public SimpleStringProperty menge_wasser = new SimpleStringProperty();
-    public SimpleStringProperty menge_abwasser = new SimpleStringProperty();
-    public SimpleStringProperty zeitraum = new SimpleStringProperty();
-    
-	public SimpleStringProperty getMenge_strom() {
-		return menge_strom;
+	public SimpleStringProperty zeitraum_von = new SimpleStringProperty();
+	public SimpleStringProperty zeitraum_bis = new SimpleStringProperty();
+	public SimpleStringProperty gesamtbetrag = new SimpleStringProperty();
+
+	public String getZeitraum_von() {
+		return zeitraum_von.get();
 	}
-	public void setMenge_strom(SimpleStringProperty menge_strom) {
-		this.menge_strom = menge_strom;
+
+	public void setZeitraum_von(String zeitraum_von) {
+		this.zeitraum_von = new SimpleStringProperty(zeitraum_von);
 	}
-	public SimpleStringProperty getMenge_erdgas() {
-		return menge_erdgas;
+	
+	public String getZeitraum_bis() {
+		return zeitraum_bis.get();
 	}
-	public void setMenge_erdgas(SimpleStringProperty menge_erdgas) {
-		this.menge_erdgas = menge_erdgas;
+
+	public void setZeitraum_bis(String zeitraum_bis) {
+		this.zeitraum_bis = new SimpleStringProperty(zeitraum_bis);
 	}
-	public SimpleStringProperty getMenge_wasser() {
-		return menge_wasser;
+	
+	public String getGesamtbetrag() {
+		return gesamtbetrag.get();
 	}
-	public void setMenge_wasser(SimpleStringProperty menge_wasser) {
-		this.menge_wasser = menge_wasser;
+
+	public void setGesamtbetrag(String gesamtbetrag) {
+		this.gesamtbetrag = new SimpleStringProperty(gesamtbetrag);
 	}
-	public SimpleStringProperty getMenge_abwasser() {
-		return menge_abwasser;
-	}
-	public void setMenge_abwasser(SimpleStringProperty menge_abwasser) {
-		this.menge_abwasser = menge_abwasser;
-	}
-	public SimpleStringProperty getZeitraum() {
-		return zeitraum;
-	}
-	public void setZeitraum(SimpleStringProperty zeitraum) {
-		this.zeitraum = zeitraum;
-	}
-    
-    
+	
+	
 }

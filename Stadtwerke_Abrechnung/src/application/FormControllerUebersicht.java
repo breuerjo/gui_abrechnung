@@ -17,11 +17,11 @@ public class FormControllerUebersicht {
 	@FXML
 	private TableView<ZahlungData> uebersicht_table_zahlungen;
 	@FXML
-	public TableColumn<ZahlungData, String> table_clmn_kategorie;
+	public TableColumn<ZahlungData, String> table_clmn_ztrm_von;
 	@FXML
-	public TableColumn<ZahlungData, String> table_clmn_akt_ztrm;
+	public TableColumn<ZahlungData, String> table_clmn_ztrm_bis;
 	@FXML
-	public TableColumn<ZahlungData, String> table_clmn_betrag;
+	public TableColumn<ZahlungData, String> table_clmn_gesbetrag;
 	@FXML
 	private ComboBox<Date> cb_zeitraum_von;
 	@FXML
@@ -38,21 +38,33 @@ public class FormControllerUebersicht {
 
 	public void initTable(DB db) {
 		try {
-			//table_clmn_kategorie.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum"));	//Zeitraum noch mit den Spaltennamen aus ZahlungData ändern 
-			//table_clmn_akt_ztrm.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum")); 
-			//table_clmn_betrag.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum")); 
-			
+			table_clmn_ztrm_von.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum_von")); 
+			table_clmn_ztrm_bis.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum_bis"));
+			table_clmn_gesbetrag.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("gesamtbetrag"));
+
 			ObservableList<ZahlungData> data;
 			data = FXCollections.observableArrayList();
-			ResultSet rs = db.executeQueryWithResult("SELECT * FROM `zahlung`");
-			db.printResultSet(rs);
-			/*
-			 * while (rs.next()) { ZahlungData sd = new ZahlungData();
-			 * sd.menge_strom.set(rs.getString(2)); sd.menge_erdgas.set(rs.getString(3));
-			 * sd.menge_wasser.set(rs.getString(4)); sd.menge_abwasser.set(rs.getString(5));
-			 * sd.zeitraum.set(rs.getString(6)); data.add(sd); }
-			 */
-			// uebersicht_table_zahlungen.setItems(data);
+			ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_id` FROM `zahlung`");
+			
+			//alle Zahlungen
+			while (rs.next()) {
+				ZahlungData z_d = new ZahlungData();
+				
+				//Zeitraum der einzelnen Zahlungen
+				ResultSet rs_zeitraum = db.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` WHERE `id` = "+rs.getString("zeitraum_id")+"");
+				rs_zeitraum.next();
+				z_d.zeitraum_von.set(rs_zeitraum.getString(1));
+				z_d.zeitraum_bis.set(rs_zeitraum.getString(2));
+				
+				//Gesamtbeträge der einzelnen Zahlungen
+				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT ( SELECT SUM(`zahlung`.`menge_strom`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`zahlung`.`menge_erdgas`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`zahlung`.`menge_wasser`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`zahlung`.`menge_abwasser`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' )");
+				rs_gesbetrag.next();
+				z_d.gesamtbetrag.set(rs_gesbetrag.getString(1));
+				
+				data.add(z_d);
+			}
+
+			uebersicht_table_zahlungen.setItems(data);
 
 		} catch (Exception e) {
 			e.printStackTrace();
