@@ -2,7 +2,7 @@ package application;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class ZahlungData {
+public class RechnungData {
 	public SimpleStringProperty zeitraum_von = new SimpleStringProperty();
 	public SimpleStringProperty zeitraum_bis = new SimpleStringProperty();
 	public SimpleStringProperty gesamtbetrag = new SimpleStringProperty();

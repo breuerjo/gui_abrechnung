@@ -15,13 +15,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class FormControllerUebersicht {
 
 	@FXML
-	private TableView<ZahlungData> uebersicht_table_zahlungen;
+	private TableView<RechnungData> uebersicht_table_zahlungen;
 	@FXML
-	public TableColumn<ZahlungData, String> table_clmn_ztrm_von;
+	public TableColumn<RechnungData, String> table_clmn_nummer;
 	@FXML
-	public TableColumn<ZahlungData, String> table_clmn_ztrm_bis;
+	public TableColumn<RechnungData, String> table_clmn_ztrm_von;
 	@FXML
-	public TableColumn<ZahlungData, String> table_clmn_gesbetrag;
+	public TableColumn<RechnungData, String> table_clmn_ztrm_bis;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_betrag_strom;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_betrag_erdgas;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_betrag_wasser;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_betrag_abwasser;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_gesbetrag;
 	@FXML
 	private ComboBox<Date> cb_zeitraum_von;
 	@FXML
@@ -38,26 +48,26 @@ public class FormControllerUebersicht {
 
 	public void initTable(DB db) {
 		try {
-			table_clmn_ztrm_von.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum_von")); 
-			table_clmn_ztrm_bis.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("zeitraum_bis"));
-			table_clmn_gesbetrag.setCellValueFactory(new PropertyValueFactory<ZahlungData, String>("gesamtbetrag"));
+			table_clmn_ztrm_von.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum_von")); 
+			table_clmn_ztrm_bis.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum_bis"));
+			table_clmn_gesbetrag.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("gesamtbetrag"));
 
-			ObservableList<ZahlungData> data;
+			ObservableList<RechnungData> data;
 			data = FXCollections.observableArrayList();
-			ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_id` FROM `zahlung`");
+			ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_id` FROM `rechnung`");
 			
 			//alle Zahlungen
 			while (rs.next()) {
-				ZahlungData z_d = new ZahlungData();
+				RechnungData z_d = new RechnungData();
 				
 				//Zeitraum der einzelnen Zahlungen
 				ResultSet rs_zeitraum = db.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` WHERE `id` = "+rs.getString("zeitraum_id")+"");
 				rs_zeitraum.next();
-				z_d.zeitraum_von.set(rs_zeitraum.getString(1));
-				z_d.zeitraum_bis.set(rs_zeitraum.getString(2));
+				z_d.zeitraum_von.set(rs_zeitraum.getString("zeitraum_von"));
+				z_d.zeitraum_bis.set(rs_zeitraum.getString("zeitraum_bis"));
 				
 				//Gesamtbeträge der einzelnen Zahlungen
-				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT ( SELECT SUM(`zahlung`.`menge_strom`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`zahlung`.`menge_erdgas`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`zahlung`.`menge_wasser`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`zahlung`.`menge_abwasser`) FROM `zahlung` WHERE `zahlung`.`zeitraum_id` = '"+rs.getString(1)+"' )");
+				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT ( SELECT SUM(`menge_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`menge_erdgas`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`menge_wasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`menge_abwasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' )");
 				rs_gesbetrag.next();
 				z_d.gesamtbetrag.set(rs_gesbetrag.getString(1));
 				

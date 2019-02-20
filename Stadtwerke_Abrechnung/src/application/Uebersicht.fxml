@@ -145,9 +145,14 @@
                                  <children>
                                     <TableView fx:id="uebersicht_table_zahlungen" prefHeight="97.0" prefWidth="1709.0">
                                       <columns>
-                                        <TableColumn fx:id="table_clmn_ztrm_von" prefWidth="239.0" text="Zeitraum von" />
-                                        <TableColumn fx:id="table_clmn_ztrm_bis" minWidth="0.0" prefWidth="408.0" text="Zeitraum bis" />
-                                          <TableColumn fx:id="table_clmn_gesbetrag" prefWidth="298.0" text="Gesamtbetrag" />
+                                          <TableColumn fx:id="table_clmn_ztrm_von1" prefWidth="106.0" text="Nummer" />
+                                        <TableColumn fx:id="table_clmn_ztrm_von" prefWidth="175.0" text="Zeitraum von" />
+                                        <TableColumn fx:id="table_clmn_ztrm_bis" minWidth="0.0" prefWidth="175.0" text="Zeitraum bis" />
+                                          <TableColumn fx:id="table_clmn_ztrm_von11" prefWidth="250.0" text="Betrag Strom" />
+                                          <TableColumn fx:id="table_clmn_ztrm_von111" prefWidth="250.0" text="Betrag Erdgas" />
+                                          <TableColumn fx:id="table_clmn_ztrm_von112" prefWidth="250.0" text="Betrag Wasser" />
+                                          <TableColumn fx:id="table_clmn_ztrm_von113" prefWidth="250.0" text="Betrag Abwasser" />
+                                          <TableColumn fx:id="table_clmn_gesbetrag" prefWidth="251.0" text="Gesamtbetrag" />
                                       </columns>
                                     </TableView>
                                  </children>
