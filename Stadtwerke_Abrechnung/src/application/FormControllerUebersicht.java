@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -58,6 +59,61 @@ public class FormControllerUebersicht {
 	@FXML
 	public TableColumn<RechnungData, String> table_clmn_strom_menge;
 	
+	//Labels Strom Mengenberechnung
+	@FXML
+	private Label strom_zeitraum; 
+	@FXML
+	private Label strom_zaehler; 
+	@FXML
+	private Label strom_alt;
+	@FXML
+	private Label strom_neu; 
+	@FXML
+	private Label strom_differenz;
+	@FXML
+	private Label strom_faktor;
+	@FXML
+	private Label strom_menge;
+	
+	//Labels Strom Kostenberechnung
+		@FXML
+		private Label strom_kosten_zeitraum; 
+		@FXML
+		private Label strom_kosten_bezeichnung; 
+		@FXML
+		private Label strom_kosten_menge;
+		@FXML
+		private Label strom_kosten_preis; 
+		@FXML
+		private Label strom_kosten_betrag;
+		@FXML
+		private Label strom_kosten_verbrauch_zeitraum;
+		@FXML
+		private Label strom_kosten_verbrauch_menge;
+		@FXML
+		private Label strom_kosten_verbrauch_preis;
+		@FXML
+		private Label strom_kosten_verbrauch_betrag;
+		@FXML
+		private Label strom_kosten_pauschale_menge;
+		@FXML
+		private Label strom_kosten_pauschale_preis;
+		@FXML
+		private Label strom_kosten_pauschale_betrag;
+		@FXML
+		private Label strom_kosten_steuer_menge;
+		@FXML
+		private Label strom_kosten_steuer_preis;
+		@FXML
+		private Label strom_kosten_steuer_betrag;
+		@FXML
+		private Label strom_kosten_netto_menge;
+		@FXML
+		private Label strom_kosten_netto_betrag;
+		@FXML
+		private Label strom_kosten_umsatzsteuer_betrag;
+		@FXML
+		private Label strom_kosten_brutto_betrag;
 	
 	
 	public void initialize() {
@@ -138,7 +194,7 @@ public class FormControllerUebersicht {
 			String zeitraum_von = "2017-05-24";
 			String zeitraum_bis = "2018-05-17";
 			String zeitraum_ges = zeitraum_von + " bis "+zeitraum_bis;
-			ResultSet rs_strom_zeitraum = db.executeQueryWithResult("SELECT MAX(id) FROM `zeitraum` WHERE `zeitraum_von` = '"+zeitraum_von+"' and  `zeitraum_bis` = '"+zeitraum_bis+"'");
+			ResultSet rs_strom_zeitraum = db.executeQueryWithResult("SELECT MAX(id), MAX(differenz_tage) FROM `zeitraum` WHERE `zeitraum_von` = '"+zeitraum_von+"' and  `zeitraum_bis` = '"+zeitraum_bis+"'");
 						
 			//Rechnung mit Zeitraum holen
 			if (rs_strom_zeitraum.next()) {
@@ -150,24 +206,47 @@ public class FormControllerUebersicht {
 				
 				ResultSet rs_strom_zaehlerstand = db.executeQueryWithResult("SELECT * FROM `zaehlerstand` WHERE `id` = "+rs_strom_rechnung.getString("zaehlerstand_id")+"");
 				ResultSet rs_strom_einstellung = db.executeQueryWithResult("SELECT `faktor_strom` FROM `einstellung` WHERE `id` = "+rs_strom_rechnung.getString("einstellung_id")+"");
-						
+				data_strom.add(z_d);		
 				
 				rs_strom_zaehlerstand.next();
 				rs_strom_einstellung.next();
 				
-				z_d.zeitraum.set(zeitraum_ges);
 				
+				/*z_d.zeitraum.set(zeitraum_ges);
 				z_d.zaehler.set(rs_strom_zaehlerstand.getString("zaehler_id_strom"));
 				z_d.alt.set(rs_strom_zaehlerstand.getString("strom_alt"));
 				z_d.neu.set(rs_strom_zaehlerstand.getString("strom_neu"));
 				z_d.differenz.set(rs_strom_zaehlerstand.getString("differenz_strom"));
-				z_d.faktor.set(rs_strom_einstellung.getString("faktor_strom"));			//Faktor noch aus den Einstellungen holen!!!
-				z_d.menge.set(rs_strom_rechnung.getString("menge_strom"));
+				z_d.faktor.set(rs_strom_einstellung.getString("faktor_strom"));			
+				z_d.menge.set(rs_strom_rechnung.getString("menge_strom"));*/
 				
-				data_strom.add(z_d);
+				//Set Labels Mengenberechnung Strom				
+				strom_zeitraum.setText(zeitraum_ges);
+				strom_zaehler.setText(rs_strom_zaehlerstand.getString("zaehler_id_strom"));
+				strom_alt.setText(rs_strom_zaehlerstand.getString("strom_alt"));
+				strom_neu.setText(rs_strom_zaehlerstand.getString("strom_neu"));
+				strom_differenz.setText(rs_strom_zaehlerstand.getString("differenz_strom"));
+				strom_faktor.setText(rs_strom_einstellung.getString("faktor_strom"));	
+				strom_menge.setText(rs_strom_rechnung.getString("menge_strom"));
+				
+				//Set Labels Kostenberechnung Strom
+				strom_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
+				strom_kosten_verbrauch_menge.setText(rs_strom_rechnung.getString("menge_strom"));
+				strom_kosten_verbrauch_preis.setText("Verbrauch");
+				strom_kosten_verbrauch_betrag.setText(rs_strom_rechnung.getString("betrag_menge_strom"));
+				strom_kosten_pauschale_menge.setText(rs_strom_zeitraum.getString(2));
+				strom_kosten_pauschale_preis.setText("Preis");
+				strom_kosten_pauschale_betrag.setText(rs_strom_rechnung.getString("pauschale_strom"));
+				strom_kosten_steuer_menge.setText(rs_strom_rechnung.getString("menge_strom"));
+				strom_kosten_steuer_preis.setText("Preis");
+				strom_kosten_steuer_betrag.setText(rs_strom_rechnung.getString("steuer_strom"));
+				strom_kosten_netto_menge.setText(rs_strom_rechnung.getString("menge_strom"));
+				strom_kosten_netto_betrag.setText(rs_strom_rechnung.getString("betrag_netto_strom"));
+				strom_kosten_umsatzsteuer_betrag.setText(rs_strom_rechnung.getString("umsatz_steuer_strom"));
+				strom_kosten_brutto_betrag.setText(rs_strom_rechnung.getString("betrag_brutto_strom"));
 			}
 
-			uebersicht_table_strom.setItems(data_strom);
+			//uebersicht_table_strom.setItems(data_strom);
 
 		} catch (Exception e) {
 			e.printStackTrace();
