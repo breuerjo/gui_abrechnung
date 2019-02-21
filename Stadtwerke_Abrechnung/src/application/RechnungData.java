@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class RechnungData {
 	public SimpleStringProperty nummer = new SimpleStringProperty();
+	public SimpleStringProperty einstellungen = new SimpleStringProperty();
 	public SimpleStringProperty zeitraum_von = new SimpleStringProperty();
 	public SimpleStringProperty zeitraum_bis = new SimpleStringProperty();
 	public SimpleStringProperty menge_strom = new SimpleStringProperty();
@@ -18,6 +19,14 @@ public class RechnungData {
 
 	public void setNummer(String nummer) {
 		this.nummer = new SimpleStringProperty(nummer);
+	}
+	
+	public String getEinstellungen() {
+		return einstellungen.get();
+	}
+
+	public void setEinstellungen(String einstellungen) {
+		this.einstellungen = new SimpleStringProperty(einstellungen);
 	}
 	
 	public String getZeitraum_von() {
@@ -40,34 +49,34 @@ public class RechnungData {
 		return menge_strom.get();
 	}
 	
-	public void setMenge_strom(String betrag_strom) {
-		this.menge_strom = new SimpleStringProperty(betrag_strom);
+	public void setMenge_strom(String menge_strom) {
+		this.menge_strom = new SimpleStringProperty(menge_strom);
 	}
 	
 	public String getMenge_erdgas() {
 		return menge_erdgas.get();
 	}
 
-	public void setMenge_erdgas(String betrag_erdgas) {
-		this.menge_erdgas = new SimpleStringProperty(betrag_erdgas);
+	public void setMenge_erdgas(String menge_erdgas) {
+		this.menge_erdgas = new SimpleStringProperty(menge_erdgas);
 	}
 	
 	public String getMenge_wasser() {
 		return menge_wasser.get();
 	}
 
-	public void setMenge_wasser(String betrag_wasser) {
-		this.menge_wasser = new SimpleStringProperty(betrag_wasser);
-	}
-	
-	public void setMenge_abwasser(String betrag_abwasser) {
-		this.menge_abwasser = new SimpleStringProperty(betrag_abwasser);
+	public void setMenge_wasser(String menge_wasser) {
+		this.menge_wasser = new SimpleStringProperty(menge_wasser);
 	}
 	
 	public String getMenge_abwasser() {
 		return menge_abwasser.get();
 	}
-
+	
+	public void setMenge_abwasser(String menge_abwasser) {
+		this.menge_abwasser = new SimpleStringProperty(menge_abwasser);
+	}
+	
 	
 	public String getGesamtbetrag() {
 		return gesamtbetrag.get();

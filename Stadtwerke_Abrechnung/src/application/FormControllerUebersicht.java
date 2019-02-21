@@ -13,7 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class FormControllerUebersicht {
-
+	
+	//Allgemein
 	@FXML
 	private TableView<RechnungData> uebersicht_table_zahlungen;
 	@FXML
@@ -23,7 +24,7 @@ public class FormControllerUebersicht {
 	@FXML
 	public TableColumn<RechnungData, String> table_clmn_ztrm_bis;
 	@FXML
-	public TableColumn<RechnungData, String> table_clmn_betrag_strom;
+	public TableColumn<RechnungData, String> table_clmn_betrag_strom;	//sind Mengen ! => Beträge ist der falsche Begriff
 	@FXML
 	public TableColumn<RechnungData, String> table_clmn_betrag_erdgas;
 	@FXML
@@ -33,47 +34,71 @@ public class FormControllerUebersicht {
 	@FXML
 	public TableColumn<RechnungData, String> table_clmn_gesbetrag;
 	@FXML
+	public TableColumn<RechnungData, String> table_clmn_einstellungen;
+	@FXML
 	private ComboBox<Date> cb_zeitraum_von;
 	@FXML
 	private ComboBox<Date> cb_zeitraum_bis;
-
+	
+	//Strom
+	@FXML
+	private TableView<RechnungDataStrom> uebersicht_table_strom;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_zeitraum;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_zaehler;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_alt;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_neu;	
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_differenz;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_faktor;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_strom_menge;
+	
+	
+	
 	public void initialize() {
 
 		// Get Connection
 		DB db = new DB();
 
 		initComboBox(db);
-		initTable(db);
+		initTableUebersicht(db);
+		initTableStrom(db);
 	}
 
-	public void initTable(DB db) {
+	public void initTableUebersicht(DB db) {
 		try {
 			table_clmn_nummer.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("nummer"));
 			table_clmn_ztrm_von.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum_von")); 
 			table_clmn_ztrm_bis.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum_bis"));
-			table_clmn_betrag_strom.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_strom"));
-			table_clmn_betrag_erdgas.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_erdgas"));
-			table_clmn_betrag_wasser.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_wasser"));
-			table_clmn_betrag_abwasser.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_abwasser"));
+			table_clmn_betrag_strom.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("menge_strom"));
+			table_clmn_betrag_erdgas.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("menge_erdgas"));
+			table_clmn_betrag_wasser.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("menge_wasser"));
+			table_clmn_betrag_abwasser.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("menge_abwasser"));
 			table_clmn_gesbetrag.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("gesamtbetrag"));
+			table_clmn_einstellungen.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("einstellungen"));
 			
 
 			ObservableList<RechnungData> data;
 			data = FXCollections.observableArrayList();
 			ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_id` FROM `rechnung`");
 			
-			//alle Zahlungen
+			//allgemeine Rechnungsübersicht
 			while (rs.next()) {
 				RechnungData z_d = new RechnungData();
 				
-				//Zeitraum der einzelnen Zahlungen
+				//alle Zeiträume
 				ResultSet rs_zeitraum = db.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` WHERE `id` = "+rs.getString("zeitraum_id")+"");
 				rs_zeitraum.next();
 				z_d.zeitraum_von.set(rs_zeitraum.getString("zeitraum_von"));
 				z_d.zeitraum_bis.set(rs_zeitraum.getString("zeitraum_bis"));
 				
-				//Gesamtbeträge der einzelnen Zahlungen
-				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT `id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, ( SELECT SUM(`betrag_brutto_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_erdgas`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_wasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_abwasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' )");
+				//Daten zu den einzelnen Rechnungen
+				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT `id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, ( SELECT SUM(`betrag_brutto_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_erdgas`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_wasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_abwasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"'");
 				rs_gesbetrag.next();
 				z_d.nummer.set(rs_gesbetrag.getString("id"));
 				z_d.menge_strom.set(rs_gesbetrag.getString("menge_strom"));
@@ -81,7 +106,7 @@ public class FormControllerUebersicht {
 				z_d.menge_wasser.set(rs_gesbetrag.getString("menge_wasser"));
 				z_d.menge_abwasser.set(rs_gesbetrag.getString("menge_abwasser"));
 				z_d.gesamtbetrag.set(rs_gesbetrag.getString(7));
-				//Einstellungen noch => auch in RechnungData asls Attribut hinzufügen!
+				z_d.einstellungen.set(rs_gesbetrag.getString("einstellung_id"));
 				
 				data.add(z_d);
 			}
@@ -93,6 +118,62 @@ public class FormControllerUebersicht {
 		}
 
 	}
+	
+	
+	public void initTableStrom(DB db) {
+		try {
+			table_clmn_strom_zeitraum.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum"));
+			table_clmn_strom_zaehler.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zaehler")); 
+			table_clmn_strom_alt.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("alt"));
+			table_clmn_strom_neu.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("neu"));
+			table_clmn_strom_differenz.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("differenz"));
+			table_clmn_strom_faktor.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("faktor"));
+			table_clmn_strom_menge.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("menge"));
+			
+			
+
+			ObservableList<RechnungDataStrom> data_strom;
+			data_strom = FXCollections.observableArrayList();
+			//zeitraum_id holen
+			String zeitraum_von = "2017-05-24";
+			String zeitraum_bis = "2018-05-17";
+			String zeitraum_ges = zeitraum_von + " bis "+zeitraum_bis;
+			ResultSet rs_strom_zeitraum = db.executeQueryWithResult("SELECT MAX(id) FROM `zeitraum` WHERE `zeitraum_von` = '"+zeitraum_von+"' and  `zeitraum_bis` = '"+zeitraum_bis+"'");
+						
+			//Rechnung mit Zeitraum holen
+			if (rs_strom_zeitraum.next()) {
+				RechnungDataStrom z_d = new RechnungDataStrom();
+				
+				
+				ResultSet rs_strom_rechnung = db.executeQueryWithResult("SELECT * FROM `rechnung` WHERE `zeitraum_id` = "+rs_strom_zeitraum.getString(1)+"");
+				rs_strom_rechnung.next();
+				
+				ResultSet rs_strom_zaehlerstand = db.executeQueryWithResult("SELECT * FROM `zaehlerstand` WHERE `id` = "+rs_strom_rechnung.getString("zaehlerstand_id")+"");
+				ResultSet rs_strom_einstellung = db.executeQueryWithResult("SELECT `faktor_strom` FROM `einstellung` WHERE `id` = "+rs_strom_rechnung.getString("einstellung_id")+"");
+						
+				
+				rs_strom_zaehlerstand.next();
+				rs_strom_einstellung.next();
+				
+				z_d.zeitraum.set(zeitraum_ges);
+				
+				z_d.zaehler.set(rs_strom_zaehlerstand.getString("zaehler_id_strom"));
+				z_d.alt.set(rs_strom_zaehlerstand.getString("strom_alt"));
+				z_d.neu.set(rs_strom_zaehlerstand.getString("strom_neu"));
+				z_d.differenz.set(rs_strom_zaehlerstand.getString("differenz_strom"));
+				z_d.faktor.set(rs_strom_einstellung.getString("faktor_strom"));			//Faktor noch aus den Einstellungen holen!!!
+				z_d.menge.set(rs_strom_rechnung.getString("menge_strom"));
+				
+				data_strom.add(z_d);
+			}
+
+			uebersicht_table_strom.setItems(data_strom);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public void initComboBox(DB db) {
 
