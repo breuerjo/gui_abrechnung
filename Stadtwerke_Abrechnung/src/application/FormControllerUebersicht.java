@@ -48,9 +48,15 @@ public class FormControllerUebersicht {
 
 	public void initTable(DB db) {
 		try {
+			table_clmn_nummer.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("nummer"));
 			table_clmn_ztrm_von.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum_von")); 
 			table_clmn_ztrm_bis.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("zeitraum_bis"));
+			table_clmn_betrag_strom.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_strom"));
+			table_clmn_betrag_erdgas.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_erdgas"));
+			table_clmn_betrag_wasser.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_wasser"));
+			table_clmn_betrag_abwasser.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("betrag_abwasser"));
 			table_clmn_gesbetrag.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("gesamtbetrag"));
+			
 
 			ObservableList<RechnungData> data;
 			data = FXCollections.observableArrayList();
@@ -67,9 +73,15 @@ public class FormControllerUebersicht {
 				z_d.zeitraum_bis.set(rs_zeitraum.getString("zeitraum_bis"));
 				
 				//Gesamtbeträge der einzelnen Zahlungen
-				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT ( SELECT SUM(`menge_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`menge_erdgas`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`menge_wasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`menge_abwasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' )");
+				ResultSet rs_gesbetrag = db.executeQueryWithResult("SELECT `id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, ( SELECT SUM(`betrag_brutto_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_erdgas`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_wasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' ) + ( SELECT SUM(`betrag_brutto_abwasser`) FROM `rechnung` WHERE `zeitraum_id` = '"+rs.getString(1)+"' )");
 				rs_gesbetrag.next();
-				z_d.gesamtbetrag.set(rs_gesbetrag.getString(1));
+				z_d.nummer.set(rs_gesbetrag.getString("id"));
+				z_d.menge_strom.set(rs_gesbetrag.getString("menge_strom"));
+				z_d.menge_erdgas.set(rs_gesbetrag.getString("menge_erdgas"));
+				z_d.menge_wasser.set(rs_gesbetrag.getString("menge_wasser"));
+				z_d.menge_abwasser.set(rs_gesbetrag.getString("menge_abwasser"));
+				z_d.gesamtbetrag.set(rs_gesbetrag.getString(7));
+				//Einstellungen noch => auch in RechnungData asls Attribut hinzufügen!
 				
 				data.add(z_d);
 			}
