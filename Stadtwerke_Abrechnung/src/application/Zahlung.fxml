@@ -132,7 +132,7 @@
       </AnchorPane>
    </left>
    <right>
-      <AnchorPane prefWidth="20.0" style="-fx-background-color: #202332;" stylesheets="@application.css" BorderPane.alignment="CENTER" />
+      <AnchorPane prefWidth="20.0" style="-fx-background-color: #333645;" stylesheets="@application.css" BorderPane.alignment="CENTER" />
    </right>
    <center>
       <JFXTabPane BorderPane.alignment="CENTER">
