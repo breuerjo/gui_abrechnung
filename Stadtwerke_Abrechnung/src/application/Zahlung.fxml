@@ -171,7 +171,15 @@
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                              </HBox.margin>
+                                             <padding>
+                                                <Insets right="25.0" />
+                                             </padding>
                                           </JFXDatePicker>
+                                          <ComboBox fx:id="cb_einstellungen_id" prefWidth="150.0" promptText="Einstellungen-ID">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="45.0" right="10.0" top="5.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0" />
@@ -319,7 +327,7 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton fx:id="bt_speichern" onAction="#action_bt_speichern" style="-fx-background-color: #333645; -fx-text-fill: #f8f8f8;" styleClass="btn-main" stylesheets="@application.css" text="Speichern">
+                                          <JFXButton fx:id="bt_speichern" onAction="#action_bt_speichern" styleClass="btn-main" stylesheets="@application.css" text="Speichern">
                                              <HBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </HBox.margin>

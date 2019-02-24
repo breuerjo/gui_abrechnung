@@ -51,6 +51,8 @@
 	-fx-border-color: -fx-new-orange;
 	-fx-border-radius: 20px;
 	-fx-background-radius: 20px;
+	-fx-background-color:  #333645;
+	-fx-text-fill:  #f8f8f8;
 }
 
 .tabs-zahlung {

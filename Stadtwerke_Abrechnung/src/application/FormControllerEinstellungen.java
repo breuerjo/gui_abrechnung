@@ -1,9 +1,13 @@
 package application;
 
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
@@ -36,6 +40,21 @@ public class FormControllerEinstellungen {
 	private JFXTextField tf_faktor_wasser;
 	@FXML
 	private JFXTextField tf_faktor_abwasser;
+	@FXML
+	private JFXTextField tf_steuersatz_strom;
+	@FXML
+	private JFXTextField tf_steuersatz_erdgas;
+	@FXML
+	private JFXTextField tf_umsatzsteuer_strom;
+	@FXML
+	private JFXTextField tf_umsatzsteuer_erdgas;
+	@FXML
+	private JFXTextField tf_umsatzsteuer_wasser;
+	@FXML
+	private JFXTextField tf_umsatzsteuer_abwasser;
+	
+	@FXML
+	private JFXButton bt_einstellungen_speichern;
 	
 	
 	public void initialize() {
@@ -90,7 +109,7 @@ public class FormControllerEinstellungen {
 		System.out.println(cb_einstellung_id.getValue());
 		
 		DB db = new DB();
-		ResultSet rs = db.executeQueryWithResult("SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellung_id.getValue()+"");
+		ResultSet rs = db.executeQueryWithResult("SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellung_neu_id.getValue()+"");
 
 		try {
 			
@@ -104,6 +123,35 @@ public class FormControllerEinstellungen {
 			}
 
 
+		} catch (SQLException e) {}
+	}
+	
+	public void action_neue_einstellung_speichern() {
+		DB db = new DB();
+		Connection con = db.getConnection();
+		String sql_zeitraum = "INSERT INTO `einstellung`(`steuersatz_strom`, `steuersatz_erdgas`, `faktor_strom`, `faktor_erdgas`, `faktor_wasser`, `faktor_abwasser`, `umsatzsteuer_strom`, `umsatzsteuer_erdgas`, `umsatzsteuer_wasser`, `umsatzsteuer_abwasser`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		
+		int gen_key_zeitraum = 0;
+		try {
+			PreparedStatement ps= con.prepareStatement(sql_zeitraum, Statement.RETURN_GENERATED_KEYS); 
+			
+			ps.setFloat(1, Float.parseFloat(tf_steuersatz_strom.getText()));
+			ps.setFloat(2, Float.parseFloat(tf_steuersatz_erdgas.getText()));
+			ps.setFloat(3, Float.parseFloat(tf_faktor_strom.getText()));
+			ps.setFloat(4, Float.parseFloat(tf_faktor_erdgas.getText()));
+			ps.setFloat(5, Float.parseFloat(tf_faktor_wasser.getText()));
+			ps.setFloat(6, Float.parseFloat(tf_faktor_abwasser.getText()));
+			ps.setFloat(7, Float.parseFloat(tf_umsatzsteuer_strom.getText()));
+			ps.setFloat(8, Float.parseFloat(tf_umsatzsteuer_erdgas.getText()));
+			ps.setFloat(9, Float.parseFloat(tf_umsatzsteuer_wasser.getText()));
+			ps.setFloat(10, Float.parseFloat(tf_umsatzsteuer_abwasser.getText()));
+			
+		    
+		    gen_key_zeitraum = db.executeUpdate(ps);
+		    System.out.println(gen_key_zeitraum);
+		    
+		    
+		    
 		} catch (SQLException e) {}
 	}
 	
