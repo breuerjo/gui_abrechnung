@@ -175,7 +175,7 @@
                                                 <Insets right="25.0" />
                                              </padding>
                                           </JFXDatePicker>
-                                          <ComboBox fx:id="cb_einstellungen_id" prefWidth="150.0" promptText="Einstellungen-ID">
+                                          <ComboBox fx:id="cb_einstellungen_id" onAction="#action_einstellung_geweahlt" prefWidth="150.0" promptText="Einstellungen-ID">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="45.0" right="10.0" top="5.0" />
                                              </HBox.margin>

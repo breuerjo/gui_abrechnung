@@ -21,13 +21,49 @@ public class FormControllerEinstellungen {
 	@FXML
 	private ComboBox<Integer> cb_einstellung_id;
 	@FXML
-	private Label faktor_strom;
+	private Label lb_faktor_strom;
 	@FXML
-	private Label faktor_erdgas;
+	private Label lb_faktor_erdgas;
 	@FXML
-	private Label faktor_wasser;
+	private Label lb_faktor_wasser;
 	@FXML
-	private Label faktor_abwasser;
+	private Label lb_faktor_abwasser;
+	@FXML
+	private Label lb_steuersatz_strom;
+	@FXML
+	private Label lb_steuersatz_erdgas;
+	@FXML
+	private Label lb_umsatzsteuer_strom;
+	@FXML
+	private Label lb_umsatzsteuer_erdgas;
+	@FXML
+	private Label lb_umsatzsteuer_wasser;
+	@FXML
+	private Label lb_umsatzsteuer_abwasser;
+	
+	@FXML
+	private Label lb_quadratmeter_gesamt;
+	@FXML
+	private Label lb_erdgas_zustandszahl;
+	@FXML
+	private Label lb_erdgas_brennwert;
+	@FXML
+	private Label lb_pauschale_abwasser_faktor;
+	@FXML
+	private Label lb_preis_strom;
+	@FXML
+	private Label lb_preis_erdgas;
+	@FXML
+	private Label lb_preis_wasser;
+	
+	@FXML
+	private Label lb_preis_abwasser;
+	@FXML
+	private Label lb_pauschale_strom;
+	@FXML
+	private Label lb_pauschale_erdgas;
+	@FXML
+	private Label lb_pauschale_wasser;
 	
 	//Neue Einstellungen:
 	@FXML
@@ -54,18 +90,41 @@ public class FormControllerEinstellungen {
 	private JFXTextField tf_umsatzsteuer_abwasser;
 	
 	@FXML
+	private JFXTextField tf_quadratmeter_gesamt;
+	@FXML
+	private JFXTextField tf_erdgas_zustandszahl;
+	@FXML
+	private JFXTextField tf_erdgas_brennwert;
+	@FXML
+	private JFXTextField tf_pauschale_abwasser_faktor;
+	@FXML
+	private JFXTextField tf_preis_strom;
+	@FXML
+	private JFXTextField tf_preis_erdgas;
+	@FXML
+	private JFXTextField tf_preis_wasser;
+	
+	@FXML
+	private JFXTextField tf_preis_abwasser;
+	@FXML
+	private JFXTextField tf_pauschale_strom;
+	@FXML
+	private JFXTextField tf_pauschale_erdgas;
+	@FXML
+	private JFXTextField tf_pauschale_wasser;
+
+	
+	@FXML
 	private JFXButton bt_einstellungen_speichern;
 	
 	
 	public void initialize() {
-		System.out.println("hi");
-		
-		DB db = new DB();
-		initComboBox(db);
+		initComboBox();
 				
 	}
 	
-	public void initComboBox(DB db) {
+	public void initComboBox() {
+		DB db = new DB();
 		ResultSet rs = db.executeQueryWithResult("SELECT `id` FROM `einstellung`");
 
 		try {
@@ -94,10 +153,27 @@ public class FormControllerEinstellungen {
 			
 			if (rs.next()) {
 
-				faktor_strom.setText(rs.getString("faktor_strom"));
-				faktor_erdgas.setText(rs.getString("faktor_erdgas"));
-				faktor_wasser.setText(rs.getString("faktor_wasser"));
-				faktor_abwasser.setText(rs.getString("faktor_abwasser"));
+				lb_faktor_strom.setText(rs.getString("faktor_strom"));
+				lb_faktor_erdgas.setText(rs.getString("faktor_erdgas"));
+				lb_faktor_wasser.setText(rs.getString("faktor_wasser"));
+				lb_faktor_abwasser.setText(rs.getString("faktor_wasser"));
+				lb_erdgas_zustandszahl.setText(rs.getString("erdgas_faktor_zustandszahl"));
+				lb_erdgas_brennwert.setText(rs.getString("erdgas_faktor_brennwert"));
+				lb_preis_strom.setText(rs.getString("preis_strom"));
+				lb_preis_erdgas.setText(rs.getString("preis_erdgas"));
+				lb_preis_wasser.setText(rs.getString("preis_wasser"));
+				lb_preis_abwasser.setText(rs.getString("preis_abwasser"));
+				lb_pauschale_strom.setText(rs.getString("pauschale_strom"));
+				lb_pauschale_erdgas.setText(rs.getString("pauschale_erdgas"));
+				lb_pauschale_wasser.setText(rs.getString("pauschale_wasser"));
+				lb_quadratmeter_gesamt.setText(rs.getString("quadratmeter_gesamt"));
+				lb_pauschale_abwasser_faktor.setText(rs.getString("pauschale_abwasser_faktor"));
+				lb_steuersatz_strom.setText(rs.getString("steuersatz_strom"));
+				lb_steuersatz_erdgas.setText(rs.getString("steuersatz_erdgas"));
+				lb_umsatzsteuer_strom.setText(rs.getString("umsatzsteuer_strom"));
+				lb_umsatzsteuer_erdgas.setText(rs.getString("umsatzsteuer_erdgas"));
+				lb_umsatzsteuer_wasser.setText(rs.getString("umsatzsteuer_wasser"));
+				lb_umsatzsteuer_abwasser.setText(rs.getString("umsatzsteuer_abwasser"));
 
 			}
 
@@ -114,11 +190,28 @@ public class FormControllerEinstellungen {
 		try {
 			
 			if (rs.next()) {
-
+				
 				tf_faktor_strom.setText(rs.getString("faktor_strom"));
 				tf_faktor_erdgas.setText(rs.getString("faktor_erdgas"));
 				tf_faktor_wasser.setText(rs.getString("faktor_wasser"));
-				tf_faktor_abwasser.setText(rs.getString("faktor_abwasser"));
+				tf_faktor_abwasser.setText(rs.getString("faktor_wasser"));
+				tf_erdgas_zustandszahl.setText(rs.getString("erdgas_faktor_zustandszahl"));
+				tf_erdgas_brennwert.setText(rs.getString("erdgas_faktor_brennwert"));
+				tf_preis_strom.setText(rs.getString("preis_strom"));
+				tf_preis_erdgas.setText(rs.getString("preis_erdgas"));
+				tf_preis_wasser.setText(rs.getString("preis_wasser"));
+				tf_preis_abwasser.setText(rs.getString("preis_abwasser"));
+				tf_pauschale_strom.setText(rs.getString("pauschale_strom"));
+				tf_pauschale_erdgas.setText(rs.getString("pauschale_erdgas"));
+				tf_pauschale_wasser.setText(rs.getString("pauschale_wasser"));
+				tf_quadratmeter_gesamt.setText(rs.getString("quadratmeter_gesamt"));
+				tf_pauschale_abwasser_faktor.setText(rs.getString("pauschale_abwasser_faktor"));
+				tf_steuersatz_strom.setText(rs.getString("steuersatz_strom"));
+				tf_steuersatz_erdgas.setText(rs.getString("steuersatz_erdgas"));
+				tf_umsatzsteuer_strom.setText(rs.getString("umsatzsteuer_strom"));
+				tf_umsatzsteuer_erdgas.setText(rs.getString("umsatzsteuer_erdgas"));
+				tf_umsatzsteuer_wasser.setText(rs.getString("umsatzsteuer_wasser"));
+				tf_umsatzsteuer_abwasser.setText(rs.getString("umsatzsteuer_abwasser"));
 
 			}
 
@@ -129,9 +222,9 @@ public class FormControllerEinstellungen {
 	public void action_neue_einstellung_speichern() {
 		DB db = new DB();
 		Connection con = db.getConnection();
-		String sql_zeitraum = "INSERT INTO `einstellung`(`steuersatz_strom`, `steuersatz_erdgas`, `faktor_strom`, `faktor_erdgas`, `faktor_wasser`, `faktor_abwasser`, `umsatzsteuer_strom`, `umsatzsteuer_erdgas`, `umsatzsteuer_wasser`, `umsatzsteuer_abwasser`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		String sql_zeitraum = "INSERT INTO `einstellung`(`steuersatz_strom`, `steuersatz_erdgas`, `faktor_strom`, `faktor_erdgas`, `faktor_wasser`, `faktor_abwasser`, `umsatzsteuer_strom`, `umsatzsteuer_erdgas`, `umsatzsteuer_wasser`, `umsatzsteuer_abwasser`, `erdgas_faktor_zustandszahl`, `erdgas_faktor_brennwert`, `preis_strom`, `preis_erdgas`, `preis_wasser`, `preis_abwasser`, `pauschale_strom`, `pauschale_erdgas`, `pauschale_wasser`, `quadratmeter_gesamt`, `pauschale_abwasser_faktor`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
-		int gen_key_zeitraum = 0;
+		int gen_key = 0;
 		try {
 			PreparedStatement ps= con.prepareStatement(sql_zeitraum, Statement.RETURN_GENERATED_KEYS); 
 			
@@ -146,9 +239,24 @@ public class FormControllerEinstellungen {
 			ps.setFloat(9, Float.parseFloat(tf_umsatzsteuer_wasser.getText()));
 			ps.setFloat(10, Float.parseFloat(tf_umsatzsteuer_abwasser.getText()));
 			
+			ps.setFloat(11, Float.parseFloat(tf_erdgas_zustandszahl.getText()));
+			ps.setFloat(12, Float.parseFloat(tf_erdgas_brennwert.getText()));
+			ps.setFloat(13, Float.parseFloat(tf_preis_strom.getText()));
+			ps.setFloat(14, Float.parseFloat(tf_preis_erdgas.getText()));
+			ps.setFloat(15, Float.parseFloat(tf_preis_wasser.getText()));
+			ps.setFloat(16, Float.parseFloat(tf_preis_abwasser.getText()));
+			ps.setFloat(17, Float.parseFloat(tf_pauschale_strom.getText()));
+			ps.setFloat(18, Float.parseFloat(tf_pauschale_erdgas.getText()));
+			ps.setFloat(19, Float.parseFloat(tf_pauschale_wasser.getText()));
+			ps.setFloat(20, Float.parseFloat(tf_quadratmeter_gesamt.getText()));
+			ps.setFloat(21, Float.parseFloat(tf_pauschale_abwasser_faktor.getText()));
+			
+		    gen_key = db.executeUpdate(ps);
+		    System.out.println(gen_key);
 		    
-		    gen_key_zeitraum = db.executeUpdate(ps);
-		    System.out.println(gen_key_zeitraum);
+			initComboBox(); //ComboBox aktualisieren
+			cb_einstellung_neu_id.setValue(gen_key);	//Neuer Wert in ComboBox auswählen
+		    
 		    
 		    
 		    

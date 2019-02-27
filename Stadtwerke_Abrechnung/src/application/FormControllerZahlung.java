@@ -78,28 +78,33 @@ public class FormControllerZahlung {
 	@FXML
 	private ComboBox<Integer> cb_einstellungen_id;
 
-	public static final double ERDGAS_FKTR_ZSTNDZHL = 0.9533;
-	public static final double ERDGAS_FKTR_BRNWRT = 11.331;
-
-	public static final double PREIS_STROM = 0.2510;
-	public static final double PREIS_ERDGAS = 0.0550;
-	public static final double PREIS_WASSER = 2.27;
-	public static final double PREIS_ABWASSER = 1.10;
-
-	// müssen alle noch /360 * anz_tage_zeitraum
-	public static final double PAUSCHALE_STROM = 46.44; // im Jahr
-	public static final double PAUSCHALE_ERDGAS = 168.48; // im Jahr
-	public static final double PAUSCHALE_WASSER = 28.66; // im Jahr
-	public static final double QUADRATMETER = 144; // im Jahr
-	public static final double PAUSCHALE_ABWASSER = QUADRATMETER * 0.75; // im Jahr
-
-	public static final double STEUER_STROM = 0.0205; // pro Menge (kWh)
-	public static final double STEUER_ERDGAS = 0.0055; // pro Menge (kWh)
-
-	public static final double UMSATZSTEUER_STROM = 0.19;
-	public static final double UMSATZSTEUER_ERDGAS = 0.19;
-	public static final double UMSATZSTEUER_WASSER = 0.07;
-	public static final double UMSATZSTEUER_ABWASSER = 0.0;
+	 public static double faktor_strom = 1; 
+	 public static double faktor_wasser = 1; 
+	 public static double faktor_abwasser = 1; 
+	 public static double erdgas_faktor_zustandszahl = 0.9533; 
+	 public static double erdgas_faktor_brennwert = 11.331;
+	 
+	 public static double preis_strom = 0.2510; 
+	 public static double preis_erdgas = 0.0550; 
+	 public static double preis_wasser = 2.27; 
+	 public static double preis_abwasser = 1.10;
+	 
+	 // müssen alle noch /360 * anz_tage_zeitraum 
+	 public static double pauschale_strom = 46.44; // im Jahr 
+	 public static double pauschale_erdgas = 168.48; // im Jahr 
+	 public static double pauschale_wasser = 28.66; // im Jahr 
+	 public static double quadratmeter = 144; // im Jahr 
+	 public static double pauschale_abwasser_faktor = 0.75; // im Jahr 
+	 public static double pauschale_abwasser = quadratmeter * pauschale_abwasser_faktor; // im Jahr
+	  
+	 public static double steuer_strom = 0.0205; // pro Menge (kWh) public
+	 public static double steuer_erdgas = 0.0055; // pro Menge (kWh)
+	  
+	 public static double umsatzsteuer_strom = 0.19; 
+	 public static double umsatzsteuer_erdgas = 0.19; 
+	 public static double umsatzsteuer_wasser = 0.07; 
+	 public static double umsatzsteuer_abwasser = 0.0;
+	 
 
 	public void initialize() {
 		DB db = new DB();
@@ -108,9 +113,6 @@ public class FormControllerZahlung {
 		init_CB_Zaehler(db);
 		initCBEinstellungen(db);
 
-		lb_faktor_strom.setText("1");
-		lb_faktor_wasser.setText("1");
-		lb_faktor_abwasser.setText("1");
 	}
 
 	public void init_CB_Zaehler(DB db) {
@@ -175,6 +177,51 @@ public class FormControllerZahlung {
 		}
 		cb_einstellungen_id.setValue(letzte_einstellung_id);
 
+		action_einstellung_geweahlt();
+
+	}
+
+	public void action_einstellung_geweahlt() {
+		// Einstellungs-Konstanten des Controllers aus der gewäehlten Einstellung initialisieren
+		DB db = new DB();
+		// Get gewählte Einstellungen
+		
+		String sql_geweahlte_einstellungen = "SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellungen_id.getValue()+"";
+		ResultSet rs_einstellungen = db.executeQueryWithResult(sql_geweahlte_einstellungen);
+		try {
+			if (rs_einstellungen.next()) {
+				
+				erdgas_faktor_zustandszahl = rs_einstellungen.getFloat("erdgas_faktor_zustandszahl");
+				erdgas_faktor_brennwert = rs_einstellungen.getFloat("erdgas_faktor_brennwert");
+				preis_strom = rs_einstellungen.getFloat("preis_strom");
+				preis_erdgas = rs_einstellungen.getFloat("preis_erdgas");
+				preis_wasser = rs_einstellungen.getFloat("preis_wasser");
+				preis_abwasser = rs_einstellungen.getFloat("preis_abwasser");
+				pauschale_strom = rs_einstellungen.getFloat("pauschale_strom");
+				pauschale_erdgas = rs_einstellungen.getFloat("pauschale_erdgas");
+				pauschale_wasser = rs_einstellungen.getFloat("pauschale_wasser");
+				quadratmeter = rs_einstellungen.getFloat("quadratmeter_gesamt");
+				pauschale_abwasser_faktor = rs_einstellungen.getFloat("pauschale_abwasser_faktor");
+				pauschale_abwasser = quadratmeter * pauschale_abwasser_faktor;
+				steuer_strom = rs_einstellungen.getFloat("steuersatz_strom");
+				steuer_erdgas = rs_einstellungen.getFloat("steuersatz_erdgas");
+				umsatzsteuer_strom = rs_einstellungen.getFloat("umsatzsteuer_strom");
+				umsatzsteuer_erdgas = rs_einstellungen.getFloat("umsatzsteuer_erdgas");
+				umsatzsteuer_wasser = rs_einstellungen.getFloat("umsatzsteuer_wasser");
+				umsatzsteuer_abwasser = rs_einstellungen.getFloat("umsatzsteuer_abwasser");
+				faktor_strom = rs_einstellungen.getInt("faktor_strom");
+				faktor_wasser = rs_einstellungen.getInt("faktor_wasser");
+				faktor_abwasser = rs_einstellungen.getInt("faktor_abwasser");
+				lb_faktor_strom.setText(""+faktor_strom);
+				lb_faktor_wasser.setText(""+faktor_wasser);
+				lb_faktor_abwasser.setText(""+faktor_abwasser);
+								
+				System.out.println("Einstellungen geupdated");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void action_datum_berechnen() {
@@ -192,7 +239,7 @@ public class FormControllerZahlung {
 			int strom_dif = strom_neu - strom_alt;
 
 			lb_dif_strom.setText("" + strom_dif);
-			lb_menge_strom.setText("" + strom_dif * Integer.parseInt(lb_faktor_strom.getText()));
+			lb_menge_strom.setText("" + strom_dif * Double.parseDouble(lb_faktor_strom.getText()));
 		}
 	}
 
@@ -203,7 +250,7 @@ public class FormControllerZahlung {
 			int erdgas_dif = erdgas_neu - erdgas_alt;
 
 			lb_dif_erdgas.setText("" + (erdgas_dif));
-			lb_menge_erdgas.setText("" + (int) Math.round(erdgas_dif * ERDGAS_FKTR_ZSTNDZHL * ERDGAS_FKTR_BRNWRT));
+			lb_menge_erdgas.setText("" + (int) Math.round(erdgas_dif * erdgas_faktor_zustandszahl * erdgas_faktor_brennwert));
 		}
 	}
 
@@ -214,7 +261,7 @@ public class FormControllerZahlung {
 			int wasser_dif = wasser_neu - wasser_alt;
 
 			lb_dif_wasser.setText("" + (wasser_neu - wasser_alt));
-			lb_menge_wasser.setText("" + wasser_dif * Integer.parseInt(lb_faktor_wasser.getText()));
+			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText()));
 		}
 	}
 
@@ -225,7 +272,7 @@ public class FormControllerZahlung {
 			int abwasser_dif = abwasser_neu - abwasser_alt;
 
 			lb_dif_abwasser.setText("" + (abwasser_dif));
-			lb_menge_abwasser.setText("" + abwasser_dif * Integer.parseInt(lb_faktor_abwasser.getText()));
+			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText()));
 		}
 	}
 
@@ -345,7 +392,7 @@ public class FormControllerZahlung {
 		} catch (SQLException e) {
 		}
 
-				// SPEICHERN Rechnung
+		// SPEICHERN Rechnung
 		// --------------------------------------------------------------------------------------------
 		String sql_zahlung = "INSERT INTO `rechnung`(`zeitraum_id`, `zaehlerstand_id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `betrag_menge_strom`, `betrag_menge_erdgas`, `betrag_menge_wasser`, `betrag_menge_abwasser`, `pauschale_strom`, `pauschale_erdgas`, `pauschale_wasser`, `pauschale_abwasser`, `steuer_strom`, `steuer_erdgas`, `betrag_netto_strom`, `betrag_netto_erdgas`, `betrag_netto_wasser`, `betrag_netto_abwasser`, `umsatz_steuer_strom`, `umsatz_steuer_erdgas`, `umsatz_steuer_wasser`, `umsatz_steuer_abwasser`, `betrag_brutto_strom`, `betrag_brutto_erdgas`, `betrag_brutto_wasser`, `betrag_brutto_abwasser`)  "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 29
@@ -370,10 +417,10 @@ public class FormControllerZahlung {
 			ps_zahlung.setDouble(7, menge_abwasser);
 
 			// Betrag_Mengen
-			double betrag_menge_strom = menge_strom * PREIS_STROM;
-			double betrag_menge_erdgas = menge_erdgas * PREIS_ERDGAS;
-			double betrag_menge_wasser = menge_wasser * PREIS_WASSER;
-			double betrag_menge_abwasser = menge_abwasser * PREIS_ABWASSER;
+			double betrag_menge_strom = menge_strom * preis_strom;
+			double betrag_menge_erdgas = menge_erdgas * preis_erdgas;
+			double betrag_menge_wasser = menge_wasser * preis_wasser;
+			double betrag_menge_abwasser = menge_abwasser * preis_abwasser;
 
 			ps_zahlung.setDouble(8, betrag_menge_strom);
 			ps_zahlung.setDouble(9, betrag_menge_erdgas);
@@ -383,28 +430,28 @@ public class FormControllerZahlung {
 			// Pauschalen alle /360 * anz_tage_zeitraum
 			int anz_tage = Integer.parseInt(lb_dif_tage.getText());
 
-			double pauschale_strom = anz_tage * PAUSCHALE_STROM / 360;
-			double pauschale_erdgas = anz_tage * PAUSCHALE_ERDGAS / 360;
-			double pauschale_wasser = anz_tage * PAUSCHALE_WASSER / 360;
-			double pauschale_abwasser = anz_tage * PAUSCHALE_ABWASSER / 360;
+			double pauschale_strom_lokal = anz_tage * pauschale_strom / 360;
+			double pauschale_erdgas_lokal = anz_tage * pauschale_erdgas / 360;
+			double pauschale_wasser_lokal = anz_tage * pauschale_wasser / 360;
+			double pauschale_abwasser_lokal = anz_tage * pauschale_abwasser / 360;
 
-			ps_zahlung.setDouble(12, pauschale_strom);
-			ps_zahlung.setDouble(13, pauschale_erdgas);
-			ps_zahlung.setDouble(14, pauschale_wasser);
-			ps_zahlung.setDouble(15, pauschale_abwasser);
+			ps_zahlung.setDouble(12, pauschale_strom_lokal);
+			ps_zahlung.setDouble(13, pauschale_erdgas_lokal);
+			ps_zahlung.setDouble(14, pauschale_wasser_lokal);
+			ps_zahlung.setDouble(15, pauschale_abwasser_lokal);
 
 			// Steuer - nur für Strom und Erdgas
-			double steuer_strom_betrag = menge_strom * STEUER_STROM;
-			double steuer_erdgas_betrag = menge_erdgas * STEUER_ERDGAS;
+			double steuer_strom_betrag = menge_strom * steuer_strom;
+			double steuer_erdgas_betrag = menge_erdgas * steuer_erdgas;
 
 			ps_zahlung.setDouble(16, steuer_strom_betrag);
-			ps_zahlung.setDouble(17, steuer_erdgas_betrag * STEUER_ERDGAS);
+			ps_zahlung.setDouble(17, steuer_erdgas_betrag);
 
 			// Betrag netto
-			double betrag_netto_strom = betrag_menge_strom + pauschale_strom + steuer_strom_betrag;
-			double betrag_netto_erdgas = betrag_menge_erdgas + pauschale_erdgas + steuer_erdgas_betrag;
-			double betrag_netto_wasser = betrag_menge_wasser + pauschale_wasser;
-			double betrag_netto_abwasser = betrag_menge_abwasser + pauschale_abwasser;
+			double betrag_netto_strom = betrag_menge_strom + pauschale_strom_lokal + steuer_strom_betrag;
+			double betrag_netto_erdgas = betrag_menge_erdgas + pauschale_erdgas_lokal + steuer_erdgas_betrag;
+			double betrag_netto_wasser = betrag_menge_wasser + pauschale_wasser_lokal;
+			double betrag_netto_abwasser = betrag_menge_abwasser + pauschale_abwasser_lokal;
 
 			ps_zahlung.setDouble(18, betrag_netto_strom);
 			ps_zahlung.setDouble(19, betrag_netto_erdgas);
@@ -412,21 +459,21 @@ public class FormControllerZahlung {
 			ps_zahlung.setDouble(21, betrag_netto_abwasser);
 
 			// Umsatzseteuer
-			double umsatzsteuer_strom = betrag_netto_strom * UMSATZSTEUER_STROM;
-			double umsatzsteuer_erdgas = betrag_netto_erdgas * UMSATZSTEUER_ERDGAS;
-			double umsatzsteuer_wasser = betrag_netto_wasser * UMSATZSTEUER_WASSER;
-			double umsatzsteuer_abwasser = betrag_netto_abwasser * UMSATZSTEUER_ABWASSER;
+			double umsatzsteuer_strom_lokal = betrag_netto_strom * umsatzsteuer_strom;
+			double umsatzsteuer_erdgas_lokal = betrag_netto_erdgas * umsatzsteuer_erdgas;
+			double umsatzsteuer_wasser_lokal = betrag_netto_wasser * umsatzsteuer_wasser;
+			double umsatzsteuer_abwasser_lokal = betrag_netto_abwasser * umsatzsteuer_abwasser;
 
-			ps_zahlung.setDouble(22, umsatzsteuer_strom);
-			ps_zahlung.setDouble(23, umsatzsteuer_erdgas);
-			ps_zahlung.setDouble(24, umsatzsteuer_wasser);
-			ps_zahlung.setDouble(25, umsatzsteuer_abwasser);
+			ps_zahlung.setDouble(22, umsatzsteuer_strom_lokal);
+			ps_zahlung.setDouble(23, umsatzsteuer_erdgas_lokal);
+			ps_zahlung.setDouble(24, umsatzsteuer_wasser_lokal);
+			ps_zahlung.setDouble(25, umsatzsteuer_abwasser_lokal);
 
 			// Betrag brutto
-			double betrag_brutto_strom = betrag_netto_strom + umsatzsteuer_strom;
-			double betrag_brutto_erdgas = betrag_netto_erdgas + umsatzsteuer_erdgas;
-			double betrag_brutto_wasser = betrag_netto_wasser + umsatzsteuer_wasser;
-			double betrag_brutto_abwasser = betrag_netto_abwasser + umsatzsteuer_abwasser;
+			double betrag_brutto_strom = betrag_netto_strom + umsatzsteuer_strom_lokal;
+			double betrag_brutto_erdgas = betrag_netto_erdgas + umsatzsteuer_erdgas_lokal;
+			double betrag_brutto_wasser = betrag_netto_wasser + umsatzsteuer_wasser_lokal;
+			double betrag_brutto_abwasser = betrag_netto_abwasser + umsatzsteuer_abwasser_lokal;
 
 			ps_zahlung.setDouble(26, betrag_brutto_strom);
 			ps_zahlung.setDouble(27, betrag_brutto_erdgas);
