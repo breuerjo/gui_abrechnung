@@ -323,6 +323,10 @@ public class FormControllerEinstellungen {
 		Main.setStage("Aufteilen");
 	}
 	
+	public void action_menu_aktueller_stand() {
+		Main.setStage("AktuellerStand");
+	}
+	
 	public void action_menu_settings() {
 		Main.setStage("Einstellungen");
 	}

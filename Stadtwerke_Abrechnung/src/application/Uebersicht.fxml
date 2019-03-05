@@ -67,7 +67,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="148.0" onMouseClicked="#action_menu_auswertung" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
                      <children>
-                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="BAR_CHART" size="1.5em" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -99,6 +99,23 @@
                         <Insets right="10.0" />
                      </padding>
                   </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aktueller_stand" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+							<children>
+								<FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="BINOCULARS" size="1.5em" HBox.hgrow="ALWAYS">
+									<HBox.margin>
+										<Insets left="10.0" />
+									</HBox.margin>
+								</FontAwesomeIcon>
+								<Label styleClass="lb-menu" text="Aktueller Stand" HBox.hgrow="ALWAYS">
+									<HBox.margin>
+										<Insets left="10.0" />
+									</HBox.margin>
+								</Label>
+							</children>
+							<padding>
+								<Insets right="10.0" />
+							</padding>
+						</HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="348.0" onMouseClicked="#action_menu_settings" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
                      <children>
                         <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="COG" size="1.5em" HBox.hgrow="ALWAYS">
@@ -162,12 +179,18 @@
                                     </TableView>
                                  </children>
                               </HBox>
-                              <Separator prefWidth="200.0" />
-                              <Button fx:id="bt_zeitraum_geweahlt" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#action_zeitraum_geweahlt" text="Zeitraum auswählen">
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="50.0" />
+                                 </VBox.margin></Separator>
+                              <HBox alignment="CENTER">
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="50.0" />
                                  </VBox.margin>
-                              </Button>
+                                 <children>
+                                    <Button fx:id="bt_zeitraum_geweahlt" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#action_zeitraum_geweahlt" styleClass="btn-main" stylesheets="@application.css" text="Zeitraum auswählen" />
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

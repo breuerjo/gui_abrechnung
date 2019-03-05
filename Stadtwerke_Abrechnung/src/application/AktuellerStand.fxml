@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane minHeight="998.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormControllerAufteilen">
+<BorderPane minHeight="998.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormControllerAktuellerStand">
 	<bottom>
 		<AnchorPane prefHeight="20.0" style="-fx-background-color: #00A2D3;" BorderPane.alignment="CENTER" />
 	</bottom>
@@ -75,7 +75,7 @@
 								<Insets right="10.0" />
 							</padding>
 						</HBox>
-						<HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aufteilen" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #202332;" styleClass="btn-menu" stylesheets="@application.css">
+						<HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aufteilen" prefHeight="100.0" prefWidth="200.0"  styleClass="btn-menu" stylesheets="@application.css">
 							<children>
 								<FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
 									<HBox.margin>
@@ -92,7 +92,7 @@
 								<Insets right="10.0" />
 							</padding>
 						</HBox>
-						<HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aktueller_stand" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+						<HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aktueller_stand" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #202332;" styleClass="btn-menu" stylesheets="@application.css">
 							<children>
 								<FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="BINOCULARS" size="1.5em" HBox.hgrow="ALWAYS">
 									<HBox.margin>

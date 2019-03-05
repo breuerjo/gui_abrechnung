@@ -64,7 +64,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="148.0" onMouseClicked="#action_menu_auswertung" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
                      <children>
-                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="USERS" size="1.5em" HBox.hgrow="ALWAYS">
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="BAR_CHART" size="1.5em" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -96,6 +96,23 @@
                         <Insets right="10.0" />
                      </padding>
                   </HBox>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="248.0" onMouseClicked="#action_menu_aktueller_stand" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
+							<children>
+								<FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="BINOCULARS" size="1.5em" HBox.hgrow="ALWAYS">
+									<HBox.margin>
+										<Insets left="10.0" />
+									</HBox.margin>
+								</FontAwesomeIcon>
+								<Label styleClass="lb-menu" text="Aktueller Stand" HBox.hgrow="ALWAYS">
+									<HBox.margin>
+										<Insets left="10.0" />
+									</HBox.margin>
+								</Label>
+							</children>
+							<padding>
+								<Insets right="10.0" />
+							</padding>
+						</HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="348.0" onMouseClicked="#action_menu_settings" prefHeight="100.0" prefWidth="200.0" styleClass="btn-menu" stylesheets="@application.css">
                      <children>
                         <FontAwesomeIcon glyphStyle="-fx-fill:#F8F8F8" iconName="COG" size="1.5em" HBox.hgrow="ALWAYS">
