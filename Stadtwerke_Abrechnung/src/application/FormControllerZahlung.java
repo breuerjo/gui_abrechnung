@@ -430,10 +430,10 @@ public class FormControllerZahlung {
 			// Pauschalen alle /360 * anz_tage_zeitraum
 			int anz_tage = Integer.parseInt(lb_dif_tage.getText());
 
-			double pauschale_strom_lokal = anz_tage * pauschale_strom / 360;
-			double pauschale_erdgas_lokal = anz_tage * pauschale_erdgas / 360;
-			double pauschale_wasser_lokal = anz_tage * pauschale_wasser / 360;
-			double pauschale_abwasser_lokal = anz_tage * pauschale_abwasser / 360;
+			double pauschale_strom_lokal = anz_tage * pauschale_strom / 365;
+			double pauschale_erdgas_lokal = anz_tage * pauschale_erdgas / 365;
+			double pauschale_wasser_lokal = anz_tage * pauschale_wasser / 365;
+			double pauschale_abwasser_lokal = anz_tage * pauschale_abwasser / 365;
 
 			ps_zahlung.setDouble(12, pauschale_strom_lokal);
 			ps_zahlung.setDouble(13, pauschale_erdgas_lokal);

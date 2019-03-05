@@ -633,7 +633,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_pauschale_wasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                                    <Label fx:id="lb_pauschale_strom" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="4">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -649,7 +649,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_pauschale_strom" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="6">
+                                    <Label fx:id="lb_pauschale_wasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="6">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -955,7 +955,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label layoutX="20.0" layoutY="217.0" prefHeight="27.0" prefWidth="566.0" text="Erdgas Brennwert:" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                    <Label layoutX="20.0" layoutY="217.0" prefHeight="27.0" prefWidth="566.0" text="Erdgas Brennwert:" textFill="#00a2d3" GridPane.columnIndex="3" GridPane.rowIndex="5">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1077,7 +1077,7 @@
                                           <Insets left="75.0" />
                                        </padding>
                                     </Separator>
-                                    <Label text="Preis Strom:" GridPane.columnIndex="6">
+                                    <Label text="Preis Strom:" textFill="#00a2d3" GridPane.columnIndex="6">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1085,7 +1085,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="27.0" prefWidth="566.0" text="Preis Erdgas:" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                                    <Label prefHeight="27.0" prefWidth="566.0" text="Preis Erdgas:" textFill="#00a2d3" GridPane.columnIndex="6" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1093,7 +1093,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="27.0" prefWidth="566.0" text="Preis Wasser:" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                                    <Label prefHeight="27.0" prefWidth="566.0" text="Preis Wasser:" textFill="#00a2d3" GridPane.columnIndex="6" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1101,7 +1101,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="27.0" prefWidth="566.0" text="Preis Abwasser:" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                                    <Label prefHeight="27.0" prefWidth="566.0" text="Preis Abwasser:" textFill="#00a2d3" GridPane.columnIndex="6" GridPane.rowIndex="3">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1109,7 +1109,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="27.0" prefWidth="566.0" text="Pauschale Strom:" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                                    <Label prefHeight="27.0" prefWidth="566.0" text="Pauschale Strom:" textFill="#00a2d3" GridPane.columnIndex="6" GridPane.rowIndex="4">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1117,7 +1117,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="27.0" prefWidth="566.0" text="Pauschale Erdgas:" GridPane.columnIndex="6" GridPane.rowIndex="5">
+                                    <Label prefHeight="27.0" prefWidth="566.0" text="Pauschale Erdgas:" textFill="#00a2d3" GridPane.columnIndex="6" GridPane.rowIndex="5">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1125,7 +1125,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="27.0" prefWidth="566.0" text="Pauschale Wasser:" GridPane.columnIndex="6" GridPane.rowIndex="6">
+                                    <Label prefHeight="27.0" prefWidth="566.0" text="Pauschale Wasser:" textFill="#00a2d3" GridPane.columnIndex="6" GridPane.rowIndex="6">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
