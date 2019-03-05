@@ -117,6 +117,14 @@ public class FormControllerEinstellungen {
 	@FXML
 	private JFXButton bt_einstellungen_speichern;
 	
+	//Neuer Zähler hinzufügen
+	@FXML
+	private ComboBox<String> cb_kategorie;
+	@FXML
+	private JFXTextField tf_zaehler_nummer;
+	@FXML
+	private JFXButton bt_zaehler_speichern;
+	
 	
 	public void initialize() {
 		initComboBox();
@@ -125,8 +133,9 @@ public class FormControllerEinstellungen {
 	
 	public void initComboBox() {
 		DB db = new DB();
+		//EinstellungsComboBox
 		ResultSet rs = db.executeQueryWithResult("SELECT `id` FROM `einstellung`");
-
+		
 		try {
 			ObservableList<Integer> list_einstellungen_ids = FXCollections.observableArrayList();
 
@@ -138,6 +147,23 @@ public class FormControllerEinstellungen {
 
 			cb_einstellung_id.setItems(list_einstellungen_ids);
 			cb_einstellung_neu_id.setItems(list_einstellungen_ids);
+
+		} catch (SQLException e) {}
+		
+		//CB Kategorie für neuer Zähler
+		ResultSet rs_kategorie = db.executeQueryWithResult("SELECT DISTINCT `kategorie` FROM `zaehler`");
+		
+		try {
+			ObservableList<String> list_kategorien = FXCollections.observableArrayList();
+
+			while (rs_kategorie.next()) {
+
+				list_kategorien.add(rs_kategorie.getString("kategorie"));
+				System.out.println(rs_kategorie.getString("kategorie"));
+
+			}
+
+			cb_kategorie.setItems(list_kategorien);
 
 		} catch (SQLException e) {}
 	}
@@ -261,6 +287,24 @@ public class FormControllerEinstellungen {
 		    
 		    
 		} catch (SQLException e) {}
+	}
+	
+	public void action_neuer_zaehler_hinzufuegen() {
+		DB db = new DB();
+		Connection con = db.getConnection();
+		
+		String sql_zeitraum = "INSERT INTO `zaehler`(`kategorie`, `nummer`) VALUES (?,?)";
+		
+		try {
+			PreparedStatement ps= con.prepareStatement(sql_zeitraum, Statement.RETURN_GENERATED_KEYS); 
+			
+			ps.setString(1, cb_kategorie.getValue());
+			ps.setString(2, tf_zaehler_nummer.getText());
+		
+			
+		    db.executeUpdate(ps);
+		}catch(Exception e) {}
+
 	}
 	
 	public void action_menu_uebersicht() {
