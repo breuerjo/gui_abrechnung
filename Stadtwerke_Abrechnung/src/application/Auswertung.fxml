@@ -134,7 +134,7 @@
    <center>
       <JFXTabPane BorderPane.alignment="CENTER">
          <tabs>
-            <Tab styleClass="tabs-zahlung" text="Strom">
+            <Tab styleClass="tabs-zahlung" text="Allgemein">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -142,13 +142,16 @@
                            <children>
                               <HBox prefHeight="521.0" prefWidth="1706.0">
                                  <children>
-                                    <BarChart fx:id="bc" prefHeight="521.0" prefWidth="864.0">
+                                    <BarChart fx:id="bc_allgmeein_kosten" prefHeight="450.0" prefWidth="750.0">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                                        <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_ges" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis fx:id="yAxis" side="LEFT" />
+                                        <NumberAxis fx:id="yAxis_bc_ges" side="LEFT" />
                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
                                     </BarChart>
                                  </children>
                               </HBox>
@@ -157,19 +160,153 @@
                      </children></AnchorPane>
               </content>
             </Tab>
+            <Tab styleClass="tabs-zahlung" text="Strom">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="921.0" prefWidth="1706.0">
+                           <children>
+                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                                 <children>
+                                    <BarChart fx:id="bc_strom_kosten" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_strom" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_strom" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                    <BarChart fx:id="bc_strom_menge" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_menge__strom" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_menge__strom" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
             <Tab styleClass="tabs-zahlung" text="Erdgas">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="921.0" prefWidth="1706.0">
+                           <children>
+                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                                 <children>
+                                    <BarChart fx:id="bc_erdgas_kosten" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_erdgas" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_erdgas" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                    <BarChart fx:id="bc_erdgas_menge" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_menge__erdgas" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_menge__erdgas" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab styleClass="tabs-zahlung" text="Wasser">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="921.0" prefWidth="1706.0">
+                           <children>
+                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                                 <children>
+                                    <BarChart fx:id="bc_wasser_kosten" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_wasser" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_wasser" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                    <BarChart fx:id="bc_wasser_menge" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_menge__wasser" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_menge__wasser" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab styleClass="tabs-zahlung" text="Abwasser">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="921.0" prefWidth="1706.0">
+                           <children>
+                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                                 <children>
+                                    <BarChart fx:id="bc_abwasse_kosten" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_abwasser" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_abwasser" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                    <BarChart fx:id="bc_abwasser_menge" prefHeight="450.0" prefWidth="750.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_menge__abwasser" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis fx:id="yAxis_bc_menge__abwasser" side="LEFT" />
+                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                       </HBox.margin>
+                                    </BarChart>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
                </content>
             </Tab>
          </tabs>

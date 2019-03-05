@@ -1213,7 +1213,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-        </tabs>
+            </tabs>
       </JFXTabPane>
    </center>
 </BorderPane>
