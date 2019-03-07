@@ -1,14 +1,11 @@
 package application;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
+import java.sql.ResultSet;
+import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,7 +40,7 @@ public class FormControllerUebersicht {
 	private ComboBox<Date> cb_zeitraum_bis;*/
 	
 	@FXML
-	private Button bt_zeitraum_geweahlt;
+	private JFXButton bt_zeitraum_geweahlt;
 
 	
 
@@ -241,12 +238,8 @@ public class FormControllerUebersicht {
 
 		// Get Connection
 		DB db = new DB();
-
-		//initComboBox(db);
 		initTableUebersicht(db);
-		String zeitraum_von = "2017-05-24";
-		String zeitraum_bis = "2018-05-17";
-		initTables(db, zeitraum_von, zeitraum_bis);
+		
 	}
 
 	public void initTableUebersicht(DB db) {
@@ -313,6 +306,7 @@ public class FormControllerUebersicht {
 	}
 
 	public void initTables(DB db, String zeitraum_von, String zeitraum_bis) {
+		//
 		try {
 
 			String zeitraum_ges = zeitraum_von + " bis " + zeitraum_bis;
@@ -461,27 +455,6 @@ public class FormControllerUebersicht {
 		}
 	}
 
-	/*public void initComboBox(DB db) {
-
-		ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum`");
-
-		try {
-			ObservableList<Date> list_zt_von = FXCollections.observableArrayList();
-			ObservableList<Date> list_zt_bis = FXCollections.observableArrayList();
-
-			while (rs.next()) {
-
-				list_zt_von.add(rs.getDate("zeitraum_von"));
-				list_zt_bis.add(rs.getDate("zeitraum_bis"));
-
-			}
-
-			cb_zeitraum_von.setItems(list_zt_von);
-			cb_zeitraum_bis.setItems(list_zt_bis);
-
-		} catch (SQLException e) {
-		}
-	}*/
 	
 	public void action_zeitraum_geweahlt() {
 		System.out.println("Zeitraum gewählt");
