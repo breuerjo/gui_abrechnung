@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
@@ -153,7 +155,12 @@
 			<tabs>
 				<Tab styleClass="tabs-zahlung" text="Strom">
 					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <JFXDatePicker fx:id="dp_zeitraum_von" defaultColor="#fabf26" layoutX="108.0" layoutY="60.0" />
+                        <JFXDatePicker fx:id="dp_zeitraum_bis" defaultColor="#fabf26" layoutX="511.0" layoutY="60.0" />
+                        <JFXButton fx:id="bt_berechnen" layoutX="383.0" layoutY="157.0" onAction="#action_bt_berechnen" prefHeight="51.0" prefWidth="159.0" styleClass="btn-main" stylesheets="@application.css" text="Berechnen" />
+                     </children></AnchorPane>
 					</content>
 				</Tab>
 				<Tab styleClass="tabs-zahlung" text="Erdgas">

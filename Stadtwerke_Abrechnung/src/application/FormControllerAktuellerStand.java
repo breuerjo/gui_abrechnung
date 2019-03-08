@@ -145,7 +145,7 @@ public class FormControllerAktuellerStand {
 		ResultSet rs_vergleichszeitraum = db.executeQueryWithResult("SELECT MAX(`id`), `differenz_tage` FROM `zeitraum` WHERE `id`< "+zeitraum_id+" ORDER BY `zeitraum_bis` DESC");
 		try {
 			if (rs_vergleichszeitraum.next()) {
-				int vergleichszeitraum_id = rs_vergleichszeitraum.getInt(1);	//Testfal = 34
+				int vergleichszeitraum_id = rs_vergleichszeitraum.getInt(1);	//Testfall = 34
 				int differenz_tage_vergleichszeitraum = rs_vergleichszeitraum.getInt("differenz_tage");
 				
 				//Mittels der Zeitraum-ID die Rechnung --> Zählerstand-ID holen
@@ -187,7 +187,7 @@ public class FormControllerAktuellerStand {
 		double abweichung_wasser_prozent = abweichung_wasser / vergleichswert_wasser_pro_tag * 100;
 		double abweichung_abwasser_prozent = abweichung_abwasser / vergleichswert_abwasser_pro_tag * 100;
 		
-		//Set Labels Abweichung in % - ANZAHL TAGE NOCH BERÜCKSICHTIGEN!!!!!
+		//Set Labels Abweichung in % 
 		lb_abweichung_strom.setText(""+ BasicFunctions.roundDoubleNachkommastellen(abweichung_strom_prozent,2));
 		lb_abweichung_erdgas.setText(""+ BasicFunctions.roundDoubleNachkommastellen(abweichung_erdgas_prozent,2));
 		lb_abweichung_wasser.setText(""+ BasicFunctions.roundDoubleNachkommastellen(abweichung_wasser_prozent,2));
