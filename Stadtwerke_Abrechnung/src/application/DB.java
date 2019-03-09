@@ -32,6 +32,8 @@ public class DB {
 		return this.con;
 	}
 	
+
+	
 	public int executeUpdate(PreparedStatement ps) {
 		int generated_key =-1;
 		try {			

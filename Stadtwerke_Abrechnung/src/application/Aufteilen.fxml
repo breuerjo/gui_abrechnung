@@ -6,13 +6,18 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane minHeight="998.0" minWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FormControllerAufteilen">
 	<bottom>
@@ -157,9 +162,308 @@
 					<content>
 						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXDatePicker fx:id="dp_zeitraum_von" defaultColor="#fabf26" layoutX="108.0" layoutY="60.0" />
-                        <JFXDatePicker fx:id="dp_zeitraum_bis" defaultColor="#fabf26" layoutX="511.0" layoutY="60.0" />
-                        <JFXButton fx:id="bt_berechnen" layoutX="383.0" layoutY="157.0" onAction="#action_bt_berechnen" prefHeight="51.0" prefWidth="159.0" styleClass="btn-main" stylesheets="@application.css" text="Berechnen" />
+                        <VBox layoutX="7.0" layoutY="7.0" prefHeight="914.0" prefWidth="1697.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="133.0" prefWidth="1697.0">
+                                 <children>
+                                    <Label prefHeight="40.0" prefWidth="141.0" text="Zeitraum von:">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="250.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXDatePicker fx:id="dp_zeitraum_von" defaultColor="#fabf26">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" right="10.0" top="5.0" />
+                                       </HBox.margin>
+                                    </JFXDatePicker>
+                                    <Label prefHeight="40.0" prefWidth="141.0" text="Zeitraum bis:">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="150.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <JFXDatePicker fx:id="dp_zeitraum_bis" defaultColor="#fabf26">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" right="10.0" top="5.0" />
+                                       </HBox.margin>
+                                    </JFXDatePicker>
+                                    <JFXButton fx:id="bt_berechnen" onAction="#action_bt_berechnen" prefHeight="51.0" prefWidth="159.0" styleClass="btn-main" stylesheets="@application.css" text="Berechnen">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="150.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0" />
+                              <GridPane alignment="CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="10.0" prefWidth="20.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="15.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label fx:id="lb_bezeichnung_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Wohnung 1: (x m2)" GridPane.columnIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Menge Strom (in kWh):" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Kosten Stom (in Euro):" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_strom_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_strom_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_bezeichnung_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Wohnung 2: (y m2)" GridPane.columnIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Insgesamt:" GridPane.columnIndex="5">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_strom_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_strom_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="10" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Menge Erdgas (in kWh):" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Kosten Erdgas (in Euro):" GridPane.rowIndex="5">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Kosten Wasser (in Euro):" GridPane.rowIndex="7">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Kosten Abasser (in Euro):" GridPane.rowIndex="9">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Kosten Insgesamt (in Euro):" GridPane.rowIndex="11">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Menge Wasser (in m3):" GridPane.rowIndex="6">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Menge Abwasser (in m3):" GridPane.rowIndex="8">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                    <Label fx:id="lb_menge_erdgas_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_erdgas_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_wasser_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_wasser_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_abwasser_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_abwasser_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="9">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_gesamte_kosten_wohnung_1" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="2" GridPane.rowIndex="11">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_strom_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_strom_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_erdgas_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_erdgas_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_wasser_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_wasser_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_abwasser_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="8">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_abwasser_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="9">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_gesamte_kosten_wohnung_2" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="3" GridPane.rowIndex="11">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_erdgas_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_erdgas_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_wasser_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_wasser_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="7">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_menge_abwasser_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="8">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_kosten_abwasser_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="9">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lb_gesamte_kosten_gesamt" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" GridPane.columnIndex="5" GridPane.rowIndex="11">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="11" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                    <Separator prefWidth="200.0" GridPane.rowIndex="10" />
+                                    <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </VBox>
                      </children></AnchorPane>
 					</content>
 				</Tab>

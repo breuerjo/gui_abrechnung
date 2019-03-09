@@ -125,10 +125,20 @@ public class FormControllerEinstellungen {
 	@FXML
 	private JFXButton bt_zaehler_speichern;
 	
+	//Anzahl Quadratmeter ändern
+		
+	@FXML
+	private JFXTextField tf_quadratmeter_wohnung_1;
+	@FXML
+	private JFXTextField tf_quadratmeter_wohnung_2;
+	@FXML
+	private JFXButton bt_quadratmeter_speichern;
+	
 	
 	public void initialize() {
 		initComboBox();
-				
+		
+		initQuadratmeterTab();
 	}
 	
 	public void initComboBox() {
@@ -168,6 +178,39 @@ public class FormControllerEinstellungen {
 		} catch (SQLException e) {}
 	}
 	
+	public void initQuadratmeterTab() {
+		DB db = new DB();
+		ResultSet rs_einstellung = db.executeQueryWithResult("SELECT `quadratmeter_wohnung_1`, `quadratmeter_wohnung_2` FROM `einstellung` ORDER BY `id` DESC LIMIT 1 ");
+		try {
+			if (rs_einstellung.next()) {
+				
+				tf_quadratmeter_wohnung_1.setText(""+rs_einstellung.getInt("quadratmeter_wohnung_1"));
+				tf_quadratmeter_wohnung_2.setText(""+rs_einstellung.getInt("quadratmeter_wohnung_2"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+	
+	public void action_bt_quadratmeter_speichern() {
+		
+		int quadratmeter_wohnung_1 = Integer.parseInt(tf_quadratmeter_wohnung_1.getText());
+		int quadratmeter_wohnung_2 = Integer.parseInt(tf_quadratmeter_wohnung_2.getText());
+		
+		DB db = new DB();
+		Connection con = db.getConnection();
+		try {
+			PreparedStatement ps_einstellung = con.prepareStatement("UPDATE `einstellung` SET `quadratmeter_wohnung_1`= "+quadratmeter_wohnung_1+" ,`quadratmeter_wohnung_2`="+quadratmeter_wohnung_2+"  ORDER BY `id` DESC LIMIT 1");
+			db.executeUpdate(ps_einstellung);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public void action_einstellung_id_gewaehlt() {
 		System.out.println(cb_einstellung_id.getValue());
