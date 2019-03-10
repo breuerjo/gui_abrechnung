@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 public class FormControllerAktuellerStand {
 	
@@ -71,7 +72,11 @@ public class FormControllerAktuellerStand {
 	private Label lb_abweichung_abwasser;
 	
 	@FXML
-	private Label lb_abweichung_gesamt;
+	private Label lb_abweichung_gesamt_prozent;
+	@FXML
+	private Label lb_aktuelle_abschagszahlungen;
+	@FXML
+	private Label lb_abweichung_gesamt_betrag;
 	
 	@FXML
 	private Button bt_berechnen;
@@ -305,18 +310,41 @@ public class FormControllerAktuellerStand {
 			lb_vergleichswert_abwasser.setText("");
 		}
 		
-		double gesamt_abweichung = abweichungGesamtBerechnen(db,vergleichszeitraum_id, abweichung_strom_prozent, abweichung_erdgas_prozent, abweichung_wasser_prozent, abweichung_abwasser_prozent);
-		lb_abweichung_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamt_abweichung,2)+" Euro");
+		abweichungGesamtBerechnen(db,vergleichszeitraum_id, abweichung_strom_prozent, abweichung_erdgas_prozent, abweichung_wasser_prozent, abweichung_abwasser_prozent);
+		
 	}
 	
-	public double abweichungGesamtBerechnen(DB db, int vergleichszeitraum_id, double abw_strom, double abw_erdgas, double abw_wasser, double abw_abwasser) {
+	public void abweichungGesamtBerechnen(DB db, int vergleichszeitraum_id, double abw_strom, double abw_erdgas, double abw_wasser, double abw_abwasser) {
 		//Parameter abweichung sind in %!
-		double abweichung_strom = 0;
+		//An Hand der korrekten Berechnung der Gesamtabweichung in Prozent (Berücksichtigung der Anteile am Gesamtbetrag)
+		//Mit Hilfe der zukünftigen Abschlagszahlungen den voraussichtlichen Nachzahlunsbetrag berechnen
+		
+		//Faktoren der Arten an Gesamtpreis berechnen
+		ResultSet rs_vergleichszeitraum = db.executeQueryWithResult("SELECT `betrag_brutto_strom`,`betrag_brutto_erdgas`,`betrag_brutto_wasser`,`betrag_brutto_abwasser` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
+		double faktor_strom =0;
+		double faktor_erdgas=0;
+		double faktor_wasser=0;
+		double faktor_abwasser=0;
+		try {
+			if(rs_vergleichszeitraum.next()) {
+				double gesambetrag = rs_vergleichszeitraum.getDouble("betrag_brutto_strom") + rs_vergleichszeitraum.getDouble("betrag_brutto_erdgas") + rs_vergleichszeitraum.getDouble("betrag_brutto_wasser")+ rs_vergleichszeitraum.getDouble("betrag_brutto_abwasser");
+				faktor_strom = rs_vergleichszeitraum.getDouble("betrag_brutto_strom") / gesambetrag;
+				faktor_erdgas = rs_vergleichszeitraum.getDouble("betrag_brutto_erdgas") / gesambetrag;
+				faktor_wasser = rs_vergleichszeitraum.getDouble("betrag_brutto_wasser") / gesambetrag;
+				faktor_abwasser = rs_vergleichszeitraum.getDouble("betrag_brutto_abwasser") / gesambetrag;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		double gesamtabweichung_prozent = faktor_strom * abw_strom + faktor_erdgas * abw_erdgas + faktor_wasser * abw_wasser + faktor_abwasser * abw_abwasser;
+		
+		System.out.println("Gesamtabweichung: "+gesamtabweichung_prozent);		
+		/* alte Berechnung anhand des Betrages des Vergleichzeitraumes
+		 * double abweichung_strom = 0;
 		double abweichung_erdgas = 0;
 		double abweichung_wasser = 0;
 		double abweichung_abwasser = 0;
-		
-		
 		ResultSet rs_verleichzeitraum_rechnung = db.executeQueryWithResult("SELECT `betrag_brutto_strom`,`betrag_brutto_erdgas`,`betrag_brutto_wasser`,`betrag_brutto_abwasser` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
 		try {
 			if(rs_verleichzeitraum_rechnung.next()) {
@@ -334,9 +362,30 @@ public class FormControllerAktuellerStand {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		*/
+		double zukuenftige_abschlaege =0;
+		ResultSet rs_letzte_rechnung = db.executeQueryWithResult("SELECT `betrag_zukuenftige_abschlaege` FROM `rechnung` ORDER BY `id` DESC LIMIT 1");
+		try {
+			if(rs_letzte_rechnung.next()) {
+				zukuenftige_abschlaege = rs_letzte_rechnung.getDouble("betrag_zukuenftige_abschlaege");	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		double gesamtabweichung_betrag = zukuenftige_abschlaege * 12 * gesamtabweichung_prozent / 100; //Gesamtbetrag * Abweichung /100, da Abweichung in Prozent
 		
+		//Set Labels
+		lb_abweichung_gesamt_prozent.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtabweichung_prozent,2)+" %");
+		lb_aktuelle_abschagszahlungen.setText(""+zukuenftige_abschlaege+"0 Euro");
+		lb_abweichung_gesamt_betrag.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtabweichung_betrag,2)+" Euro");
 		
-		return abweichung_strom + abweichung_erdgas + abweichung_wasser + abweichung_abwasser;
+		if(gesamtabweichung_betrag >=0) {
+			lb_abweichung_gesamt_betrag.setTextFill(Color.RED);
+		}
+		else {
+			lb_abweichung_gesamt_betrag.setTextFill(Color.GREEN);
+		}
+		
 	}
 	
 	public void action_menu_uebersicht() {
