@@ -60,6 +60,8 @@ public class FormControllerZahlung {
 	@FXML
 	private Label lb_faktor_strom;
 	@FXML
+	private Label lb_faktor_erdgas;
+	@FXML
 	private Label lb_faktor_wasser;
 	@FXML
 	private Label lb_faktor_abwasser;
@@ -72,9 +74,21 @@ public class FormControllerZahlung {
 	@FXML
 	private Label lb_menge_abwasser;
 	@FXML
-	private Button bt_speichern;
+	private Label lb_betrag_strom;
 	@FXML
-	private Button bt_berechnen;
+	private Label lb_betrag_erdgas;
+	@FXML
+	private Label lb_betrag_wasser;
+	@FXML
+	private Label lb_betrag_abwasser;
+	@FXML
+	private TextField tf_betrag_abweichung;
+	@FXML
+	private TextField tf_betrag_abschlagszahlung_bisher;
+	@FXML
+	private TextField tf_betrag_abschlagszahlung_zukunft;
+	@FXML
+	private Button bt_speichern;
 	@FXML
 	private ComboBox<Integer> cb_einstellungen_id;
 
@@ -215,13 +229,19 @@ public class FormControllerZahlung {
 				lb_faktor_strom.setText(""+faktor_strom);
 				lb_faktor_wasser.setText(""+faktor_wasser);
 				lb_faktor_abwasser.setText(""+faktor_abwasser);
+				lb_faktor_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen((erdgas_faktor_brennwert* erdgas_faktor_brennwert),6));
 								
 				System.out.println("Einstellungen geupdated");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
+		//Werte neu berechnen, wenn neue Einstellung gewählt wurde
+		action_strom_berechnen();
+		action_ergas_berechnen();
+		action_wasser_berechnen();
+		action_abwasser_berechnen();
 	}
 
 	public void action_datum_berechnen() {
@@ -239,7 +259,7 @@ public class FormControllerZahlung {
 			int strom_dif = strom_neu - strom_alt;
 
 			lb_dif_strom.setText("" + strom_dif);
-			lb_menge_strom.setText("" + strom_dif * Double.parseDouble(lb_faktor_strom.getText()));
+			lb_menge_strom.setText("" + strom_dif * Double.parseDouble(lb_faktor_strom.getText())+" kWh" );
 		}
 	}
 
@@ -250,7 +270,7 @@ public class FormControllerZahlung {
 			int erdgas_dif = erdgas_neu - erdgas_alt;
 
 			lb_dif_erdgas.setText("" + (erdgas_dif));
-			lb_menge_erdgas.setText("" + (int) Math.round(erdgas_dif * erdgas_faktor_zustandszahl * erdgas_faktor_brennwert));
+			lb_menge_erdgas.setText("" + (int) Math.round(erdgas_dif * erdgas_faktor_zustandszahl * erdgas_faktor_brennwert)+" kWh");
 		}
 	}
 
@@ -261,7 +281,7 @@ public class FormControllerZahlung {
 			int wasser_dif = wasser_neu - wasser_alt;
 
 			lb_dif_wasser.setText("" + (wasser_neu - wasser_alt));
-			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText()));
+			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText())+" m3");
 		}
 	}
 
@@ -272,7 +292,7 @@ public class FormControllerZahlung {
 			int abwasser_dif = abwasser_neu - abwasser_alt;
 
 			lb_dif_abwasser.setText("" + (abwasser_dif));
-			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText()));
+			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText())+" m3");
 		}
 	}
 
@@ -376,8 +396,8 @@ public class FormControllerZahlung {
 
 		// SPEICHERN Rechnung
 		// --------------------------------------------------------------------------------------------
-		String sql_zahlung = "INSERT INTO `rechnung`(`zeitraum_id`, `zaehlerstand_id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `betrag_menge_strom`, `betrag_menge_erdgas`, `betrag_menge_wasser`, `betrag_menge_abwasser`, `pauschale_strom`, `pauschale_erdgas`, `pauschale_wasser`, `pauschale_abwasser`, `steuer_strom`, `steuer_erdgas`, `betrag_netto_strom`, `betrag_netto_erdgas`, `betrag_netto_wasser`, `betrag_netto_abwasser`, `umsatz_steuer_strom`, `umsatz_steuer_erdgas`, `umsatz_steuer_wasser`, `umsatz_steuer_abwasser`, `betrag_brutto_strom`, `betrag_brutto_erdgas`, `betrag_brutto_wasser`, `betrag_brutto_abwasser`)  "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 29
+		String sql_zahlung = "INSERT INTO `rechnung`(`zeitraum_id`, `zaehlerstand_id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `betrag_menge_strom`, `betrag_menge_erdgas`, `betrag_menge_wasser`, `betrag_menge_abwasser`, `pauschale_strom`, `pauschale_erdgas`, `pauschale_wasser`, `pauschale_abwasser`, `steuer_strom`, `steuer_erdgas`, `betrag_netto_strom`, `betrag_netto_erdgas`, `betrag_netto_wasser`, `betrag_netto_abwasser`, `umsatz_steuer_strom`, `umsatz_steuer_erdgas`, `umsatz_steuer_wasser`, `umsatz_steuer_abwasser`, `betrag_brutto_strom`, `betrag_brutto_erdgas`, `betrag_brutto_wasser`, `betrag_brutto_abwasser`, `betrag_nachzahlung`,`betrag_gezahlte_abschlaege`,`betrag_zukuenftige_abschlaege`)  "
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 32
 
 		try {
 			PreparedStatement ps_zahlung = con.prepareStatement(sql_zahlung, Statement.RETURN_GENERATED_KEYS);
@@ -408,6 +428,11 @@ public class FormControllerZahlung {
 			ps_zahlung.setDouble(9, betrag_menge_erdgas);
 			ps_zahlung.setDouble(10, betrag_menge_wasser);
 			ps_zahlung.setDouble(11, betrag_menge_abwasser);
+			
+			lb_betrag_strom.setText(""+betrag_menge_strom +" Euro");
+			lb_betrag_erdgas.setText(""+betrag_menge_erdgas +" Euro");
+			lb_betrag_wasser.setText(""+betrag_menge_wasser +" Euro");
+			lb_betrag_abwasser.setText(""+betrag_menge_abwasser +" Euro");
 
 			// Pauschalen alle /360 * anz_tage_zeitraum
 			int anz_tage = Integer.parseInt(lb_dif_tage.getText());
@@ -461,6 +486,14 @@ public class FormControllerZahlung {
 			ps_zahlung.setDouble(27, betrag_brutto_erdgas);
 			ps_zahlung.setDouble(28, betrag_brutto_wasser);
 			ps_zahlung.setDouble(29, betrag_brutto_abwasser);
+			
+			double abweichung = Double.parseDouble(tf_betrag_abweichung.getText());
+			double abschlag_bisher = Double.parseDouble(tf_betrag_abschlagszahlung_bisher.getText());
+			double abschlag_zukunft = Double.parseDouble(tf_betrag_abschlagszahlung_zukunft.getText());
+			
+			ps_zahlung.setDouble(30, abweichung);
+			ps_zahlung.setDouble(31, abschlag_bisher);
+			ps_zahlung.setDouble(32, abschlag_zukunft);
 
 			int gen_key = db.executeUpdate(ps_zahlung);
 			System.out.println(gen_key);
