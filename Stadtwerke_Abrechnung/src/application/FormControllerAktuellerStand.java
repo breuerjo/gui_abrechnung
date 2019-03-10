@@ -4,9 +4,11 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
@@ -18,6 +20,22 @@ public class FormControllerAktuellerStand {
 	
 	@FXML
 	private JFXDatePicker dp_aktuelles_datum;
+	@FXML
+	private JFXCheckBox cb_strom;
+	@FXML
+	private JFXCheckBox cb_erdgas;
+	@FXML
+	private JFXCheckBox cb_wasser;
+	@FXML
+	private JFXCheckBox cb_abwasser;
+	
+	@FXML
+	private Label lb_anzahl_tage_aktuell;
+	@FXML
+	private Label lb_vergleichszeitraum_von;
+	@FXML
+	private Label lb_vergleichszeitraum_bis;
+	
 	
 	@FXML
 	private JFXTextField tf_zaehler_strom;
@@ -53,16 +71,40 @@ public class FormControllerAktuellerStand {
 	private Label lb_abweichung_abwasser;
 	
 	@FXML
+	private Label lb_abweichung_gesamt;
+	
+	@FXML
 	private Button bt_berechnen;
+	
+	public void initialize() {
+		cb_strom.setSelected(true);
+		cb_erdgas.setSelected(true);
+		cb_wasser.setSelected(true);
+		cb_abwasser.setSelected(true);
+	}
 	
 	
 	public void action_button_berechnen() {
+		int zaehler_strom = 0;
+		int zaehler_erdgas = 0;
+		int zaehler_wasser = 0;
+		int zaehler_abwasser= 0;
 		
-		//Eingabewerte speichern
-		int zaehler_strom = Integer.parseInt(tf_zaehler_strom.getText());
-		int zaehler_erdgas = Integer.parseInt(tf_zaehler_erdgas.getText());
-		int zaehler_wasser = Integer.parseInt(tf_zaehler_wasser.getText());
-		int zaehler_abwasser = Integer.parseInt(tf_zaehler_abwasser.getText());
+		
+		//Eingabewerte speichern, falls leer => 0 bleibt drin stehen
+		if(!tf_zaehler_strom.getText().equals("")) {
+			zaehler_strom = Integer.parseInt(tf_zaehler_strom.getText());
+		}
+		if(!tf_zaehler_erdgas.getText().equals("")) {
+			zaehler_erdgas = Integer.parseInt(tf_zaehler_erdgas.getText());
+		}
+		if(!tf_zaehler_wasser.getText().equals("")) {
+			zaehler_wasser = Integer.parseInt(tf_zaehler_wasser.getText());
+		}
+		if(!tf_zaehler_abwasser.getText().equals("")) {
+			zaehler_abwasser = Integer.parseInt(tf_zaehler_abwasser.getText());
+		}
+
 		
 		int zaehler_alt_strom = 0;
 		int zaehler_alt_erdgas = 0;
@@ -94,6 +136,7 @@ public class FormControllerAktuellerStand {
 				LocalDate zeitraum_bis = rs_zeitraum.getDate("zeitraum_bis").toLocalDate();
 				
 				anz_tage_aktuell = ChronoUnit.DAYS.between(zeitraum_bis, dp_aktuelles_datum.getValue()) + 1;	//da inkl. Bis Datum
+				lb_anzahl_tage_aktuell.setText("Anzahl Tage: "+anz_tage_aktuell);
 				//System.out.println(""+anz_tage);
 				
 				//Mittels der Zeitraum-ID die Rechnung --> Zählerstand-ID holen
@@ -105,13 +148,18 @@ public class FormControllerAktuellerStand {
 					ResultSet rs_zaehlerstand = db.executeQueryWithResult("SELECT * FROM `zaehlerstand` WHERE `id` = "+rs_zaehlerstand_id.getInt("zaehlerstand_id")+"");
 					
 					if(rs_zaehlerstand.next()) {
+						
+						ResultSet rs_letzte_einstellung = db.executeQueryWithResult("SELECT `erdgas_faktor_zustandszahl`, `erdgas_faktor_brennwert` FROM `einstellung` ORDER BY `id` DESC LIMIT 1");
+						rs_letzte_einstellung.next();
+						double faktor_umrechnung_erdgas_in_menge = rs_letzte_einstellung.getDouble("erdgas_faktor_zustandszahl") * rs_letzte_einstellung.getDouble("erdgas_faktor_brennwert");
+						
 						zaehler_alt_strom = rs_zaehlerstand.getInt("strom_neu");
 						zaehler_alt_erdgas = rs_zaehlerstand.getInt("erdgas_neu");
 						zaehler_alt_wasser = rs_zaehlerstand.getInt("wasser_neu");
 						zaehler_alt_abwasser = rs_zaehlerstand.getInt("wasser_neu");	//ist der gleiche Wert in DB
 						
 						double aktueller_verbrauch_strom = (zaehler_strom - zaehler_alt_strom );	//aktueller Verbrauchswert = ( Aktueller Zählerstand - Endzählerstand der letzten Rechnung ) / Anzahl Tage
-						double aktueller_verbrauch_erdgas = (zaehler_erdgas - zaehler_alt_erdgas);
+						double aktueller_verbrauch_erdgas = (zaehler_erdgas - zaehler_alt_erdgas) * faktor_umrechnung_erdgas_in_menge;	//Umrechnung in Menge
 						double aktueller_verbrauch_wasser = (zaehler_wasser - zaehler_alt_wasser);
 						double aktueller_verbrauch_abwasser = (zaehler_abwasser - zaehler_alt_abwasser);
 						
@@ -122,10 +170,10 @@ public class FormControllerAktuellerStand {
 						
 						
 						//Set Labels aktuelle Verbrauchswerte
-						lb_differenz_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_strom_pro_tag, 4));
-						lb_differenz_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_erdgas_pro_tag, 4));
-						lb_differenz_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_wasser_pro_tag, 4));
-						lb_differenz_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_abwasser_pro_tag, 4));
+						lb_differenz_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_strom_pro_tag, 2)+" kWh");
+						lb_differenz_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_erdgas_pro_tag, 2)+" kWh");
+						lb_differenz_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_wasser_pro_tag, 2)+" m3");
+						lb_differenz_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_abwasser_pro_tag, 2)+" m3");
 					}
 					
 				}
@@ -135,31 +183,57 @@ public class FormControllerAktuellerStand {
 		
 		//-----------------------------------------------Vergleichswerte-----------------------------------
 		//Mit Hilfe des Zeitraumes 1 Jahr davor die Abweichung berechnen (mittels der Differenzen im Zählerstand, da laut der PDF die Schätzungen für neue Werte bereits Preisänderungen berücksichtigen)
+		double vergleichswert_strom =0;
+		double vergleichswert_erdgas =0;
+		double vergleichswert_wasser =0;
+		double vergleichswert_abwasser =0;
+		
 		double vergleichswert_strom_pro_tag = 0;
 		double vergleichswert_erdgas_pro_tag = 0;
 		double vergleichswert_wasser_pro_tag = 0;
 		double vergleichswert_abwasser_pro_tag = 0;
 		
-		//Zeitraum vor 1 Jahr => 
 		
-		ResultSet rs_vergleichszeitraum = db.executeQueryWithResult("SELECT MAX(`id`), `differenz_tage` FROM `zeitraum` WHERE `id`< "+zeitraum_id+" ORDER BY `zeitraum_bis` DESC");
+		//Zeitraum vor 1 Jahr => Logik siehe SQL Statement
+		LocalDate date_input = dp_aktuelles_datum.getValue();
+		int month = Integer.parseInt(DateConversion.fillUpValue(date_input.getMonthValue())); //Eventuell 0 davor ergänzen
+		int jahr = date_input.getYear();
+		
+		ResultSet rs_vergleichszeitraum = db.executeQueryWithResult("SELECT `id`, `differenz_tage`, `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` \r\n" + 
+				"WHERE `zeitraum_bis_jahr`< "+jahr+" \r\n" + 
+				"AND `zeitraum_von_monat` < "+month+" \r\n" + 
+				"AND `zeitraum_bis_monat` > "+month+"\r\n" + 
+				" ORDER BY `zeitraum_bis` DESC\r\n" + 
+				" LIMIT 1");
+		int vergleichszeitraum_id = 0;
+		int vergleichs_einstellung_id =0;
 		try {
+						
 			if (rs_vergleichszeitraum.next()) {
-				int vergleichszeitraum_id = rs_vergleichszeitraum.getInt(1);	//Testfall = 34
+				vergleichszeitraum_id = rs_vergleichszeitraum.getInt(1);	//Testfall = 34
 				int differenz_tage_vergleichszeitraum = rs_vergleichszeitraum.getInt("differenz_tage");
 				
+				lb_vergleichszeitraum_von.setText("von: "+rs_vergleichszeitraum.getDate("zeitraum_von"));
+				lb_vergleichszeitraum_bis.setText("von: "+rs_vergleichszeitraum.getDate("zeitraum_bis"));
+				
 				//Mittels der Zeitraum-ID die Rechnung --> Zählerstand-ID holen
-				ResultSet rs_vergleichs_zaehlerstand_id = db.executeQueryWithResult("SELECT `zaehlerstand_id` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
+				ResultSet rs_vergleichs_zaehlerstand_id = db.executeQueryWithResult("SELECT `einstellung_id`, `zaehlerstand_id` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
 				
 				//Mit Hilfe der Rechnung und der Zählerstands ID die letzten Zählerstände holen => Berechnung bisheriger Verbrauch in der aktuellen Periode
 				if(rs_vergleichs_zaehlerstand_id.next()) {
+					vergleichs_einstellung_id = rs_vergleichs_zaehlerstand_id.getInt("einstellung_id");
 					ResultSet rs_vergleichs_zaehlerstand = db.executeQueryWithResult("SELECT * FROM `zaehlerstand` WHERE `id` = "+rs_vergleichs_zaehlerstand_id.getInt("zaehlerstand_id")+"");
 					
 					if(rs_vergleichs_zaehlerstand.next()) {
-						double vergleichswert_strom = rs_vergleichs_zaehlerstand.getInt("differenz_strom") ;
-						double vergleichswert_erdgas = rs_vergleichs_zaehlerstand.getInt("differenz_erdgas");
-						double vergleichswert_wasser = rs_vergleichs_zaehlerstand.getInt("differenz_wasser");
-						double vergleichswert_abwasser = vergleichswert_wasser;
+						
+						ResultSet rs_vergleichs_einstellungen = db.executeQueryWithResult("SELECT `erdgas_faktor_zustandszahl`, `erdgas_faktor_brennwert` FROM `einstellung` WHERE `id` = "+vergleichs_einstellung_id+"");
+						rs_vergleichs_einstellungen.next();
+						double faktor_umrechnung_erdgas_in_menge = rs_vergleichs_einstellungen.getDouble("erdgas_faktor_zustandszahl") * rs_vergleichs_einstellungen.getDouble("erdgas_faktor_brennwert");
+						
+						vergleichswert_strom = rs_vergleichs_zaehlerstand.getInt("differenz_strom") ;
+						vergleichswert_erdgas = rs_vergleichs_zaehlerstand.getInt("differenz_erdgas") * faktor_umrechnung_erdgas_in_menge; //Umrechnung in Menge
+						vergleichswert_wasser = rs_vergleichs_zaehlerstand.getInt("differenz_wasser");
+						vergleichswert_abwasser = vergleichswert_wasser;
 						
 						vergleichswert_strom_pro_tag = vergleichswert_strom / differenz_tage_vergleichszeitraum; //Differenz(alt) / AnzTage  => Menge pro Tage
 						vergleichswert_erdgas_pro_tag = vergleichswert_erdgas / differenz_tage_vergleichszeitraum;
@@ -167,10 +241,10 @@ public class FormControllerAktuellerStand {
 						vergleichswert_abwasser_pro_tag = vergleichswert_abwasser / differenz_tage_vergleichszeitraum;
 						
 						//Set Labels Vergleichswerte
-						lb_vergleichswert_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_strom_pro_tag, 4));
-						lb_vergleichswert_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_erdgas_pro_tag, 4));
-						lb_vergleichswert_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_wasser_pro_tag, 4));
-						lb_vergleichswert_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_abwasser_pro_tag, 4));
+						lb_vergleichswert_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_strom_pro_tag, 2)+" kWh");
+						lb_vergleichswert_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_erdgas_pro_tag, 2)+" kWh");
+						lb_vergleichswert_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_wasser_pro_tag, 2)+" m3");
+						lb_vergleichswert_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_abwasser_pro_tag, 2)+" m3");
 					}
 				}
 			}
@@ -192,6 +266,77 @@ public class FormControllerAktuellerStand {
 		lb_abweichung_erdgas.setText(""+ BasicFunctions.roundDoubleNachkommastellen(abweichung_erdgas_prozent,2));
 		lb_abweichung_wasser.setText(""+ BasicFunctions.roundDoubleNachkommastellen(abweichung_wasser_prozent,2));
 		lb_abweichung_abwasser.setText(""+ BasicFunctions.roundDoubleNachkommastellen(abweichung_abwasser_prozent,2));
+		
+		//----------------------------------------------------------------Werte eingetragen? Haken gestezt?---------------------------
+		if(zaehler_alt_strom == 0 || !cb_strom.isSelected()) {
+			//Berechnete Werte 0 setzen und Labels ausblenden
+			aktueller_verbrauch_strom_pro_tag = 0;
+			abweichung_strom = 0;
+			abweichung_strom_prozent = 0;
+			lb_differenz_strom.setText("");
+			lb_abweichung_strom.setText("");
+			lb_vergleichswert_strom.setText("");
+		}
+		if(zaehler_alt_erdgas == 0 || !cb_erdgas.isSelected()) {
+			//Berechnete Werte 0 setzen und Labels ausblenden
+			aktueller_verbrauch_erdgas_pro_tag = 0;
+			abweichung_erdgas = 0;
+			abweichung_erdgas_prozent = 0;
+			lb_differenz_erdgas.setText("");
+			lb_abweichung_erdgas.setText("");
+			lb_vergleichswert_erdgas.setText("");
+		}
+		if(zaehler_alt_wasser == 0 || !cb_wasser.isSelected()) {
+			//Berechnete Werte 0 setzen und Labels ausblenden
+			aktueller_verbrauch_wasser_pro_tag = 0;
+			abweichung_wasser = 0;
+			abweichung_wasser_prozent = 0;
+			lb_differenz_wasser.setText("");
+			lb_abweichung_wasser.setText("");
+			lb_vergleichswert_wasser.setText("");
+		}
+		if(zaehler_alt_abwasser == 0 || !cb_abwasser.isSelected()) {
+			//Berechnete Werte 0 setzen und Labels ausblenden
+			aktueller_verbrauch_abwasser_pro_tag = 0;
+			abweichung_abwasser = 0;
+			abweichung_abwasser_prozent = 0;
+			lb_differenz_abwasser.setText("");
+			lb_abweichung_abwasser.setText("");
+			lb_vergleichswert_abwasser.setText("");
+		}
+		
+		double gesamt_abweichung = abweichungGesamtBerechnen(db,vergleichszeitraum_id, abweichung_strom_prozent, abweichung_erdgas_prozent, abweichung_wasser_prozent, abweichung_abwasser_prozent);
+		lb_abweichung_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamt_abweichung,2)+" Euro");
+	}
+	
+	public double abweichungGesamtBerechnen(DB db, int vergleichszeitraum_id, double abw_strom, double abw_erdgas, double abw_wasser, double abw_abwasser) {
+		//Parameter abweichung sind in %!
+		double abweichung_strom = 0;
+		double abweichung_erdgas = 0;
+		double abweichung_wasser = 0;
+		double abweichung_abwasser = 0;
+		
+		
+		ResultSet rs_verleichzeitraum_rechnung = db.executeQueryWithResult("SELECT `betrag_brutto_strom`,`betrag_brutto_erdgas`,`betrag_brutto_wasser`,`betrag_brutto_abwasser` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
+		try {
+			if(rs_verleichzeitraum_rechnung.next()) {
+				double betrag_strom = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_strom");
+				double betrag_erdgas = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_erdgas");
+				double betrag_wasser = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_wasser");
+				double betrag_abwasser = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_abwasser");
+				
+				abweichung_strom = betrag_strom * abw_strom / 100; //da Abweichung in % => /100
+				abweichung_erdgas = betrag_erdgas * abw_erdgas / 100;
+				abweichung_wasser = betrag_wasser * abw_wasser / 100;
+				abweichung_abwasser = betrag_abwasser * abw_abwasser / 100;
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return abweichung_strom + abweichung_erdgas + abweichung_wasser + abweichung_abwasser;
 	}
 	
 	public void action_menu_uebersicht() {

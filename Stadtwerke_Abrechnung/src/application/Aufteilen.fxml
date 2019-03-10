@@ -460,8 +460,14 @@
                                     <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                                     <Separator prefWidth="200.0" GridPane.rowIndex="10" />
                                     <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+                                    <Label fx:id="lb_anzahl_tage" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="404.0" text="Anzahl Tage: 0 Tage">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </GridPane>
+                              <Separator prefWidth="200.0" />
                            </children>
                         </VBox>
                      </children></AnchorPane>

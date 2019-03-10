@@ -16,6 +16,8 @@ public class FormControllerAufteilen {
 	private Label lb_bezeichnung_wohnung_1;
 	@FXML
 	private Label lb_bezeichnung_wohnung_2;
+	@FXML
+	private Label lb_anzahl_tage;
 	
 	@FXML
 	private Label lb_menge_strom_wohnung_1;
@@ -81,6 +83,23 @@ public class FormControllerAufteilen {
 	@FXML
 	private JFXButton bt_berechnen;
 	
+	public void initialize() {
+		initLabelsWohnungsBezeichnungen();
+	}
+	
+	public void initLabelsWohnungsBezeichnungen() {
+		DB db = new DB();
+		ResultSet rs_einstellung = db.executeQueryWithResult("SELECT `id`,`quadratmeter_wohnung_1`,`quadratmeter_wohnung_2` FROM `einstellung` ORDER BY `id` DESC LIMIT 1");
+		try {
+			if(rs_einstellung.next()) {
+				lb_bezeichnung_wohnung_1.setText("Wohnung 1: ("+rs_einstellung.getInt("quadratmeter_wohnung_1")+" m2)");
+				lb_bezeichnung_wohnung_2.setText("Wohnung 2: ("+rs_einstellung.getInt("quadratmeter_wohnung_2")+" m2)");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public void action_bt_berechnen() {
 		
@@ -89,7 +108,9 @@ public class FormControllerAufteilen {
 		
 		LocalDate von_in = dp_zeitraum_von.getValue();
 		LocalDate bis_in = dp_zeitraum_bis.getValue();
-		System.out.println("Soll: "+(ChronoUnit.DAYS.between(von_in, bis_in) + 1));
+		long anz_tage_soll = ChronoUnit.DAYS.between(von_in, bis_in) + 1;
+		System.out.println("Soll: "+anz_tage_soll);
+		lb_anzahl_tage.setText("Anzahl Tage: "+anz_tage_soll+" Tage");
 		
 		long anz_tage = 0;
 		int zaehler =0;

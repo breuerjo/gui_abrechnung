@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -171,14 +173,18 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Aktueller Zählerstand:" GridPane.columnIndex="1">
+                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Aktueller Zählerstand:" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -186,141 +192,109 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Strom:" GridPane.rowIndex="1">
+                              <JFXTextField fx:id="tf_zaehler_strom" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Erdgas:" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Wasser:" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Abwasser:" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </GridPane.margin>
-                              </Label>
-                              <JFXTextField fx:id="tf_zaehler_strom" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                    <Insets bottom="5.0" left="35.0" right="10.0" top="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="aktueller Wert pro Tag:" GridPane.columnIndex="2">
+                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="aktuelle Menge pro Tag:" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Vergleichswert pro Tag:" GridPane.columnIndex="3">
+                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Vergleichsmenge (1 Jahr zuvor):" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Abweichung in %:" GridPane.columnIndex="4">
+                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Abweichung in %:" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <JFXTextField fx:id="tf_zaehler_abwasser" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <JFXTextField fx:id="tf_zaehler_abwasser" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
-                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                    <Insets bottom="5.0" left="35.0" right="10.0" top="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
-                              <JFXTextField fx:id="tf_zaehler_wasser" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <JFXTextField fx:id="tf_zaehler_wasser" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
-                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                    <Insets bottom="5.0" left="35.0" right="10.0" top="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
-                              <JFXTextField fx:id="tf_zaehler_erdgas" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <JFXTextField fx:id="tf_zaehler_erdgas" alignment="CENTER" focusColor="#fabf26" maxWidth="200.0" prefHeight="25.0" prefWidth="20.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                                  <GridPane.margin>
-                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                    <Insets bottom="5.0" left="35.0" right="10.0" top="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
-                              <Label fx:id="lb_differenz_strom" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <Label fx:id="lb_differenz_strom" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_differenz_erdgas" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                              <Label fx:id="lb_differenz_erdgas" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_differenz_wasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                              <Label fx:id="lb_differenz_wasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_differenz_abwasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                              <Label fx:id="lb_differenz_abwasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_vergleichswert_strom" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              <Label fx:id="lb_vergleichswert_strom" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_vergleichswert_erdgas" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                              <Label fx:id="lb_vergleichswert_erdgas" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_vergleichswert_wasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                              <Label fx:id="lb_vergleichswert_wasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_vergleichswert_abwasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                              <Label fx:id="lb_vergleichswert_abwasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_abweichung_strom" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                              <Label fx:id="lb_abweichung_strom" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_abweichung_erdgas" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                              <Label fx:id="lb_abweichung_erdgas" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_abweichung_wasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                              <Label fx:id="lb_abweichung_wasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lb_abweichung_abwasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                              <Label fx:id="lb_abweichung_abwasser" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -330,9 +304,59 @@
                                     <Insets bottom="10.0" left="59.0" right="10.0" top="10.0" />
                                  </GridPane.margin>
                               </JFXDatePicker>
+                              <JFXCheckBox fx:id="cb_strom" checkedColor="#fabf26" prefHeight="29.0" prefWidth="97.0" text="Strom" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="90.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                              <JFXCheckBox fx:id="cb_erdgas" checkedColor="#fabf26" prefHeight="29.0" prefWidth="97.0" text="Erdgas" GridPane.rowIndex="4">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="90.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                              <JFXCheckBox fx:id="cb_wasser" checkedColor="#fabf26" prefHeight="29.0" prefWidth="97.0" text="Wasser" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="90.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                              <JFXCheckBox fx:id="cb_abwasser" checkedColor="#fabf26" prefHeight="29.0" prefWidth="97.0" text="Abwasser" GridPane.rowIndex="6">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="90.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                              <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                              <Label fx:id="lb_abweichung_gesamt" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" GridPane.columnIndex="4" GridPane.rowIndex="8">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <JFXButton fx:id="bt_berechnen" onAction="#action_button_berechnen" prefHeight="52.0" prefWidth="135.0" styleClass="btn-main" stylesheets="@application.css" text="Berechnen" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="65.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </JFXButton>
+                              <Label fx:id="lb_anzahl_tage_aktuell" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Anzahl Tage:" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Vergleichszeitraum:" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lb_vergleichszeitraum_von" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="von: " GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lb_vergleichszeitraum_bis" alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="bis: " GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </GridPane>
-                        <JFXButton fx:id="bt_berechnen" layoutX="401.0" layoutY="428.0" onAction="#action_button_berechnen" prefHeight="52.0" prefWidth="135.0" styleClass="btn-main" stylesheets="@application.css" text="Berechnen" />
                      </children></AnchorPane>
 					</content>
 				</Tab>
