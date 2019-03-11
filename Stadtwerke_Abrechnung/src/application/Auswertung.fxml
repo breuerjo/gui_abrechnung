@@ -5,7 +5,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
@@ -159,7 +161,7 @@
                            <children>
                               <HBox prefHeight="521.0" prefWidth="1706.0">
                                  <children>
-                                    <BarChart fx:id="bc_allgmeein_kosten" prefHeight="450.0" prefWidth="750.0">
+                                    <BarChart fx:id="bc_allgmeein_kosten" maxWidth="750.0" prefHeight="450.0" prefWidth="750.0">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_ges" />
                                       </xAxis>
@@ -170,6 +172,22 @@
                                           <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                                        </HBox.margin>
                                     </BarChart>
+                                    <PieChart fx:id="pc_kostenzusammensetzung" title="Test" />
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <LineChart fx:id="lc_kosten_allgemein" maxWidth="750.0" prefHeight="400.0" prefWidth="750.0">
+                                      <xAxis>
+                                        <CategoryAxis side="BOTTOM" fx:id="xAxis_lc_kosten_allgemein" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis fx:id="yAxis_lc_kosten_allgemein" side="LEFT" />
+                                      </yAxis>
+                                       <padding>
+                                          <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </LineChart>
                                  </children>
                               </HBox>
                            </children>

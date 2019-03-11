@@ -3,20 +3,18 @@ package application;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
 public class FormControllerAuswertung {
-
-	final static String austria = "Austria";
-	final static String brazil = "Brazil";
-	final static String france = "France";
-	final static String italy = "Italy";
-	final static String usa = "USA";
 
 	@FXML
 	private CategoryAxis xAxis_bc_ges;
@@ -82,11 +80,24 @@ public class FormControllerAuswertung {
 	private NumberAxis yAxis_bc_menge__abwasser;
 	@FXML
 	private BarChart<String, Double> bc_abwasser_menge;
-
+	
+	//------------------------------------------------------PIE-Chart-Kostenzusammensetzung
+	@FXML
+	private PieChart pc_kostenzusammensetzung;
+	
+	//------------------------------------------------------Line Chart Kostenverlauf--------------------
+	@FXML
+	private CategoryAxis xAxis_lc_kosten_allgemein;
+	@FXML
+	private NumberAxis yAxis_lc_kosten_allgemein;
+	@FXML
+	private LineChart<String, Double> lc_kosten_allgemein;
+	
 	public void initialize() {
 		DB db = new DB();
 		initBarChart(db);
 		initPieChartKostenzusammensetzung(db);
+		initLineChartKosten(db);
 	}
 
 	public void initBarChart(DB db) {
@@ -114,7 +125,7 @@ public class FormControllerAuswertung {
 				int jahr = rs_jahre.getInt("zeitraum_von_jahr");
 				System.out.println("" + jahr);
 
-				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), `zeitraum_von_jahr`  FROM `rechnung`\r\n" + 
+				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), MAX(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`  FROM `rechnung`\r\n" + 
 						"Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_von_jahr` = "
 						+ jahr + "";
 				ResultSet rs_kosten_pro_jahr = db.executeQueryWithResult(sql_kosten_pro_jahr);
@@ -145,6 +156,25 @@ public class FormControllerAuswertung {
 					bc_erdgas_kosten.getData().addAll(set_erdgas);
 					bc_wasser_kosten.getData().addAll(set_wasser);
 					bc_abwasse_kosten.getData().addAll(set_abwasser);
+					
+					//-----------------------------KostenChart-LineChart--------------------------------------
+					Series<String, Double> set_kosten_gesamt = new XYChart.Series<String, Double>();
+					Series<String, Double> set_kosten_nachzahlung = new XYChart.Series<String, Double>();
+					Series<String, Double> set_kosten_abschlaege = new XYChart.Series<String, Double>();
+					
+					
+					set_kosten_gesamt.setName("Gesamtkosten");
+					set_kosten_nachzahlung.setName("Nachzahlung");
+					set_kosten_abschlaege.setName("Abschlagszahlung");
+					
+					
+					set_kosten_gesamt.getData().add(new XYChart.Data<String, Double>(""+jahr ,gesamtbetrag));
+					set_kosten_nachzahlung.getData().add(new XYChart.Data<String, Double>(""+jahr ,rs_kosten_pro_jahr.getDouble(9)));
+					set_kosten_abschlaege.getData().add(new XYChart.Data<String, Double>(""+jahr ,(rs_kosten_pro_jahr.getDouble(9) * 12)));
+					
+					lc_kosten_allgemein.getData().addAll(set_kosten_gesamt);
+					lc_kosten_allgemein.getData().addAll(set_kosten_nachzahlung);
+					lc_kosten_allgemein.getData().addAll(set_kosten_abschlaege);
 					
 					//-----------------------------Mengen-Charts:-----------------------
 					Series<String, Double> set_strom_menge = new XYChart.Series<String, Double>();
@@ -177,7 +207,27 @@ public class FormControllerAuswertung {
 	}
 	
 	public void initPieChartKostenzusammensetzung(DB db) {
+		ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                new PieChart.Data("Grapefruit", 13),
+                new PieChart.Data("Oranges", 25),
+                new PieChart.Data("Plums", 10),
+                new PieChart.Data("Pears", 22),
+                new PieChart.Data("Apples", 30));
+        pc_kostenzusammensetzung = new PieChart(pieChartData);
+        pc_kostenzusammensetzung.setTitle("Imported Fruits");
+        System.out.println("Init Pie Chart");
+	}
+	
+	public void initLineChartKosten(DB db) {
+		/*Series<String, Double> set_kosten_allgemein = new XYChart.Series<String, Double>();
 		
+		set_kosten_allgemein.setName("Jahr x");
+		
+		
+		set_kosten_allgemein.getData().add(new XYChart.Data<String, Double>("Menge Strom (kWh)" ,12.0));
+		
+		lc_kosten_allgemein.getData().addAll(set_kosten_allgemein);*/
 	}
 
 	public void action_menu_uebersicht() {
