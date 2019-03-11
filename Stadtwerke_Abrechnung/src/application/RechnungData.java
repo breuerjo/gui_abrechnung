@@ -12,6 +12,8 @@ public class RechnungData {
 	public SimpleStringProperty menge_wasser = new SimpleStringProperty();
 	public SimpleStringProperty menge_abwasser = new SimpleStringProperty();
 	public SimpleStringProperty gesamtbetrag = new SimpleStringProperty();
+	public SimpleStringProperty abschlagszahlungen = new SimpleStringProperty();
+	public SimpleStringProperty nachzahlung = new SimpleStringProperty();
 	
 	public String getNummer() {
 		return nummer.get();
@@ -85,6 +87,23 @@ public class RechnungData {
 	public void setGesamtbetrag(String gesamtbetrag) {
 		this.gesamtbetrag = new SimpleStringProperty(gesamtbetrag);
 	}
+	
+	public String getNachzahlung() {
+		return nachzahlung.get();
+	}
+	
+	public void setNachzahlung(String nachzahlung) {
+		this.nachzahlung = new SimpleStringProperty(nachzahlung);
+	}
+	
+	public String getAbschlagszahlungen() {
+		return abschlagszahlungen.get();
+	}
+	
+	public void setAbschlagszahlungen(String abschlagszahlungen) {
+		this.abschlagszahlungen = new SimpleStringProperty(abschlagszahlungen);
+	}
+
 	
 	
 }

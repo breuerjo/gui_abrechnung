@@ -34,6 +34,10 @@ public class FormControllerUebersicht {
 	public TableColumn<RechnungData, String> table_clmn_gesbetrag;
 	@FXML
 	public TableColumn<RechnungData, String> table_clmn_einstellungen;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_nachzahlung;
+	@FXML
+	public TableColumn<RechnungData, String> table_clmn_abschlagszahlungen;
 	/*@FXML
 	private ComboBox<Date> cb_zeitraum_von;
 	@FXML
@@ -101,6 +105,7 @@ public class FormControllerUebersicht {
 	private Label strom_kosten_umsatzsteuer_betrag;
 	@FXML
 	private Label strom_kosten_brutto_betrag;
+	
 
 	// Labels Erdgas Mengenberechnung
 	@FXML
@@ -257,6 +262,10 @@ public class FormControllerUebersicht {
 			table_clmn_gesbetrag.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("gesamtbetrag"));
 			table_clmn_einstellungen
 					.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("einstellungen"));
+			table_clmn_nachzahlung
+			.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("nachzahlung"));
+			table_clmn_abschlagszahlungen
+			.setCellValueFactory(new PropertyValueFactory<RechnungData, String>("abschlagszahlungen"));
 
 			ObservableList<RechnungData> data;
 			data = FXCollections.observableArrayList();
@@ -276,7 +285,7 @@ public class FormControllerUebersicht {
 
 				// Daten zu den einzelnen Rechnungen
 				ResultSet rs_gesbetrag = db.executeQueryWithResult(
-						"SELECT `id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, ( SELECT SUM(`betrag_brutto_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"
+						"SELECT `id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `betrag_nachzahlung`, `betrag_gezahlte_abschlaege`, ( SELECT SUM(`betrag_brutto_strom`) FROM `rechnung` WHERE `zeitraum_id` = '"
 								+ rs.getString(1)
 								+ "' ) + ( SELECT SUM(`betrag_brutto_erdgas`) FROM `rechnung` WHERE `zeitraum_id` = '"
 								+ rs.getString(1)
@@ -291,8 +300,10 @@ public class FormControllerUebersicht {
 				z_d.menge_erdgas.set(rs_gesbetrag.getString("menge_erdgas"));
 				z_d.menge_wasser.set(rs_gesbetrag.getString("menge_wasser"));
 				z_d.menge_abwasser.set(rs_gesbetrag.getString("menge_abwasser"));
-				z_d.gesamtbetrag.set(rs_gesbetrag.getString(7));
+				z_d.gesamtbetrag.set(rs_gesbetrag.getString(9));
 				z_d.einstellungen.set(rs_gesbetrag.getString("einstellung_id"));
+				z_d.nachzahlung.set(rs_gesbetrag.getString("betrag_nachzahlung"));
+				z_d.abschlagszahlungen.set(rs_gesbetrag.getString("betrag_gezahlte_abschlaege"));
 
 				data.add(z_d);
 			}
