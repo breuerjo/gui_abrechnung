@@ -219,7 +219,7 @@ public class FormControllerAktuellerStand {
 				int differenz_tage_vergleichszeitraum = rs_vergleichszeitraum.getInt("differenz_tage");
 				
 				lb_vergleichszeitraum_von.setText("von: "+rs_vergleichszeitraum.getDate("zeitraum_von"));
-				lb_vergleichszeitraum_bis.setText("von: "+rs_vergleichszeitraum.getDate("zeitraum_bis"));
+				lb_vergleichszeitraum_bis.setText("bis: "+rs_vergleichszeitraum.getDate("zeitraum_bis"));
 				
 				//Mittels der Zeitraum-ID die Rechnung --> Zählerstand-ID holen
 				ResultSet rs_vergleichs_zaehlerstand_id = db.executeQueryWithResult("SELECT `einstellung_id`, `zaehlerstand_id` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
@@ -376,8 +376,8 @@ public class FormControllerAktuellerStand {
 		
 		//Set Labels
 		lb_abweichung_gesamt_prozent.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtabweichung_prozent,2)+" %");
-		lb_aktuelle_abschagszahlungen.setText(""+zukuenftige_abschlaege+"0 Euro");
-		lb_abweichung_gesamt_betrag.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtabweichung_betrag,2)+" Euro");
+		lb_aktuelle_abschagszahlungen.setText(""+zukuenftige_abschlaege+"0 €");
+		lb_abweichung_gesamt_betrag.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtabweichung_betrag,2)+" €");
 		
 		if(gesamtabweichung_betrag >=0) {
 			lb_abweichung_gesamt_betrag.setTextFill(Color.RED);

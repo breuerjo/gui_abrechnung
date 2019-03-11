@@ -304,7 +304,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <JFXDatePicker fx:id="dp_aktuelles_datum" defaultColor="#fabf26" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXDatePicker fx:id="dp_aktuelles_datum" defaultColor="#fabf26" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="45.0" right="10.0" top="10.0" />
                                  </GridPane.margin>
@@ -347,7 +347,7 @@
                                     <Insets bottom="10.0" left="56.0" right="10.0" top="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Vergleichszeitraum:" GridPane.rowIndex="1">
+                              <Label alignment="CENTER" prefHeight="60.0" prefWidth="254.0" text="Vergleichszeitraum:" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

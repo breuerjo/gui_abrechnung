@@ -354,22 +354,23 @@ public class FormControllerUebersicht {
 				strom_differenz.setText(rs_zaehlerstand.getString("differenz_strom"));
 				strom_faktor.setText(rs_einstellung.getString("faktor_strom"));
 				strom_menge.setText(rs_rechnung.getString("menge_strom") + " kWh");
+				
 
 				// Set Labels Kostenberechnung Strom
 				strom_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
 				strom_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_strom") + " kWh");
-				strom_kosten_verbrauch_preis.setText("Verbrauch");
+				strom_kosten_verbrauch_preis.setText(""+rs_einstellung.getDouble("preis_strom")+" €");
 				strom_kosten_verbrauch_betrag.setText(rs_rechnung.getString("betrag_menge_strom") + " €");
 				strom_kosten_pauschale_menge.setText(rs_zeitraum.getString(2) + " Tage");
-				strom_kosten_pauschale_preis.setText("Preis");
+				strom_kosten_pauschale_preis.setText(""+rs_einstellung.getDouble("pauschale_strom")+" €");
 				strom_kosten_pauschale_betrag.setText(rs_rechnung.getString("pauschale_strom") + " €");
 				strom_kosten_steuer_menge.setText(rs_rechnung.getString("menge_strom") + " kWh");
-				strom_kosten_steuer_preis.setText("Preis");
+				strom_kosten_steuer_preis.setText(""+rs_einstellung.getDouble("steuersatz_strom")+" €");
 				strom_kosten_steuer_betrag.setText(rs_rechnung.getString("steuer_strom") + " €");
 				strom_kosten_netto_menge.setText(rs_rechnung.getString("menge_strom") + " kWh");
 				strom_kosten_netto_betrag.setText(rs_rechnung.getString("betrag_netto_strom") + " €");
 				strom_kosten_umsatzsteuer
-						.setText("Umsatzsteuer: " + rs_einstellung.getString("umsatzsteuer_strom") + "%");
+						.setText("Umsatzsteuer: " + Double.parseDouble(rs_einstellung.getString("umsatzsteuer_strom"))*100 + "%");
 				strom_kosten_umsatzsteuer_betrag.setText(rs_rechnung.getString("umsatz_steuer_strom") + " €");
 				strom_kosten_brutto_betrag.setText(rs_rechnung.getString("betrag_brutto_strom") + " €");
 
@@ -385,18 +386,18 @@ public class FormControllerUebersicht {
 				// Set Labels Kostenberechnung Erdgas
 				erdgas_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
 				erdgas_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_erdgas") + " kWh");
-				erdgas_kosten_verbrauch_preis.setText("Verbrauch");
+				erdgas_kosten_verbrauch_preis.setText(""+rs_einstellung.getDouble("preis_erdgas")+" €");
 				erdgas_kosten_verbrauch_betrag.setText(rs_rechnung.getString("betrag_menge_erdgas") + " €");
 				erdgas_kosten_pauschale_menge.setText(rs_zeitraum.getString(2) + " Tage");
-				erdgas_kosten_pauschale_preis.setText("Preis");
+				erdgas_kosten_pauschale_preis.setText(""+rs_einstellung.getDouble("pauschale_erdgas")+" €");
 				erdgas_kosten_pauschale_betrag.setText(rs_rechnung.getString("pauschale_erdgas") + " €");
 				erdgas_kosten_steuer_menge.setText(rs_rechnung.getString("menge_erdgas") + " kWh");
-				erdgas_kosten_steuer_preis.setText("Preis");
+				erdgas_kosten_steuer_preis.setText(""+rs_einstellung.getDouble("steuersatz_erdgas")+" €");
 				erdgas_kosten_steuer_betrag.setText(rs_rechnung.getString("steuer_erdgas") + " €");
 				erdgas_kosten_netto_menge.setText(rs_rechnung.getString("menge_erdgas") + " kWh");
 				erdgas_kosten_netto_betrag.setText(rs_rechnung.getString("betrag_netto_erdgas") + " €");
 				erdgas_kosten_umsatzsteuer
-						.setText("Umsatzsteuer: " + rs_einstellung.getString("umsatzsteuer_erdgas") + "%");
+						.setText("Umsatzsteuer: " + Double.parseDouble(rs_einstellung.getString("umsatzsteuer_erdgas"))*100 + "%");
 				erdgas_kosten_umsatzsteuer_betrag.setText(rs_rechnung.getString("umsatz_steuer_erdgas") + " €");
 				erdgas_kosten_brutto_betrag.setText(rs_rechnung.getString("betrag_brutto_erdgas") + " €");
 
@@ -412,15 +413,15 @@ public class FormControllerUebersicht {
 				// Set Labels Kostenberechnung Wasser
 				wasser_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
 				wasser_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_wasser") + " m3");
-				wasser_kosten_verbrauch_preis.setText("Verbrauch");
+				wasser_kosten_verbrauch_preis.setText(""+rs_einstellung.getDouble("preis_wasser")+" €");
 				wasser_kosten_verbrauch_betrag.setText(rs_rechnung.getString("betrag_menge_wasser") + " €");
 				wasser_kosten_pauschale_menge.setText(rs_zeitraum.getString(2) + " Tage");
-				wasser_kosten_pauschale_preis.setText("Preis");
+				wasser_kosten_pauschale_preis.setText(""+rs_einstellung.getDouble("pauschale_wasser")+" €");
 				wasser_kosten_pauschale_betrag.setText(rs_rechnung.getString("pauschale_wasser") + " €");
 				wasser_kosten_netto_menge.setText(rs_rechnung.getString("menge_wasser") + " m3");
 				wasser_kosten_netto_betrag.setText(rs_rechnung.getString("betrag_netto_wasser") + " €");
 				wasser_kosten_umsatzsteuer
-						.setText("Umsatzsteuer: " + rs_einstellung.getString("umsatzsteuer_wasser") + "%");
+						.setText("Umsatzsteuer: " + BasicFunctions.roundDoubleNachkommastellen(Double.parseDouble(rs_einstellung.getString("umsatzsteuer_wasser"))*100 , 1)+ "%");
 				wasser_kosten_umsatzsteuer_betrag.setText(rs_rechnung.getString("umsatz_steuer_wasser") + " €");
 				wasser_kosten_brutto_betrag.setText(rs_rechnung.getString("betrag_brutto_wasser") + " €");
 
@@ -436,15 +437,15 @@ public class FormControllerUebersicht {
 				// Set Labels Kostenberechnung Abwasser
 				abwasser_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
 				abwasser_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_abwasser") + " m3");
-				abwasser_kosten_verbrauch_preis.setText("Verbrauch");
+				abwasser_kosten_verbrauch_preis.setText(""+rs_einstellung.getDouble("preis_abwasser")+" €");
 				abwasser_kosten_verbrauch_betrag.setText(rs_rechnung.getString("betrag_menge_abwasser") + " €");
 				abwasser_kosten_pauschale_menge.setText(rs_zeitraum.getString(2) + " Tage");
-				abwasser_kosten_pauschale_preis.setText("Preis");
+				abwasser_kosten_pauschale_preis.setText(""+rs_einstellung.getDouble("pauschale_abwasser_faktor") * rs_einstellung.getDouble("quadratmeter_gesamt")+" €");	//Im Jahr
 				abwasser_kosten_pauschale_betrag.setText(rs_rechnung.getString("pauschale_abwasser") + " €");
 				abwasser_kosten_netto_menge.setText(rs_rechnung.getString("menge_abwasser") + " m3");
 				abwasser_kosten_netto_betrag.setText(rs_rechnung.getString("betrag_netto_abwasser") + " €");
 				abwasser_kosten_umsatzsteuer
-						.setText("Umsatzsteuer: " + rs_einstellung.getString("umsatzsteuer_abwasser") + "%");
+						.setText("Umsatzsteuer: " + Double.parseDouble(rs_einstellung.getString("umsatzsteuer_abwasser"))*100 + "%");
 				abwasser_kosten_umsatzsteuer_betrag.setText(rs_rechnung.getString("umsatz_steuer_abwasser") + " €");
 				abwasser_kosten_brutto_betrag.setText(rs_rechnung.getString("betrag_brutto_abwasser") + " €");
 			}

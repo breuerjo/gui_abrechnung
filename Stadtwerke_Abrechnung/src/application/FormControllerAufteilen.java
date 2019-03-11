@@ -210,14 +210,14 @@ public class FormControllerAufteilen {
 				//--------------------------------------------------------------DIALOG ANZEIGEN
 			}
 			
-			lb_menge_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom, 2));
-			lb_kosten_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom, 2));
-			lb_menge_erdgas_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas, 2));
-			lb_kosten_erdgas_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas, 2));
-			lb_menge_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser, 2));
-			lb_kosten_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser, 2));
-			lb_menge_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser, 2));
-			lb_kosten_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser, 2));
+			lb_menge_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom, 2)+" kWh");
+			lb_kosten_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom, 2)+" €");
+			lb_menge_erdgas_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas, 2)+" kWh");
+			lb_kosten_erdgas_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas, 2)+" €");
+			lb_menge_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser, 2)+" m3");
+			lb_kosten_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser, 2)+" €");
+			lb_menge_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser, 2)+" m3");
+			lb_kosten_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser, 2)+" €");
 			
 			ResultSet rs_einstellung = db.executeQueryWithResult("SELECT `id`,`quadratmeter_wohnung_1`,`quadratmeter_wohnung_2` FROM `einstellung` ORDER BY `id` DESC LIMIT 1");
 			double quadratmeter_wohnung_1 = 0;
@@ -234,32 +234,32 @@ public class FormControllerAufteilen {
 				faktor_wohnung_2 = quadratmeter_wohnung_2 / quadratmeter_gesamt;
 			}
 			//Set Labels Wohnung 1
-			lb_menge_strom_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom * faktor_wohnung_1, 2));
-			lb_kosten_strom_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom * faktor_wohnung_1, 2));
-			lb_menge_erdgas_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas * faktor_wohnung_1, 2));
-			lb_kosten_erdgas_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas * faktor_wohnung_1, 2));
-			lb_menge_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_1, 2));
-			lb_kosten_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser * faktor_wohnung_1, 2));
-			lb_menge_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_1, 2));
-			lb_kosten_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser * faktor_wohnung_1, 2));
+			lb_menge_strom_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom * faktor_wohnung_1, 2)+" kWh");
+			lb_kosten_strom_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom * faktor_wohnung_1, 2)+" €");
+			lb_menge_erdgas_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas * faktor_wohnung_1, 2)+" kWh");
+			lb_kosten_erdgas_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas * faktor_wohnung_1, 2)+" €");
+			lb_menge_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_1, 2)+" m3");
+			lb_kosten_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser * faktor_wohnung_1, 2)+" €");
+			lb_menge_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_1, 2)+" m3");
+			lb_kosten_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser * faktor_wohnung_1, 2)+" €");
 			
 			//Set Labels Wohnung 2
-			lb_menge_strom_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom * faktor_wohnung_2, 2));
-			lb_kosten_strom_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom * faktor_wohnung_2, 2));
-			lb_menge_erdgas_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas * faktor_wohnung_2, 2));
-			lb_kosten_erdgas_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas * faktor_wohnung_2, 2));
-			lb_menge_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_2, 2));
-			lb_kosten_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser * faktor_wohnung_2, 2));
-			lb_menge_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_2, 2));
-			lb_kosten_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser * faktor_wohnung_2, 2));
+			lb_menge_strom_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom * faktor_wohnung_2, 2)+" kWh");
+			lb_kosten_strom_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom * faktor_wohnung_2, 2)+" €");
+			lb_menge_erdgas_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas * faktor_wohnung_2, 2)+" kWh");
+			lb_kosten_erdgas_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas * faktor_wohnung_2, 2)+" €");
+			lb_menge_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_2, 2)+" m3");
+			lb_kosten_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser * faktor_wohnung_2, 2)+" €");
+			lb_menge_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_2, 2)+" m3");
+			lb_kosten_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser * faktor_wohnung_2, 2)+" €");
 			
 			//Set Labels Kosten Insgesamt
 			double gesamtkosten_wohnung_1 = (betrag_brutto_strom + betrag_brutto_erdgas + betrag_brutto_wasser + betrag_brutto_abwasser) * faktor_wohnung_1;
 			double gesamtkosten_wohnung_2 = (betrag_brutto_strom + betrag_brutto_erdgas + betrag_brutto_wasser + betrag_brutto_abwasser) * faktor_wohnung_2;
 			
-			lb_gesamte_kosten_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_wohnung_1, 2));
-			lb_gesamte_kosten_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_wohnung_2, 2));
-			lb_gesamte_kosten_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen((gesamtkosten_wohnung_1 + gesamtkosten_wohnung_2), 2));
+			lb_gesamte_kosten_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_wohnung_1, 2)+" €");
+			lb_gesamte_kosten_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_wohnung_2, 2)+" €");
+			lb_gesamte_kosten_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen((gesamtkosten_wohnung_1 + gesamtkosten_wohnung_2), 2)+" €");
 			
 			
 				

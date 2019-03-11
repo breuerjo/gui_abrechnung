@@ -429,10 +429,10 @@ public class FormControllerZahlung {
 			ps_zahlung.setDouble(10, betrag_menge_wasser);
 			ps_zahlung.setDouble(11, betrag_menge_abwasser);
 			
-			lb_betrag_strom.setText(""+betrag_menge_strom +" Euro");
-			lb_betrag_erdgas.setText(""+betrag_menge_erdgas +" Euro");
-			lb_betrag_wasser.setText(""+betrag_menge_wasser +" Euro");
-			lb_betrag_abwasser.setText(""+betrag_menge_abwasser +" Euro");
+			lb_betrag_strom.setText(""+betrag_menge_strom +" €");
+			lb_betrag_erdgas.setText(""+betrag_menge_erdgas +" €");
+			lb_betrag_wasser.setText(""+betrag_menge_wasser +" €");
+			lb_betrag_abwasser.setText(""+betrag_menge_abwasser +" €");
 
 			// Pauschalen alle /360 * anz_tage_zeitraum
 			int anz_tage = Integer.parseInt(lb_dif_tage.getText());

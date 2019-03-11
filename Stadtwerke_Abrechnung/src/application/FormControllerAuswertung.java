@@ -86,6 +86,7 @@ public class FormControllerAuswertung {
 	public void initialize() {
 		DB db = new DB();
 		initBarChart(db);
+		initPieChartKostenzusammensetzung(db);
 	}
 
 	public void initBarChart(DB db) {
@@ -171,15 +172,12 @@ public class FormControllerAuswertung {
 			e.printStackTrace();
 		}
 
-		/*
-		 * Series<String, Double> set1 = new XYChart.Series<String, Double>();
-		 * set1.setName("Timiboy"); set1.getData().add(new XYChart.Data<String,
-		 * Double>("100", 200.0));
-		 * 
-		 * bc.getData().addAll(set1);
-		 */
 		System.out.println("Init BarChart done");
 
+	}
+	
+	public void initPieChartKostenzusammensetzung(DB db) {
+		
 	}
 
 	public void action_menu_uebersicht() {
