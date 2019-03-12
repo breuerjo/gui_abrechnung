@@ -8,6 +8,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
@@ -172,11 +173,6 @@
                                           <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                                        </HBox.margin>
                                     </BarChart>
-                                    <PieChart fx:id="pc_kostenzusammensetzung" title="Test" />
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
                                     <LineChart fx:id="lc_kosten_allgemein" maxWidth="750.0" prefHeight="400.0" prefWidth="750.0">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" fx:id="xAxis_lc_kosten_allgemein" />
@@ -188,6 +184,12 @@
                                           <Insets bottom="10.0" left="50.0" right="10.0" top="10.0" />
                                        </padding>
                                     </LineChart>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <ComboBox fx:id="cb_auswahl_jahr" onAction="#actionCBJahrGewaehlt" prefWidth="150.0" />
+                                    <PieChart fx:id="pc_kostenzusammensetzung" title="Test" />
                                  </children>
                               </HBox>
                            </children>

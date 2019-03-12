@@ -3,6 +3,7 @@ package application;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.ComboBox;
 
 public class FormControllerAuswertung {
 
@@ -93,12 +95,46 @@ public class FormControllerAuswertung {
 	@FXML
 	private LineChart<String, Double> lc_kosten_allgemein;
 	
+	//-------------------------------------------------------------Allgemein--------------------------
+	@FXML
+	private ComboBox<String> cb_auswahl_jahr;
+	
 	public void initialize() {
 		DB db = new DB();
+		initCBAuswahlJahr(db);
 		initBarChart(db);
-		initPieChartKostenzusammensetzung(db);
+		initPieChartKostenzusammensetzung();
 		initLineChartKosten(db);
 	}
+	
+	public void initCBAuswahlJahr(DB db) {
+		ResultSet rs_jahre = db.executeQueryWithResult("SELECT DISTINCT `zeitraum_bis_jahr` FROM `zeitraum`");
+		try {
+			ObservableList<String> list_jahre = FXCollections.observableArrayList();
+
+			while (rs_jahre.next()) {
+				list_jahre.add(rs_jahre.getString("zeitraum_bis_jahr"));
+			}
+
+			cb_auswahl_jahr.setItems(list_jahre);
+			
+		} catch (SQLException e) {}
+		
+		//CB immer neuestes Jahr als Standard-Wert setzen
+		ResultSet rs_max_jahr = db.executeQueryWithResult("SELECT MAX(`zeitraum_bis_jahr`) FROM `zeitraum`");
+		try {
+			if (rs_max_jahr.next()) {
+				cb_auswahl_jahr.setValue(rs_max_jahr.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void actionCBJahrGewaehlt() {
+		initPieChartKostenzusammensetzung();
+	}
+	
 
 	public void initBarChart(DB db) {
 
@@ -117,6 +153,17 @@ public class FormControllerAuswertung {
 		String sql_jahre = "SELECT DISTINCT `zeitraum_von_jahr` FROM `zeitraum`";
 
 		ResultSet rs_jahre = db.executeQueryWithResult(sql_jahre);
+		
+		
+		//LineChart - KostenChart
+		Series<String, Double> set_kosten_gesamt = new XYChart.Series<String, Double>();
+		Series<String, Double> set_kosten_nachzahlung = new XYChart.Series<String, Double>();
+		Series<String, Double> set_kosten_abschlaege = new XYChart.Series<String, Double>();
+		
+		
+		set_kosten_gesamt.setName("Gesamtkosten");
+		set_kosten_nachzahlung.setName("Nachzahlung");
+		set_kosten_abschlaege.setName("Abschlagszahlung");
 
 		try {
 			while (rs_jahre.next()) {
@@ -158,19 +205,12 @@ public class FormControllerAuswertung {
 					bc_abwasse_kosten.getData().addAll(set_abwasser);
 					
 					//-----------------------------KostenChart-LineChart--------------------------------------
-					Series<String, Double> set_kosten_gesamt = new XYChart.Series<String, Double>();
-					Series<String, Double> set_kosten_nachzahlung = new XYChart.Series<String, Double>();
-					Series<String, Double> set_kosten_abschlaege = new XYChart.Series<String, Double>();
 					
-					
-					set_kosten_gesamt.setName("Gesamtkosten");
-					set_kosten_nachzahlung.setName("Nachzahlung");
-					set_kosten_abschlaege.setName("Abschlagszahlung");
 					
 					
 					set_kosten_gesamt.getData().add(new XYChart.Data<String, Double>(""+jahr ,gesamtbetrag));
-					set_kosten_nachzahlung.getData().add(new XYChart.Data<String, Double>(""+jahr ,rs_kosten_pro_jahr.getDouble(9)));
-					set_kosten_abschlaege.getData().add(new XYChart.Data<String, Double>(""+jahr ,(rs_kosten_pro_jahr.getDouble(9) * 12)));
+					set_kosten_nachzahlung.getData().add(new XYChart.Data<String, Double>(""+jahr ,rs_kosten_pro_jahr.getDouble(10)));
+					set_kosten_abschlaege.getData().add(new XYChart.Data<String, Double>(""+jahr ,(rs_kosten_pro_jahr.getDouble(11) * 12)));
 					
 					lc_kosten_allgemein.getData().addAll(set_kosten_gesamt);
 					lc_kosten_allgemein.getData().addAll(set_kosten_nachzahlung);
@@ -206,16 +246,71 @@ public class FormControllerAuswertung {
 
 	}
 	
-	public void initPieChartKostenzusammensetzung(DB db) {
+	public void initPieChartKostenzusammensetzung() {
+		DB db = new DB();
+		
+        //CheckBox abfragen und Jahr holen
+		String jahr = cb_auswahl_jahr.getValue();
+				
+		pc_kostenzusammensetzung.setTitle("Kostenzusammensetzung: "+jahr);
+                
+        String sql_jahre = "SELECT `id` FROM `zeitraum` WHERE `zeitraum_bis_jahr` = "+jahr+"";
+
+		ResultSet rs_jahre = db.executeQueryWithResult(sql_jahre);
+		
+		double kosten_strom_pro_Jahr =0;
+		double kosten_erdgas_pro_Jahr =0;
+		double kosten_wasser_pro_Jahr =0;
+		double kosten_abwasser_pro_Jahr =0;
+		double gesamtbetrag_pro_jahr =0;
+		
+		double anteil_strom =0;
+		double anteil_erdgas =0;
+		double anteil_wasser =0;
+		double anteil_abwasser =0;
+		
+		try {
+			while (rs_jahre.next()) {	//Alle Einträge in diesem Jahr durchgehen und 
+				String sql_rechnung = "SELECT `betrag_brutto_strom`, `betrag_brutto_erdgas`, `betrag_brutto_wasser`, `betrag_brutto_abwasser` FROM `rechnung` WHERE `zeitraum_id` = "+rs_jahre.getInt("id")+"";
+				ResultSet rs_rechnung = db.executeQueryWithResult(sql_rechnung);
+				
+				if(rs_rechnung.next()) {
+					kosten_strom_pro_Jahr += rs_rechnung.getDouble("betrag_brutto_strom");
+					kosten_erdgas_pro_Jahr += rs_rechnung.getDouble("betrag_brutto_erdgas");
+					kosten_wasser_pro_Jahr += rs_rechnung.getDouble("betrag_brutto_wasser");
+					kosten_abwasser_pro_Jahr += rs_rechnung.getDouble("betrag_brutto_abwasser");
+				}
+				
+				gesamtbetrag_pro_jahr = kosten_strom_pro_Jahr + kosten_erdgas_pro_Jahr + kosten_wasser_pro_Jahr + kosten_abwasser_pro_Jahr;
+				
+				//Anteile berechnen in Prozent
+				anteil_strom = kosten_strom_pro_Jahr / gesamtbetrag_pro_jahr* 100;
+				anteil_erdgas = kosten_erdgas_pro_Jahr / gesamtbetrag_pro_jahr* 100;
+				anteil_wasser = kosten_wasser_pro_Jahr / gesamtbetrag_pro_jahr* 100;
+				anteil_abwasser = kosten_abwasser_pro_Jahr / gesamtbetrag_pro_jahr* 100;
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                new PieChart.Data("Grapefruit", 13),
-                new PieChart.Data("Oranges", 25),
-                new PieChart.Data("Plums", 10),
-                new PieChart.Data("Pears", 22),
-                new PieChart.Data("Apples", 30));
-        pc_kostenzusammensetzung = new PieChart(pieChartData);
-        pc_kostenzusammensetzung.setTitle("Imported Fruits");
+                new PieChart.Data("Strom", BasicFunctions.roundDoubleNachkommastellen(anteil_strom,2)),
+                new PieChart.Data("Erdgas", BasicFunctions.roundDoubleNachkommastellen(anteil_erdgas,2)),
+                new PieChart.Data("Wasser", BasicFunctions.roundDoubleNachkommastellen(anteil_wasser,2)),
+                new PieChart.Data("Abwasser", BasicFunctions.roundDoubleNachkommastellen(anteil_abwasser,2)));
+		
+		//Werte an Diagramm anzeigen
+		pieChartData.forEach(data -> data.nameProperty().bind(
+				Bindings.concat(data.getName(), " ", data.pieValueProperty(), " %"
+                )
+        	)
+		);
+        pc_kostenzusammensetzung.getData().clear();
+        pc_kostenzusammensetzung.getData().addAll(pieChartData);
+               
+        
         System.out.println("Init Pie Chart");
 	}
 	
