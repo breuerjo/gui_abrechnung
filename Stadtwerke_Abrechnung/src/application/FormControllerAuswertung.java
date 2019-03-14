@@ -186,20 +186,41 @@ public class FormControllerAuswertung {
 	private NumberAxis yAxis_lc_kosten_allgemein;
 	@FXML
 	private LineChart<String, Double> lc_kosten_allgemein;
+	//------------------------------------------------------------------Bar-Chart Gesamte Kosten pro Jahr
+	/*@FXML
+	private CategoryAxis xAxis_bc_kosten_allgemein_jahr;
+	@FXML
+	private NumberAxis yAxis_bc_kosten_allgemein_jahr;
+	@FXML
+	private BarChart<String, Double> bc_kosten_allgemein_jahr;*/
 
 	// -------------------------------------------------------------Allgemein--------------------------
 	@FXML
 	private ComboBox<String> cb_auswahl_jahr;
+	@FXML
+	private ComboBox<String> cb_auswahl_monat_jahr;
 
 	public void initialize() {
 		DB db = new DB();
-		initCBAuswahlJahr(db);
-		initBarChart(db);
+		initCB(db);
+		boolean initDone = false;
+		initBarChartAndLineChartKostenAllgemein(db, false, initDone);	//Standardmäßig Jahresansicht
 		initPieChartKostenzusammensetzung();
 		initLineChartPreise(db);
+		initBarChartKostenAllgemeinProJahr(db, true);	//Standardmäßig Jahresansicht
+		
+		
 	}
 
-	public void initCBAuswahlJahr(DB db) {
+	public void initCB(DB db) {
+		
+		//Init CB Jahres-/Monatsanzeige
+		ObservableList<String> list_monat_jahr = FXCollections.observableArrayList();
+		list_monat_jahr.addAll("Zeitpunktansicht", "Jahresansicht");
+		cb_auswahl_monat_jahr.setItems(list_monat_jahr);
+		cb_auswahl_monat_jahr.setValue("Jahresansicht");
+				
+				
 		ResultSet rs_jahre = db.executeQueryWithResult("SELECT DISTINCT `zeitraum_bis_jahr` FROM `zeitraum`");
 		try {
 			ObservableList<String> list_jahre = FXCollections.observableArrayList();
@@ -228,7 +249,20 @@ public class FormControllerAuswertung {
 		initPieChartKostenzusammensetzung();
 	}
 
-	public void initBarChart(DB db) {
+	public void initBarChartAndLineChartKostenAllgemein(DB db, boolean monats_ansicht, boolean initDone) {
+		
+		bc_allgmeein_kosten.getData().clear(); //Chart zurücksetzen
+		if(!monats_ansicht && initDone == false) {
+			bc_strom_kosten.getData().clear();
+			bc_erdgas_kosten.getData().clear();
+			bc_wasser_kosten.getData().clear();
+			bc_abwasse_kosten.getData().clear();
+			bc_strom_menge.getData().clear();
+			bc_erdgas_menge.getData().clear();
+			bc_wasser_menge.getData().clear();
+			bc_abwasser_menge.getData().clear();
+			lc_kosten_allgemein.getData().clear();
+		}
 
 		bc_allgmeein_kosten.setTitle("Gesamte Kosten");
 		bc_strom_kosten.setTitle("Kosten Strom:");
@@ -241,9 +275,9 @@ public class FormControllerAuswertung {
 		bc_wasser_menge.setTitle("Menge Wasser:");
 		bc_abwasser_menge.setTitle("Menge Abwasser:");
 
-		String sql_jahre = "SELECT DISTINCT `zeitraum_von_jahr` FROM `zeitraum`";
+		String sql_jahre = "SELECT `zeitraum_bis` FROM `zeitraum` ORDER BY `zeitraum_bis`";
 
-		ResultSet rs_jahre = db.executeQueryWithResult(sql_jahre);
+		ResultSet rs_rechnungs_zeitpunkte = db.executeQueryWithResult(sql_jahre);
 
 		// LineChart - KostenChart
 		Series<String, Double> set_kosten_gesamt = new XYChart.Series<String, Double>();
@@ -255,20 +289,19 @@ public class FormControllerAuswertung {
 		set_kosten_abschlaege.setName("Abschlagszahlung");
 
 		try {
-			while (rs_jahre.next()) {
+			while (rs_rechnungs_zeitpunkte.next()) {
 				double gesamtbetrag = 0;
 
-				int jahr = rs_jahre.getInt("zeitraum_von_jahr");
-				System.out.println("" + jahr);
+				String rechungs_datum = rs_rechnungs_zeitpunkte.getString("zeitraum_bis");
+				System.out.println("" + rechungs_datum);
 
-				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), MAX(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`  FROM `rechnung`\r\n"
-						+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_von_jahr` = "
-						+ jahr + "";
-				ResultSet rs_kosten_pro_jahr = db.executeQueryWithResult(sql_kosten_pro_jahr);
+				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), MAX(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`, `zeitraum_bis_monat`  FROM `rechnung`\r\n"
+						+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis` LIKE '"+ rechungs_datum + "'";
+				ResultSet rs_kosten_pro_rechnungs_datum = db.executeQueryWithResult(sql_kosten_pro_jahr);
 
-				if (rs_kosten_pro_jahr.next()) {
-					gesamtbetrag += rs_kosten_pro_jahr.getDouble(2) + rs_kosten_pro_jahr.getDouble(3)
-							+ rs_kosten_pro_jahr.getDouble(4) + rs_kosten_pro_jahr.getDouble(5);
+				if (rs_kosten_pro_rechnungs_datum.next()) {
+					gesamtbetrag += rs_kosten_pro_rechnungs_datum.getDouble(2) + rs_kosten_pro_rechnungs_datum.getDouble(3)
+							+ rs_kosten_pro_rechnungs_datum.getDouble(4) + rs_kosten_pro_rechnungs_datum.getDouble(5);
 
 					// -----------------------------Kosten-Charts:-----------------------
 					Series<String, Double> set_gesamt = new XYChart.Series<String, Double>();
@@ -276,37 +309,51 @@ public class FormControllerAuswertung {
 					Series<String, Double> set_erdgas = new XYChart.Series<String, Double>();
 					Series<String, Double> set_wasser = new XYChart.Series<String, Double>();
 					Series<String, Double> set_abwasser = new XYChart.Series<String, Double>();
-					set_gesamt.setName("" + jahr);
-					set_strom.setName("" + jahr);
-					set_erdgas.setName("" + jahr);
-					set_wasser.setName("" + jahr);
-					set_abwasser.setName("" + jahr);
+					set_gesamt.setName("" + rechungs_datum);
+					set_strom.setName("" + rechungs_datum);
+					set_erdgas.setName("" + rechungs_datum);
+					set_wasser.setName("" + rechungs_datum);
+					set_abwasser.setName("" + rechungs_datum);
 
 					set_gesamt.getData().add(new XYChart.Data<String, Double>("Gesamtbetrag", gesamtbetrag));
 					set_strom.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Strom", rs_kosten_pro_jahr.getDouble(2)));
+							.add(new XYChart.Data<String, Double>("Betrag Strom", rs_kosten_pro_rechnungs_datum.getDouble(2)));
 					set_erdgas.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Erdgas", rs_kosten_pro_jahr.getDouble(3)));
+							.add(new XYChart.Data<String, Double>("Betrag Erdgas", rs_kosten_pro_rechnungs_datum.getDouble(3)));
 					set_wasser.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Wasser", rs_kosten_pro_jahr.getDouble(4)));
+							.add(new XYChart.Data<String, Double>("Betrag Wasser", rs_kosten_pro_rechnungs_datum.getDouble(4)));
 					set_abwasser.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Abwasser", rs_kosten_pro_jahr.getDouble(5)));
-
-					bc_allgmeein_kosten.getData().addAll(set_gesamt);
-					bc_strom_kosten.getData().addAll(set_strom);
-					bc_erdgas_kosten.getData().addAll(set_erdgas);
-					bc_wasser_kosten.getData().addAll(set_wasser);
-					bc_abwasse_kosten.getData().addAll(set_abwasser);
+							.add(new XYChart.Data<String, Double>("Betrag Abwasser", rs_kosten_pro_rechnungs_datum.getDouble(5)));
+					
+					if(monats_ansicht) {//Wenn Ansicht Monat ist ausgewählt
+						bc_allgmeein_kosten.getData().addAll(set_gesamt);
+					}
+					
+					if(!monats_ansicht && initDone == false) {	
+						bc_strom_kosten.getData().addAll(set_strom);
+						bc_erdgas_kosten.getData().addAll(set_erdgas);
+						bc_wasser_kosten.getData().addAll(set_wasser);
+						bc_abwasse_kosten.getData().addAll(set_abwasser);
+					}
 
 					// -----------------------------KostenChart-LineChart--------------------------------------
 
-					set_kosten_gesamt.getData().add(new XYChart.Data<String, Double>("" + jahr, gesamtbetrag));
+					set_kosten_gesamt.getData().add(new XYChart.Data<String, Double>("" + rechungs_datum, gesamtbetrag));
 					set_kosten_nachzahlung.getData()
-							.add(new XYChart.Data<String, Double>("" + jahr, rs_kosten_pro_jahr.getDouble(10)));
-					set_kosten_abschlaege.getData()
-							.add(new XYChart.Data<String, Double>("" + jahr, (rs_kosten_pro_jahr.getDouble(11) * 12)));
-
-					lc_kosten_allgemein.getData().addAll(set_kosten_gesamt, set_kosten_nachzahlung, set_kosten_abschlaege);
+							.add(new XYChart.Data<String, Double>("" + rechungs_datum, rs_kosten_pro_rechnungs_datum.getDouble(10)));
+					
+					if(rs_kosten_pro_rechnungs_datum.getInt("zeitraum_bis_monat") == 5) {
+						set_kosten_abschlaege.getData()
+						.add(new XYChart.Data<String, Double>("" + rechungs_datum, (rs_kosten_pro_rechnungs_datum.getDouble(11) * 5)));
+					}
+					else {
+						set_kosten_abschlaege.getData()
+						.add(new XYChart.Data<String, Double>("" + rechungs_datum, (rs_kosten_pro_rechnungs_datum.getDouble(11) * 7)));
+					}
+					
+					if(!monats_ansicht && initDone == false) {
+						lc_kosten_allgemein.getData().addAll(set_kosten_gesamt, set_kosten_nachzahlung, set_kosten_abschlaege);
+					}
 					
 
 					// -----------------------------Mengen-Charts:-----------------------
@@ -314,24 +361,26 @@ public class FormControllerAuswertung {
 					Series<String, Double> set_erdgas_menge = new XYChart.Series<String, Double>();
 					Series<String, Double> set_wasser_menge = new XYChart.Series<String, Double>();
 					Series<String, Double> set_abwasser_menge = new XYChart.Series<String, Double>();
-					set_strom_menge.setName("" + jahr);
-					set_erdgas_menge.setName("" + jahr);
-					set_wasser_menge.setName("" + jahr);
-					set_abwasser_menge.setName("" + jahr);
+					set_strom_menge.setName("" + rechungs_datum);
+					set_erdgas_menge.setName("" + rechungs_datum);
+					set_wasser_menge.setName("" + rechungs_datum);
+					set_abwasser_menge.setName("" + rechungs_datum);
 
 					set_strom_menge.getData().add(
-							new XYChart.Data<String, Double>("Menge Strom (kWh)", rs_kosten_pro_jahr.getDouble(6)));
+							new XYChart.Data<String, Double>("Menge Strom (kWh)", rs_kosten_pro_rechnungs_datum.getDouble(6)));
 					set_erdgas_menge.getData().add(
-							new XYChart.Data<String, Double>("Menge Erdgas (kWh)", rs_kosten_pro_jahr.getDouble(7)));
+							new XYChart.Data<String, Double>("Menge Erdgas (kWh)", rs_kosten_pro_rechnungs_datum.getDouble(7)));
 					set_wasser_menge.getData().add(
-							new XYChart.Data<String, Double>("Menge Wasser (m3)", rs_kosten_pro_jahr.getDouble(8)));
+							new XYChart.Data<String, Double>("Menge Wasser (m3)", rs_kosten_pro_rechnungs_datum.getDouble(8)));
 					set_abwasser_menge.getData().add(
-							new XYChart.Data<String, Double>("Menge Abwasser (m3)", rs_kosten_pro_jahr.getDouble(9)));
-
-					bc_strom_menge.getData().addAll(set_strom_menge);
-					bc_erdgas_menge.getData().addAll(set_erdgas_menge);
-					bc_wasser_menge.getData().addAll(set_wasser_menge);
-					bc_abwasser_menge.getData().addAll(set_abwasser_menge);
+							new XYChart.Data<String, Double>("Menge Abwasser (m3)", rs_kosten_pro_rechnungs_datum.getDouble(9)));
+					
+					if(!monats_ansicht && initDone == false) {
+						bc_strom_menge.getData().addAll(set_strom_menge);
+						bc_erdgas_menge.getData().addAll(set_erdgas_menge);
+						bc_wasser_menge.getData().addAll(set_wasser_menge);
+						bc_abwasser_menge.getData().addAll(set_abwasser_menge);
+					}
 				}
 
 			}
@@ -339,8 +388,52 @@ public class FormControllerAuswertung {
 			e.printStackTrace();
 		}
 
-		System.out.println("Init BarChart done");
+		initDone = true;
 
+	}
+	
+	public void initBarChartKostenAllgemeinProJahr(DB db, boolean jahres_ansicht) {
+		if(jahres_ansicht) {
+			bc_allgmeein_kosten.getData().clear(); //Chart zurücksetzen
+			ResultSet rs_jahre = db.executeQueryWithResult("SELECT DISTINCT `zeitraum_bis_jahr` FROM `zeitraum` ORDER BY `zeitraum_bis_jahr`");
+	
+			// LineChart - KostenChart pro Jahr
+			Series<String, Double> set_kosten_gesamt = new XYChart.Series<String, Double>();
+	
+	
+			set_kosten_gesamt.setName("Gesamtkosten");
+	
+	
+			try {
+				while (rs_jahre.next()) {
+					double gesamtbetrag = 0;
+	
+					String rechungs_jahr = rs_jahre.getString("zeitraum_bis_jahr");
+					System.out.println("" + rechungs_jahr);
+	
+					String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`) `zeitraum_von_jahr`  FROM `rechnung`\r\n"
+							+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis_jahr` = "+ rechungs_jahr + "";
+					
+					ResultSet rs_kosten_pro_jahr = db.executeQueryWithResult(sql_kosten_pro_jahr);
+	
+					if (rs_kosten_pro_jahr.next()) {
+						gesamtbetrag += rs_kosten_pro_jahr.getDouble(2) + rs_kosten_pro_jahr.getDouble(3)
+								+ rs_kosten_pro_jahr.getDouble(4) + rs_kosten_pro_jahr.getDouble(5);
+	
+						// -----------------------------Kosten-Charts:-----------------------
+						Series<String, Double> set_gesamt = new XYChart.Series<String, Double>();
+						
+						set_gesamt.setName("" + rechungs_jahr);
+						
+	
+						set_gesamt.getData().add(new XYChart.Data<String, Double>("Gesamtbetrag", gesamtbetrag));
+						
+												bc_allgmeein_kosten.getData().addAll(set_gesamt);
+					}
+				}
+			}catch (Exception e) {}
+		}//if
+				
 	}
 
 	public void initPieChartKostenzusammensetzung() {
@@ -586,48 +679,24 @@ public class FormControllerAuswertung {
 		lc_preiszusammensetzung_abwasser.getData().addAll(set_zusammensetzung_abwasser_verbrauch, set_zusammensetzung_abwasser_pauschale);
 
 	}
+	
+	public void actionAuswahlMonatJahr() {
+		DB db = new DB();
+		
+		if(cb_auswahl_monat_jahr.getValue().equals("Zeitpunktansicht")) { // => Monatsanzeige
+			initBarChartAndLineChartKostenAllgemein(db, true, true);	
+			initBarChartKostenAllgemeinProJahr(db, false);
+		}
+		else {
+			initBarChartAndLineChartKostenAllgemein(db, false, true);		// => Jahresanzeige
+			initBarChartKostenAllgemeinProJahr(db, true);
+		}
+		
+		
+		
+	}
 
-	/*public void initPieChartPreiszusammensetzung(double anteil_pauschale, String kategorie) {
-		anteil_pauschale *= 100; //in % umrechnen
-		double anteil_verbrauch = 100 - anteil_pauschale;
-		
-		
-		ObservableList<PieChart.Data> pieChartData =
-	            FXCollections.observableArrayList(
-	            new PieChart.Data("Verbrauch", BasicFunctions.roundDoubleNachkommastellen(anteil_verbrauch,2)),
-	            new PieChart.Data("Pauschale", BasicFunctions.roundDoubleNachkommastellen(anteil_pauschale,2)));
-	            
-	            pieChartData.forEach(data -> data.nameProperty().bind(
-				Bindings.concat(data.getName(), " ", data.pieValueProperty(), " %"
-	            )));
-		
-		
-		switch (kategorie) {
-        case "Strom":
-        	
-        	
-        	pc_preis_zusammensetzung_strom.getData().clear();
-        	pc_preis_zusammensetzung_strom.getData().addAll(pieChartData);
-            break;
-            
-        case "Erdgas":    	
-        	pc_preis_zusammensetzung_erdgas.getData().clear();
-        	pc_preis_zusammensetzung_erdgas.getData().addAll(pieChartData);
-            break;
-            
-        case "Wasser":    	
-        	pc_preis_zusammensetzung_wasser.getData().clear();
-        	pc_preis_zusammensetzung_wasser.getData().addAll(pieChartData);
-            break;
-            
-        case "Abwasser":    	
-        	pc_preis_zusammensetzung_abwasser.getData().clear();
-        	pc_preis_zusammensetzung_abwasser.getData().addAll(pieChartData);
-            break;
-		}//switch
-        	
-	}*/
-
+	
 	public void action_menu_uebersicht() {
 		Main.setStage("Uebersicht");
 	}

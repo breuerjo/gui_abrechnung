@@ -30,7 +30,7 @@ public class Main extends Application {
 			
 			window.setScene(scene_start);
 			window.show();
-			window.setTitle("Abrechnungsprogramm");
+			window.setTitle("Betriebskosten");
 			
 		} catch(Exception e) {
 			e.printStackTrace();

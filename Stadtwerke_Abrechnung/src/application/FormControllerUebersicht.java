@@ -2,6 +2,8 @@ package application;
 
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -244,6 +246,16 @@ public class FormControllerUebersicht {
 		// Get Connection
 		DB db = new DB();
 		initTableUebersicht(db);
+		
+		//Standardm‰ﬂig neueste Rechnung in einzelnen Kategorien anzeigen
+		ResultSet rs_zeitraum = db.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` ORDER BY `zeitraum_bis` DESC LIMIT 1");	
+		try {
+			if(rs_zeitraum.next()) {
+				initTables(db, rs_zeitraum.getString("zeitraum_von"), rs_zeitraum.getString("zeitraum_bis"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

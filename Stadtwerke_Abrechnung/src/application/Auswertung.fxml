@@ -162,6 +162,7 @@
                            <children>
                               <HBox prefHeight="475.0" prefWidth="1706.0">
                                  <children>
+                                    <ComboBox fx:id="cb_auswahl_monat_jahr" onAction="#actionAuswahlMonatJahr" prefWidth="150.0" />
                                     <BarChart fx:id="bc_allgmeein_kosten" maxWidth="750.0" prefHeight="450.0" prefWidth="750.0">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_ges" />
