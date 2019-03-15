@@ -264,7 +264,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_faktor_strom" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1">
+                                    <Label fx:id="lb_faktor_strom" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -272,7 +272,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_faktor_erdgas" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label fx:id="lb_faktor_erdgas" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -280,7 +280,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_faktor_wasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label fx:id="lb_faktor_wasser" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -288,7 +288,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_faktor_abwasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <Label fx:id="lb_faktor_abwasser" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -296,7 +296,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_steuersatz_strom" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <Label fx:id="lb_steuersatz_strom" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -304,7 +304,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_steuersatz_erdgas" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <Label fx:id="lb_steuersatz_erdgas" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -312,7 +312,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_quadratmeter_gesamt" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <Label fx:id="lb_quadratmeter_gesamt" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -456,7 +456,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_umsatzsteuer_strom" layoutX="245.0" layoutY="17.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4">
+                                    <Label fx:id="lb_umsatzsteuer_strom" layoutX="245.0" layoutY="17.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -464,7 +464,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_umsatzsteuer_erdgas" layoutX="245.0" layoutY="57.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                    <Label fx:id="lb_umsatzsteuer_erdgas" layoutX="245.0" layoutY="57.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -472,7 +472,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_umsatzsteuer_wasser" layoutX="245.0" layoutY="97.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                    <Label fx:id="lb_umsatzsteuer_wasser" layoutX="245.0" layoutY="97.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -480,7 +480,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_umsatzsteuer_abwasser" layoutX="245.0" layoutY="137.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                                    <Label fx:id="lb_umsatzsteuer_abwasser" layoutX="245.0" layoutY="137.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -488,7 +488,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_erdgas_zustandszahl" layoutX="245.0" layoutY="177.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                                    <Label fx:id="lb_erdgas_zustandszahl" layoutX="245.0" layoutY="177.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -496,7 +496,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_erdgas_brennwert" layoutX="245.0" layoutY="217.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                                    <Label fx:id="lb_erdgas_brennwert" layoutX="245.0" layoutY="217.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -504,7 +504,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_pauschale_abwasser_faktor" layoutX="245.0" layoutY="257.0" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                                    <Label fx:id="lb_pauschale_abwasser_faktor" layoutX="245.0" layoutY="257.0" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -618,7 +618,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_preis_strom" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7">
+                                    <Label fx:id="lb_preis_strom" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -626,7 +626,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_preis_erdgas" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                                    <Label fx:id="lb_preis_erdgas" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -634,7 +634,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_preis_wasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="2">
+                                    <Label fx:id="lb_preis_wasser" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -642,7 +642,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_preis_abwasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="3">
+                                    <Label fx:id="lb_preis_abwasser" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7" GridPane.rowIndex="3">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -650,7 +650,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_pauschale_strom" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="4">
+                                    <Label fx:id="lb_pauschale_strom" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -658,7 +658,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_pauschale_erdgas" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="5">
+                                    <Label fx:id="lb_pauschale_erdgas" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7" GridPane.rowIndex="5">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -666,7 +666,7 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label fx:id="lb_pauschale_wasser" prefHeight="27.0" prefWidth="566.0" text="&lt;Value&gt;" GridPane.columnIndex="7" GridPane.rowIndex="6">
+                                    <Label fx:id="lb_pauschale_wasser" prefHeight="27.0" prefWidth="566.0" GridPane.columnIndex="7" GridPane.rowIndex="6">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -724,11 +724,6 @@
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -924,14 +919,6 @@
                                           <Insets left="75.0" />
                                        </padding>
                                     </Separator>
-                                    <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" GridPane.rowIndex="9">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                       <padding>
-                                          <Insets left="75.0" />
-                                       </padding>
-                                    </Separator>
                                     <Label layoutX="20.0" layoutY="17.0" text="Umsatzsteuer Strom:" GridPane.columnIndex="3">
                                        <font>
                                           <Font size="18.0" />
@@ -1089,11 +1076,6 @@
                                           <Insets left="75.0" />
                                        </padding>
                                     </Separator>
-                                    <Separator layoutX="535.0" layoutY="370.0" orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="5" GridPane.rowIndex="9">
-                                       <padding>
-                                          <Insets left="75.0" />
-                                       </padding>
-                                    </Separator>
                                     <Label text="Preis Strom:" textFill="#00a2d3" GridPane.columnIndex="6">
                                        <font>
                                           <Font size="18.0" />
@@ -1214,7 +1196,7 @@
                               <Separator prefWidth="200.0" />
                               <HBox alignment="CENTER">
                                  <children>
-                                    <JFXButton fx:id="bt_einstellungen_speichern" onAction="#action_neue_einstellung_speichern" prefHeight="40.0" prefWidth="225.0" styleClass="btn-main" stylesheets="@application.css" text="Einstellungen speichern" textAlignment="CENTER">
+                                    <JFXButton fx:id="bt_einstellungen_speichern" onAction="#action_neue_einstellung_speichern" prefHeight="51.0" prefWidth="250.0" styleClass="btn-main" stylesheets="@application.css" text="Einstellungen speichern" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1275,7 +1257,7 @@
                                  </VBox.margin></Separator>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <JFXButton fx:id="bt_zaehler_speichern" onAction="#action_neuer_zaehler_hinzufuegen" prefHeight="40.0" prefWidth="225.0" styleClass="btn-main" stylesheets="@application.css" text="Zähler hinzufügen" textAlignment="CENTER">
+                                    <JFXButton fx:id="bt_zaehler_speichern" onAction="#action_neuer_zaehler_hinzufuegen" prefHeight="51.0" prefWidth="225.0" styleClass="btn-main" stylesheets="@application.css" text="Zähler hinzufügen" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -1334,7 +1316,7 @@
                                           <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                        </HBox.margin>
                                     </JFXTextField>
-                                    <JFXButton fx:id="bt_quadratmeter_speichern" onAction="#action_bt_quadratmeter_speichern" prefHeight="40.0" prefWidth="225.0" styleClass="btn-main" stylesheets="@application.css" text="Speichern" textAlignment="CENTER">
+                                    <JFXButton fx:id="bt_quadratmeter_speichern" onAction="#action_bt_quadratmeter_speichern" prefHeight="51.0" prefWidth="225.0" styleClass="btn-main" stylesheets="@application.css" text="Speichern" textAlignment="CENTER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

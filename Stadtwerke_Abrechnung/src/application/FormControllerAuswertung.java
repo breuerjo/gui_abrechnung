@@ -264,7 +264,7 @@ public class FormControllerAuswertung {
 			lc_kosten_allgemein.getData().clear();
 		}
 
-		bc_allgmeein_kosten.setTitle("Gesamte Kosten");
+		bc_allgmeein_kosten.setTitle("Gesamte Kosten:");
 		bc_strom_kosten.setTitle("Kosten Strom:");
 		bc_erdgas_kosten.setTitle("Kosten Erdgas:");
 		bc_wasser_kosten.setTitle("Kosten Wasser:");
@@ -274,6 +274,8 @@ public class FormControllerAuswertung {
 		bc_erdgas_menge.setTitle("Menge Erdgas:");
 		bc_wasser_menge.setTitle("Menge Wasser:");
 		bc_abwasser_menge.setTitle("Menge Abwasser:");
+		
+		lc_kosten_allgemein.setTitle("Allgemeine Kostenübersicht:");
 
 		String sql_jahre = "SELECT `zeitraum_bis` FROM `zeitraum` ORDER BY `zeitraum_bis`";
 
@@ -502,6 +504,24 @@ public class FormControllerAuswertung {
 	}
 
 	public void initLineChartPreise(DB db) {
+		
+		lc_preise_strom.setTitle("Strompreise im Vergleich:");
+		lc_pauschale_strom.setTitle("Strompauschalen im Vergleich:");
+		lc_preiszusammensetzung_strom.setTitle("Kostenzusammensetzung Strom:");
+		
+		lc_preise_erdgas.setTitle("Erdgaspreise im Vergleich:");
+		lc_pauschale_erdgas.setTitle("Erdgaspauschalen im Vergleich:");
+		lc_preiszusammensetzung_erdgas.setTitle("Kostenzusammensetzung Erdgas:");
+		
+		lc_preise_wasser.setTitle("Wasserpreise im Vergleich:");
+		lc_pauschale_wasser.setTitle("Wasserpauschalen im Vergleich:");
+		lc_preiszusammensetzung_wasser.setTitle("Kostenzusammensetzung Wasser:");
+		
+		lc_preise_abwasser.setTitle("Abwasserpreise im Vergleich:");
+		lc_pauschale_abwasser.setTitle("Abwasserpauschalen im Vergleich:");
+		lc_preiszusammensetzung_abwasser.setTitle("Kostenzusammensetzung Abwasser:");
+		
+		
 
 		Series<String, Double> set_preise_strom = new XYChart.Series<String, Double>();
 		Series<String, Double> set_preise_erdgas = new XYChart.Series<String, Double>();
@@ -695,7 +715,8 @@ public class FormControllerAuswertung {
 		
 		
 	}
-
+	
+	
 	
 	public void action_menu_uebersicht() {
 		Main.setStage("Uebersicht");

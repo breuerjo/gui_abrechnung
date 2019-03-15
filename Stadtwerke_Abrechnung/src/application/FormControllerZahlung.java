@@ -408,10 +408,19 @@ public class FormControllerZahlung {
 			ps_zahlung.setInt(3, cb_einstellungen_id.getValue());
 
 			// Mengen
-			double menge_strom = Double.parseDouble(lb_menge_strom.getText());
-			double menge_erdgas = Double.parseDouble(lb_menge_erdgas.getText());
-			double menge_wasser = Double.parseDouble(lb_menge_wasser.getText());
-			double menge_abwasser = Double.parseDouble(lb_menge_abwasser.getText());
+			String menge_strom_mit_Einheit = lb_menge_strom.getText();
+			String menge_strom_ohne_Einheit = menge_strom_mit_Einheit.substring(0, menge_strom_mit_Einheit.length() -4);
+			String menge_erdgas_mit_Einheit = lb_menge_erdgas.getText();
+			String menge_erdgas_ohne_Einheit = menge_erdgas_mit_Einheit.substring(0, menge_erdgas_mit_Einheit.length() -4);
+			String menge_wasser_mit_Einheit = lb_menge_wasser.getText();
+			String menge_wasser_ohne_Einheit = menge_wasser_mit_Einheit.substring(0, menge_wasser_mit_Einheit.length() -3);
+			String menge_abwasser_mit_Einheit = lb_menge_abwasser.getText();
+			String menge_abwasser_ohne_Einheit = menge_abwasser_mit_Einheit.substring(0, menge_abwasser_mit_Einheit.length() -3);
+			
+			double menge_strom = Double.parseDouble(menge_strom_ohne_Einheit);
+			double menge_erdgas = Double.parseDouble(menge_erdgas_ohne_Einheit);
+			double menge_wasser = Double.parseDouble(menge_wasser_ohne_Einheit);
+			double menge_abwasser = Double.parseDouble(menge_abwasser_ohne_Einheit);
 
 			ps_zahlung.setDouble(4, menge_strom);
 			ps_zahlung.setDouble(5, menge_erdgas);

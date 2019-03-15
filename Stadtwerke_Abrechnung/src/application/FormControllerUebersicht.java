@@ -281,7 +281,7 @@ public class FormControllerUebersicht {
 
 			ObservableList<RechnungData> data;
 			data = FXCollections.observableArrayList();
-			ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_id` FROM `rechnung`");
+			ResultSet rs = db.executeQueryWithResult("SELECT `zeitraum_id` FROM `rechnung` ORDER BY `id`");
 
 			// allgemeine Rechnungsübersicht
 			while (rs.next()) {
@@ -290,7 +290,7 @@ public class FormControllerUebersicht {
 				// alle Zeiträume
 				ResultSet rs_zeitraum = db
 						.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` WHERE `id` = "
-								+ rs.getString("zeitraum_id") + "");
+								+ rs.getString("zeitraum_id") + " ORDER BY `zeitraum_bis`");
 				rs_zeitraum.next();
 				z_d.zeitraum_von.set(rs_zeitraum.getString("zeitraum_von"));
 				z_d.zeitraum_bis.set(rs_zeitraum.getString("zeitraum_bis"));
