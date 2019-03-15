@@ -292,10 +292,14 @@ public class FormControllerAuswertung {
 
 		try {
 			while (rs_rechnungs_zeitpunkte.next()) {
+				
+				
+				
+				
 				double gesamtbetrag = 0;
 
 				String rechungs_datum = rs_rechnungs_zeitpunkte.getString("zeitraum_bis");
-				System.out.println("" + rechungs_datum);
+				//System.out.println("" + rechungs_datum);
 
 				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), MAX(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`, `zeitraum_bis_monat`  FROM `rechnung`\r\n"
 						+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis` LIKE '"+ rechungs_datum + "'";
@@ -354,6 +358,7 @@ public class FormControllerAuswertung {
 					}
 					
 					if(!monats_ansicht && initDone == false) {
+						lc_kosten_allgemein.getData().clear();
 						lc_kosten_allgemein.getData().addAll(set_kosten_gesamt, set_kosten_nachzahlung, set_kosten_abschlaege);
 					}
 					
@@ -373,9 +378,9 @@ public class FormControllerAuswertung {
 					set_erdgas_menge.getData().add(
 							new XYChart.Data<String, Double>("Menge Erdgas (kWh)", rs_kosten_pro_rechnungs_datum.getDouble(7)));
 					set_wasser_menge.getData().add(
-							new XYChart.Data<String, Double>("Menge Wasser (m3)", rs_kosten_pro_rechnungs_datum.getDouble(8)));
+							new XYChart.Data<String, Double>("Menge Wasser (m³)", rs_kosten_pro_rechnungs_datum.getDouble(8)));
 					set_abwasser_menge.getData().add(
-							new XYChart.Data<String, Double>("Menge Abwasser (m3)", rs_kosten_pro_rechnungs_datum.getDouble(9)));
+							new XYChart.Data<String, Double>("Menge Abwasser (m³)", rs_kosten_pro_rechnungs_datum.getDouble(9)));
 					
 					if(!monats_ansicht && initDone == false) {
 						bc_strom_menge.getData().addAll(set_strom_menge);
@@ -383,9 +388,13 @@ public class FormControllerAuswertung {
 						bc_wasser_menge.getData().addAll(set_wasser_menge);
 						bc_abwasser_menge.getData().addAll(set_abwasser_menge);
 					}
+					
 				}
 
-			}
+			}//while
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -411,7 +420,7 @@ public class FormControllerAuswertung {
 					double gesamtbetrag = 0;
 	
 					String rechungs_jahr = rs_jahre.getString("zeitraum_bis_jahr");
-					System.out.println("" + rechungs_jahr);
+					//System.out.println("" + rechungs_jahr);
 	
 					String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`) `zeitraum_von_jahr`  FROM `rechnung`\r\n"
 							+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis_jahr` = "+ rechungs_jahr + "";
@@ -500,7 +509,7 @@ public class FormControllerAuswertung {
 		pc_kostenzusammensetzung.getData().clear();
 		pc_kostenzusammensetzung.getData().addAll(pieChartData);
 
-		System.out.println("Init Pie Chart");
+		//System.out.println("Init Pie Chart");
 	}
 
 	public void initLineChartPreise(DB db) {

@@ -177,8 +177,8 @@ public class FormControllerAktuellerStand {
 						//Set Labels aktuelle Verbrauchswerte
 						lb_differenz_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_strom_pro_tag, 2)+" kWh");
 						lb_differenz_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_erdgas_pro_tag, 2)+" kWh");
-						lb_differenz_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_wasser_pro_tag, 2)+" m3");
-						lb_differenz_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_abwasser_pro_tag, 2)+" m3");
+						lb_differenz_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_wasser_pro_tag, 2)+" m³");
+						lb_differenz_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(aktueller_verbrauch_abwasser_pro_tag, 2)+" m³");
 					}
 					
 				}
@@ -248,8 +248,8 @@ public class FormControllerAktuellerStand {
 						//Set Labels Vergleichswerte
 						lb_vergleichswert_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_strom_pro_tag, 2)+" kWh");
 						lb_vergleichswert_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_erdgas_pro_tag, 2)+" kWh");
-						lb_vergleichswert_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_wasser_pro_tag, 2)+" m3");
-						lb_vergleichswert_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_abwasser_pro_tag, 2)+" m3");
+						lb_vergleichswert_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_wasser_pro_tag, 2)+" m³");
+						lb_vergleichswert_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(vergleichswert_abwasser_pro_tag, 2)+" m³");
 					}
 				}
 			}
@@ -339,7 +339,7 @@ public class FormControllerAktuellerStand {
 		
 		double gesamtabweichung_prozent = faktor_strom * abw_strom + faktor_erdgas * abw_erdgas + faktor_wasser * abw_wasser + faktor_abwasser * abw_abwasser;
 		
-		System.out.println("Gesamtabweichung: "+gesamtabweichung_prozent);		
+		//System.out.println("Gesamtabweichung: "+gesamtabweichung_prozent);		
 		/* alte Berechnung anhand des Betrages des Vergleichzeitraumes
 		 * double abweichung_strom = 0;
 		double abweichung_erdgas = 0;

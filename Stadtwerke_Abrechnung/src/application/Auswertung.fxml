@@ -160,10 +160,13 @@
                      <children>
                         <VBox prefHeight="921.0" prefWidth="1706.0">
                            <children>
-                              <HBox prefHeight="475.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="475.0" prefWidth="1706.0">
                                  <children>
-                                    <ComboBox fx:id="cb_auswahl_monat_jahr" onAction="#actionAuswahlMonatJahr" prefWidth="150.0" />
-                                    <BarChart fx:id="bc_allgmeein_kosten" maxWidth="750.0" prefHeight="450.0" prefWidth="750.0">
+                                    <ComboBox fx:id="cb_auswahl_monat_jahr" onAction="#actionAuswahlMonatJahr" prefHeight="31.0" prefWidth="227.0">
+                                       <HBox.margin>
+                                          <Insets left="25.0" />
+                                       </HBox.margin></ComboBox>
+                                    <BarChart fx:id="bc_allgmeein_kosten" maxWidth="750.0" prefHeight="375.0" prefWidth="651.0">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" fx:id="xAxis_bc_ges" />
                                       </xAxis>
@@ -171,10 +174,10 @@
                                         <NumberAxis fx:id="yAxis_bc_ges" side="LEFT" />
                                       </yAxis>
                                        <HBox.margin>
-                                          <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+                                          <Insets bottom="50.0" left="10.0" right="50.0" top="50.0" />
                                        </HBox.margin>
                                     </BarChart>
-                                    <LineChart fx:id="lc_kosten_allgemein" maxWidth="470.0" prefHeight="470.0" prefWidth="750.0">
+                                    <LineChart fx:id="lc_kosten_allgemein" maxWidth="588.0" prefHeight="475.0" prefWidth="588.0">
                                       <xAxis>
                                         <CategoryAxis side="BOTTOM" fx:id="xAxis_lc_kosten_allgemein" />
                                       </xAxis>
@@ -187,10 +190,16 @@
                                     </LineChart>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="470.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="443.0" prefWidth="1706.0">
                                  <children>
-                                    <ComboBox fx:id="cb_auswahl_jahr" onAction="#actionCBJahrGewaehlt" prefWidth="150.0" />
-                                    <PieChart fx:id="pc_kostenzusammensetzung" title="Test" />
+                                    <ComboBox fx:id="cb_auswahl_jahr" onAction="#actionCBJahrGewaehlt" prefWidth="150.0">
+                                       <HBox.margin>
+                                          <Insets left="200.0" />
+                                       </HBox.margin></ComboBox>
+                                    <PieChart fx:id="pc_kostenzusammensetzung" title="Test">
+                                       <HBox.margin>
+                                          <Insets bottom="25.0" left="10.0" right="25.0" top="25.0" />
+                                       </HBox.margin></PieChart>
                                  </children>
                               </HBox>
                            </children>
@@ -204,7 +213,7 @@
                      <children>
                         <VBox prefHeight="921.0" prefWidth="1706.0">
                            <children>
-                              <HBox prefHeight="470.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="470.0" prefWidth="1706.0">
                                  <children>
                                     <BarChart fx:id="bc_strom_kosten" prefHeight="450.0" prefWidth="750.0">
                                        <xAxis>
@@ -230,7 +239,7 @@
                                     </BarChart>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="470.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="470.0" prefWidth="1706.0">
                                  <children>
                                     <LineChart fx:id="lc_preise_strom">
                                       <xAxis>
@@ -239,6 +248,9 @@
                                       <yAxis>
                                         <NumberAxis fx:id="yAxis_lc_preise_strom" side="LEFT" />
                                       </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_pauschale_strom">
                                        <xAxis>
@@ -247,6 +259,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_pauschale_strom" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_preiszusammensetzung_strom">
                                        <xAxis>
@@ -255,6 +270,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preiszusammensetzung_strom" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                  </children>
                               </HBox>
@@ -270,7 +288,7 @@
                      <children>
                         <VBox prefHeight="921.0" prefWidth="1706.0">
                            <children>
-                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="521.0" prefWidth="1706.0">
                                  <children>
                                     <BarChart fx:id="bc_erdgas_kosten" prefHeight="450.0" prefWidth="750.0">
                                        <xAxis>
@@ -296,7 +314,7 @@
                                     </BarChart>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="470.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="470.0" prefWidth="1706.0">
                                  <children>
                                     <LineChart fx:id="lc_preise_erdgas">
                                        <xAxis>
@@ -305,6 +323,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preise_erdgas" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_pauschale_erdgas">
                                        <xAxis>
@@ -313,6 +334,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_pauschale_erdgas" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_preiszusammensetzung_erdgas">
                                        <xAxis>
@@ -321,6 +345,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preiszusammensetzung_erdgas" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                  </children>
                               </HBox>
@@ -335,7 +362,7 @@
                      <children>
                         <VBox prefHeight="921.0" prefWidth="1706.0">
                            <children>
-                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="521.0" prefWidth="1706.0">
                                  <children>
                                     <BarChart fx:id="bc_wasser_kosten" prefHeight="450.0" prefWidth="750.0">
                                        <xAxis>
@@ -361,7 +388,7 @@
                                     </BarChart>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="470.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="470.0" prefWidth="1706.0">
                                  <children>
                                     <LineChart fx:id="lc_preise_wasser">
                                        <xAxis>
@@ -370,6 +397,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preise_wasser" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_pauschale_wasser">
                                        <xAxis>
@@ -378,6 +408,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_pauschale_wasser" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_preiszusammensetzung_wasser">
                                        <xAxis>
@@ -386,6 +419,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preiszusammensetzung_wasser" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                  </children>
                               </HBox>
@@ -400,7 +436,7 @@
                      <children>
                         <VBox prefHeight="921.0" prefWidth="1706.0">
                            <children>
-                              <HBox prefHeight="521.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="521.0" prefWidth="1706.0">
                                  <children>
                                     <BarChart fx:id="bc_abwasse_kosten" prefHeight="450.0" prefWidth="750.0">
                                        <xAxis>
@@ -426,7 +462,7 @@
                                     </BarChart>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="470.0" prefWidth="1706.0">
+                              <HBox alignment="CENTER" prefHeight="470.0" prefWidth="1706.0">
                                  <children>
                                     <LineChart fx:id="lc_preise_abwasser">
                                        <xAxis>
@@ -435,6 +471,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preise_abwasser" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_pauschale_abwasser">
                                        <xAxis>
@@ -443,6 +482,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_pauschale_abwasser" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                     <LineChart fx:id="lc_preiszusammensetzung_abwasser">
                                        <xAxis>
@@ -451,6 +493,9 @@
                                        <yAxis>
                                           <NumberAxis fx:id="yAxis_lc_preiszusammensetzung_abwasser" side="LEFT" />
                                        </yAxis>
+                                       <HBox.margin>
+                                          <Insets bottom="35.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
                                     </LineChart>
                                  </children>
                               </HBox>

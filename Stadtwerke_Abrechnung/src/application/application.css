@@ -55,12 +55,13 @@
 	-fx-text-fill:  #f8f8f8;
 }
 
-.tabs-zahlung {
+.tabs-zahlung .tab-label {
 	-fx-background-color: #333645;
-	-fx-pref-height: 50;
-	-fx-pref-width:  200;
+	-fx-pref-height: 65;
+	-fx-pref-width:  250;
 	-fx-font-weight: bold;
-	-fx-font-size: 25;
+	-fx-font-size: 20;
+	-fx-alignment: CENTER;
 }
 
 .tab-header-background {

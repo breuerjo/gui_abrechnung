@@ -434,17 +434,17 @@ public class FormControllerUebersicht {
 				wasser_neu.setText(rs_zaehlerstand.getString("wasser_neu"));
 				wasser_differenz.setText(rs_zaehlerstand.getString("differenz_wasser"));
 				wasser_faktor.setText(rs_einstellung.getString("faktor_wasser"));
-				wasser_menge.setText(rs_rechnung.getString("menge_wasser") + " m3");
+				wasser_menge.setText(rs_rechnung.getString("menge_wasser") + " m³");
 
 				// Set Labels Kostenberechnung Wasser
 				wasser_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
-				wasser_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_wasser") + " m3");
+				wasser_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_wasser") + " m³");
 				wasser_kosten_verbrauch_preis.setText(""+rs_einstellung.getDouble("preis_wasser")+" €");
 				wasser_kosten_verbrauch_betrag.setText(rs_rechnung.getString("betrag_menge_wasser") + " €");
 				wasser_kosten_pauschale_menge.setText(rs_zeitraum.getString(2) + " Tage");
 				wasser_kosten_pauschale_preis.setText(""+rs_einstellung.getDouble("pauschale_wasser")+" €");
 				wasser_kosten_pauschale_betrag.setText(rs_rechnung.getString("pauschale_wasser") + " €");
-				wasser_kosten_netto_menge.setText(rs_rechnung.getString("menge_wasser") + " m3");
+				wasser_kosten_netto_menge.setText(rs_rechnung.getString("menge_wasser") + " m³");
 				wasser_kosten_netto_betrag.setText(rs_rechnung.getString("betrag_netto_wasser") + " €");
 				wasser_kosten_umsatzsteuer
 						.setText("Umsatzsteuer: " + BasicFunctions.roundDoubleNachkommastellen(Double.parseDouble(rs_einstellung.getString("umsatzsteuer_wasser"))*100 , 1)+ "%");
@@ -458,17 +458,17 @@ public class FormControllerUebersicht {
 				abwasser_neu.setText(rs_zaehlerstand.getString("wasser_neu"));
 				abwasser_differenz.setText(rs_zaehlerstand.getString("differenz_wasser"));
 				abwasser_faktor.setText(rs_einstellung.getString("faktor_abwasser"));
-				abwasser_menge.setText(rs_rechnung.getString("menge_abwasser") + " m3");
+				abwasser_menge.setText(rs_rechnung.getString("menge_abwasser") + " m³");
 
 				// Set Labels Kostenberechnung Abwasser
 				abwasser_kosten_verbrauch_zeitraum.setText(zeitraum_ges);
-				abwasser_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_abwasser") + " m3");
+				abwasser_kosten_verbrauch_menge.setText(rs_rechnung.getString("menge_abwasser") + " m³");
 				abwasser_kosten_verbrauch_preis.setText(""+rs_einstellung.getDouble("preis_abwasser")+" €");
 				abwasser_kosten_verbrauch_betrag.setText(rs_rechnung.getString("betrag_menge_abwasser") + " €");
 				abwasser_kosten_pauschale_menge.setText(rs_zeitraum.getString(2) + " Tage");
 				abwasser_kosten_pauschale_preis.setText(""+rs_einstellung.getDouble("pauschale_abwasser_faktor") * rs_einstellung.getDouble("quadratmeter_gesamt")+" €");	//Im Jahr
 				abwasser_kosten_pauschale_betrag.setText(rs_rechnung.getString("pauschale_abwasser") + " €");
-				abwasser_kosten_netto_menge.setText(rs_rechnung.getString("menge_abwasser") + " m3");
+				abwasser_kosten_netto_menge.setText(rs_rechnung.getString("menge_abwasser") + " m³");
 				abwasser_kosten_netto_betrag.setText(rs_rechnung.getString("betrag_netto_abwasser") + " €");
 				abwasser_kosten_umsatzsteuer
 						.setText("Umsatzsteuer: " + Double.parseDouble(rs_einstellung.getString("umsatzsteuer_abwasser"))*100 + "%");
@@ -485,18 +485,18 @@ public class FormControllerUebersicht {
 	
 	public void action_zeitraum_geweahlt() {
 		RechnungData rechnung_data = uebersicht_table_zahlungen.getSelectionModel().getSelectedItem();
-		System.out.println(rechnung_data.getZeitraum_von());  
-		System.out.println(rechnung_data.getZeitraum_bis());
+		//System.out.println(rechnung_data.getZeitraum_von());  
+		//System.out.println(rechnung_data.getZeitraum_bis());
 			
 		DB db = new DB();
 		initTables(db, rechnung_data.getZeitraum_von(), rechnung_data.getZeitraum_bis());
 	}
 	
 	public void action_tabelle_zeitraum_ausgewaehlt() {
-		System.out.println("Zeile ausgewählt");
+		//System.out.println("Zeile ausgewählt");
 		RechnungData rechnung_data = uebersicht_table_zahlungen.getSelectionModel().getSelectedItem();
-		System.out.println(rechnung_data.getZeitraum_von());  
-		System.out.println(rechnung_data.getZeitraum_bis());  
+		//System.out.println(rechnung_data.getZeitraum_von());  
+		//System.out.println(rechnung_data.getZeitraum_bis());  
 	}
 
 	public void action_menu_uebersicht() {

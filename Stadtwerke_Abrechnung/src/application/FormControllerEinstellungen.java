@@ -169,7 +169,7 @@ public class FormControllerEinstellungen {
 			while (rs_kategorie.next()) {
 
 				list_kategorien.add(rs_kategorie.getString("kategorie"));
-				System.out.println(rs_kategorie.getString("kategorie"));
+				//System.out.println(rs_kategorie.getString("kategorie"));
 
 			}
 
@@ -213,7 +213,7 @@ public class FormControllerEinstellungen {
 	}
 	
 	public void action_einstellung_id_gewaehlt() {
-		System.out.println(cb_einstellung_id.getValue());
+		//System.out.println(cb_einstellung_id.getValue());
 		
 		DB db = new DB();
 		ResultSet rs = db.executeQueryWithResult("SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellung_id.getValue()+"");
@@ -251,7 +251,7 @@ public class FormControllerEinstellungen {
 	}
 	
 	public void action_einstellung_neu_id_gewaehlt() {
-		System.out.println(cb_einstellung_id.getValue());
+		//System.out.println(cb_einstellung_id.getValue());
 		
 		DB db = new DB();
 		ResultSet rs = db.executeQueryWithResult("SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellung_neu_id.getValue()+"");
@@ -321,7 +321,7 @@ public class FormControllerEinstellungen {
 			ps.setFloat(21, Float.parseFloat(tf_pauschale_abwasser_faktor.getText()));
 			
 		    gen_key = db.executeUpdate(ps);
-		    System.out.println(gen_key);
+		    //System.out.println(gen_key);
 		    
 			initComboBox(); //ComboBox aktualisieren
 			cb_einstellung_neu_id.setValue(gen_key);	//Neuer Wert in ComboBox auswählen

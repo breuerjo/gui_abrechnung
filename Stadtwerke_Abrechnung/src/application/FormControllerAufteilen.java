@@ -92,8 +92,8 @@ public class FormControllerAufteilen {
 		ResultSet rs_einstellung = db.executeQueryWithResult("SELECT `id`,`quadratmeter_wohnung_1`,`quadratmeter_wohnung_2` FROM `einstellung` ORDER BY `id` DESC LIMIT 1");
 		try {
 			if(rs_einstellung.next()) {
-				lb_bezeichnung_wohnung_1.setText("Wohnung 1: ("+rs_einstellung.getInt("quadratmeter_wohnung_1")+" m2)");
-				lb_bezeichnung_wohnung_2.setText("Wohnung 2: ("+rs_einstellung.getInt("quadratmeter_wohnung_2")+" m2)");
+				lb_bezeichnung_wohnung_1.setText("Wohnung 1: ("+rs_einstellung.getInt("quadratmeter_wohnung_1")+" m²)");
+				lb_bezeichnung_wohnung_2.setText("Wohnung 2: ("+rs_einstellung.getInt("quadratmeter_wohnung_2")+" m²)");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,7 +109,7 @@ public class FormControllerAufteilen {
 		LocalDate von_in = dp_zeitraum_von.getValue();
 		LocalDate bis_in = dp_zeitraum_bis.getValue();
 		long anz_tage_soll = ChronoUnit.DAYS.between(von_in, bis_in) + 1;
-		System.out.println("Soll: "+anz_tage_soll);
+		//System.out.println("Soll: "+anz_tage_soll);
 		lb_anzahl_tage.setText("Anzahl Tage: "+anz_tage_soll+" Tage");
 		
 		long anz_tage = 0;
@@ -135,8 +135,8 @@ public class FormControllerAufteilen {
 				
 				LocalDate von_db = rs_zeitraum.getDate("zeitraum_von").toLocalDate();
 				LocalDate bis_db = rs_zeitraum.getDate("zeitraum_bis").toLocalDate();
-				System.out.println("Vergleich_von: "+von_db);
-				System.out.println("Vergleich Bis : "+bis_db);
+				//System.out.println("Vergleich_von: "+von_db);
+				//System.out.println("Vergleich Bis : "+bis_db);
 				
 				if(von_in.isAfter(bis_db)) {	
 					//hat nichts mit dem Vergleichszeitraum zu tun
@@ -146,21 +146,21 @@ public class FormControllerAufteilen {
 				
 				else if (von_in.isAfter(von_db) && von_in.isBefore(bis_db) || von_in.isEqual(von_db) && von_in.isBefore(bis_db)) {
 					//Anfang liegt im Vergleichszeitraum
-					System.out.println("Mindestens der Anfang liegt drin");
+					//System.out.println("Mindestens der Anfang liegt drin");
 					
 					if(bis_in.isBefore(bis_db)  || bis_in.isEqual(bis_db)) {
 						//Liegt komplett in dem Vergleichszeitraum
-						System.out.println("Liegt komplett drin");
-						System.out.println("Komplett: "+anz_tage);
+						//System.out.println("Liegt komplett drin");
+						//System.out.println("Komplett: "+anz_tage);
 						anz_tage += ChronoUnit.DAYS.between(von_in, bis_in) + 1;
-						System.out.println("Komplett: "+anz_tage);
+						//System.out.println("Komplett: "+anz_tage);
 					}
 					else if (!von_hat_begonnen) {
 						//Fängt in diesem Zeitraum an, aber endet nicht innerhalb => nächster Zeitraum noch
-						System.out.println("Nur der Anfang liegt drin");
-						System.out.println("Anfang: "+anz_tage);
+						//System.out.println("Nur der Anfang liegt drin");
+						//System.out.println("Anfang: "+anz_tage);
 						anz_tage += ChronoUnit.DAYS.between(von_in, bis_db) + 1;
-						System.out.println("Anfang: "+anz_tage);
+						//System.out.println("Anfang: "+anz_tage);
 						von_hat_begonnen = true;
 						speicher = zaehler;
 					}
@@ -168,18 +168,18 @@ public class FormControllerAufteilen {
 				
 				else if (von_db.isBefore(bis_in) && bis_in.isBefore(bis_db)) {
 					//endet in diesem Zeitraum, aber insgesamt nur teilweise drin
-					System.out.println("Nur das Ende liegt drin");
-					System.out.println("Ende: "+anz_tage);
+					//System.out.println("Nur das Ende liegt drin");
+					//System.out.println("Ende: "+anz_tage);
 					anz_tage += ChronoUnit.DAYS.between(von_db, bis_in) + 1;
-					System.out.println("Ende:"+anz_tage);
+					//System.out.println("Ende:"+anz_tage);
 					von_hat_begonnen = false; //Ende wurde gefunden
 				}
 				
 				//Wenn er hier ankommt und der Startzeitpunkt schon gefunden wurde, ist liegt der aktuelle Zeitpunkt auch noch komplett drin
 				else if(von_hat_begonnen && speicher != zaehler){
-					System.out.println("Zwischendrin: "+anz_tage);
+					//System.out.println("Zwischendrin: "+anz_tage);
 					anz_tage += (ChronoUnit.DAYS.between(von_db, bis_db) + 1);	//kompletter aktueller Zeitraum dazu nehmen
-					System.out.println("Zwischendrin: "+anz_tage);
+					//System.out.println("Zwischendrin: "+anz_tage);
 				}
 				
 				int anz_tage_zeitraum_ges = rs_zeitraum.getInt("differenz_tage");
@@ -206,7 +206,7 @@ public class FormControllerAufteilen {
 			
 			if (anz_tage == 0) {
 				//liegt irgendwie dumm
-				System.out.println("Bitte einen anderen Zeitraum wählen");
+				//System.out.println("Bitte einen anderen Zeitraum wählen");
 				//--------------------------------------------------------------DIALOG ANZEIGEN
 			}
 			
@@ -214,9 +214,9 @@ public class FormControllerAufteilen {
 			lb_kosten_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom, 2)+" €");
 			lb_menge_erdgas_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas, 2)+" kWh");
 			lb_kosten_erdgas_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas, 2)+" €");
-			lb_menge_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser, 2)+" m3");
+			lb_menge_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser, 2)+" m³");
 			lb_kosten_wasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser, 2)+" €");
-			lb_menge_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser, 2)+" m3");
+			lb_menge_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser, 2)+" m³");
 			lb_kosten_abwasser_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser, 2)+" €");
 			
 			ResultSet rs_einstellung = db.executeQueryWithResult("SELECT `id`,`quadratmeter_wohnung_1`,`quadratmeter_wohnung_2` FROM `einstellung` ORDER BY `id` DESC LIMIT 1");
@@ -238,9 +238,9 @@ public class FormControllerAufteilen {
 			lb_kosten_strom_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom * faktor_wohnung_1, 2)+" €");
 			lb_menge_erdgas_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas * faktor_wohnung_1, 2)+" kWh");
 			lb_kosten_erdgas_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas * faktor_wohnung_1, 2)+" €");
-			lb_menge_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_1, 2)+" m3");
+			lb_menge_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_1, 2)+" m³");
 			lb_kosten_wasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser * faktor_wohnung_1, 2)+" €");
-			lb_menge_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_1, 2)+" m3");
+			lb_menge_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_1, 2)+" m³");
 			lb_kosten_abwasser_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser * faktor_wohnung_1, 2)+" €");
 			
 			//Set Labels Wohnung 2
@@ -248,9 +248,9 @@ public class FormControllerAufteilen {
 			lb_kosten_strom_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom * faktor_wohnung_2, 2)+" €");
 			lb_menge_erdgas_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_erdgas * faktor_wohnung_2, 2)+" kWh");
 			lb_kosten_erdgas_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_erdgas * faktor_wohnung_2, 2)+" €");
-			lb_menge_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_2, 2)+" m3");
+			lb_menge_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_wasser * faktor_wohnung_2, 2)+" m³");
 			lb_kosten_wasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_wasser * faktor_wohnung_2, 2)+" €");
-			lb_menge_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_2, 2)+" m3");
+			lb_menge_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_abwasser * faktor_wohnung_2, 2)+" m³");
 			lb_kosten_abwasser_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_abwasser * faktor_wohnung_2, 2)+" €");
 			
 			//Set Labels Kosten Insgesamt
@@ -263,7 +263,7 @@ public class FormControllerAufteilen {
 			
 			
 				
-			System.out.println("Ist: "+anz_tage);
+			//System.out.println("Ist: "+anz_tage);
 		} catch (SQLException e) {e.printStackTrace();
 		}
 	}

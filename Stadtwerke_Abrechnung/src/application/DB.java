@@ -14,7 +14,7 @@ public class DB {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ui_stadtwerke_db","root","");
-			System.out.println(this.con);
+			//System.out.println(this.con);
 		}catch (Exception e) {}
 		
 		
@@ -26,7 +26,7 @@ public class DB {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ui_stadtwerke_db","root","");
-			System.out.println(this.con);
+			//System.out.println(this.con);
 		} catch (Exception e) {}
 		
 		return this.con;
@@ -47,7 +47,7 @@ public class DB {
 	}
 	
 	public ResultSet executeQueryWithResult(String query) {
-		System.out.println(query);
+		//System.out.println(query);
 		PreparedStatement ps=null;
 		ResultSet rs = null;
 		try {

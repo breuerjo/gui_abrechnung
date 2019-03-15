@@ -234,7 +234,7 @@ public class FormControllerZahlung {
 				lb_faktor_abwasser.setText(""+faktor_abwasser);
 				lb_faktor_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen((erdgas_faktor_brennwert* erdgas_faktor_brennwert),6));
 								
-				System.out.println("Einstellungen geupdated");
+				//System.out.println("Einstellungen geupdated");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -284,7 +284,7 @@ public class FormControllerZahlung {
 			int wasser_dif = wasser_neu - wasser_alt;
 
 			lb_dif_wasser.setText("" + (wasser_neu - wasser_alt));
-			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText())+" m3");
+			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText())+" m³");
 		}
 	}
 
@@ -295,7 +295,7 @@ public class FormControllerZahlung {
 			int abwasser_dif = abwasser_neu - abwasser_alt;
 
 			lb_dif_abwasser.setText("" + (abwasser_dif));
-			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText())+" m3");
+			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText())+" m³");
 		}
 	}
 
@@ -347,7 +347,7 @@ public class FormControllerZahlung {
 				ps.setInt(9, dp_zeitraum_bis.getValue().getDayOfMonth());
 	
 				gen_key_zeitraum = db.executeUpdate(ps);
-				System.out.println(gen_key_zeitraum);
+				//System.out.println(gen_key_zeitraum);
 	
 			} catch (SQLException e) {
 			}
@@ -515,7 +515,7 @@ public class FormControllerZahlung {
 				ps_zahlung.setDouble(32, abschlag_zukunft);
 	
 				int gen_key = db.executeUpdate(ps_zahlung);
-				System.out.println(gen_key);
+				//System.out.println(gen_key);
 	
 			} catch (SQLException e) {
 			}
