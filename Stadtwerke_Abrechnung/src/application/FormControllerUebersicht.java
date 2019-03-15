@@ -8,6 +8,9 @@ import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -481,13 +484,10 @@ public class FormControllerUebersicht {
 
 	
 	public void action_zeitraum_geweahlt() {
-		System.out.println("Zeitraum gewählt");
-		// Tabellen updaten mit neuem Ausgewählten Zeitraum
-		
 		RechnungData rechnung_data = uebersicht_table_zahlungen.getSelectionModel().getSelectedItem();
 		System.out.println(rechnung_data.getZeitraum_von());  
 		System.out.println(rechnung_data.getZeitraum_bis());
-		
+			
 		DB db = new DB();
 		initTables(db, rechnung_data.getZeitraum_von(), rechnung_data.getZeitraum_bis());
 	}

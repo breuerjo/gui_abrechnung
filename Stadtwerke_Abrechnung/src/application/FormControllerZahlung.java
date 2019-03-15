@@ -11,11 +11,14 @@ import java.time.temporal.ChronoUnit;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 public class FormControllerZahlung {
 
@@ -299,216 +302,224 @@ public class FormControllerZahlung {
 	
 
 	public void action_bt_speichern() {
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION, "", ButtonType.YES, ButtonType.CANCEL);
+		alert.setTitle("Abspeichern einer neuen Rechnung");
+	    alert.setHeaderText("Wollen Sie die eingegeben Daten speichern?");
+		alert.showAndWait();
+		
+		if (alert.getResult() == ButtonType.YES) {
 
-		// Get Connection
-		DB db = new DB();
-		Connection con = db.getConnection();
-
-		// SPEICHERN ZEITRAUM
-		// --------------------------------------------------------------------------------------------
-
-		String zeitraum_von_tag = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getDayOfMonth());
-		String zeitraum_von_monat = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getMonthValue());
-		String zeitraum_von_jahr = "" + dp_zeitraum_von.getValue().getYear();
-
-		String zeitraum_bis_tag = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getDayOfMonth());
-		String zeitraum_bis_monat = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getMonthValue());
-		String zeitraum_bis_jahr = "" + dp_zeitraum_bis.getValue().getYear();
-
-		java.sql.Date sql_date_zeitraum_von = DateConversion
-				.dateConversion(zeitraum_von_jahr + "-" + zeitraum_von_monat + "-" + zeitraum_von_tag);
-		java.sql.Date sql_date_zeitraum_bis = DateConversion
-				.dateConversion("" + zeitraum_bis_jahr + "-" + zeitraum_bis_monat + "-" + zeitraum_bis_tag);
-
-		String sql_zeitraum = "INSERT INTO `zeitraum`(`zeitraum_von`, `zeitraum_bis`, `differenz_tage`, `zeitraum_von_jahr`, `zeitraum_von_monat`, `zeitraum_von_tag`, `zeitraum_bis_jahr`, `zeitraum_bis_monat`, `zeitraum_bis_tag`) VALUES(?,?,?,?,?,?,?,?,?)";
-
-		int gen_key_zeitraum = 0;
-		try {
-			PreparedStatement ps = con.prepareStatement(sql_zeitraum, Statement.RETURN_GENERATED_KEYS);
-
-			ps.setDate(1, sql_date_zeitraum_von);
-			ps.setDate(2, sql_date_zeitraum_bis);
-			ps.setInt(3, Integer.parseInt(lb_dif_tage.getText()));
-			ps.setInt(4, dp_zeitraum_von.getValue().getYear());
-			ps.setInt(5, dp_zeitraum_von.getValue().getMonthValue());
-			ps.setInt(6, dp_zeitraum_von.getValue().getDayOfMonth());
-			ps.setInt(7, dp_zeitraum_bis.getValue().getYear());
-			ps.setInt(8, dp_zeitraum_bis.getValue().getMonthValue());
-			ps.setInt(9, dp_zeitraum_bis.getValue().getDayOfMonth());
-
-			gen_key_zeitraum = db.executeUpdate(ps);
-			System.out.println(gen_key_zeitraum);
-
-		} catch (SQLException e) {
-		}
-
-		// SPEICHERN Zaehlerstand
-		// --------------------------------------------------------------------------------------------
-		String sql_zaehlerstand = "INSERT INTO `zaehlerstand`(`zaehler_id_strom`, `zaehler_id_erdgas`, `zaehler_id_wasser`, `strom_alt`, `strom_neu`, `erdgas_alt`, `erdgas_neu`, `wasser_alt`, `wasser_neu`, `differenz_strom`, `differenz_erdgas`, `differenz_wasser`)  "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-
-		int zaehler_id_strom = 0;
-		int zaehler_id_erdgas = 0;
-		int zaehler_id_wasser = 0;
-		int gen_key_zaehlerstand = 0;
-		try {
-
-			// GET IDs von den ausgewählten Zählern
-			ResultSet rs_zaehler_strom = db.executeQueryWithResult(
-					"SELECT `id` FROM `zaehler` WHERE `nummer`= " + cb_zaehler_strom.getValue() + "");
-			if (rs_zaehler_strom.next()) {
-				zaehler_id_strom = rs_zaehler_strom.getInt("id");
+			// Get Connection
+			DB db = new DB();
+			Connection con = db.getConnection();
+	
+			// SPEICHERN ZEITRAUM
+			// --------------------------------------------------------------------------------------------
+	
+			String zeitraum_von_tag = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getDayOfMonth());
+			String zeitraum_von_monat = DateConversion.fillUpValue(dp_zeitraum_von.getValue().getMonthValue());
+			String zeitraum_von_jahr = "" + dp_zeitraum_von.getValue().getYear();
+	
+			String zeitraum_bis_tag = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getDayOfMonth());
+			String zeitraum_bis_monat = DateConversion.fillUpValue(dp_zeitraum_bis.getValue().getMonthValue());
+			String zeitraum_bis_jahr = "" + dp_zeitraum_bis.getValue().getYear();
+	
+			java.sql.Date sql_date_zeitraum_von = DateConversion
+					.dateConversion(zeitraum_von_jahr + "-" + zeitraum_von_monat + "-" + zeitraum_von_tag);
+			java.sql.Date sql_date_zeitraum_bis = DateConversion
+					.dateConversion("" + zeitraum_bis_jahr + "-" + zeitraum_bis_monat + "-" + zeitraum_bis_tag);
+	
+			String sql_zeitraum = "INSERT INTO `zeitraum`(`zeitraum_von`, `zeitraum_bis`, `differenz_tage`, `zeitraum_von_jahr`, `zeitraum_von_monat`, `zeitraum_von_tag`, `zeitraum_bis_jahr`, `zeitraum_bis_monat`, `zeitraum_bis_tag`) VALUES(?,?,?,?,?,?,?,?,?)";
+	
+			int gen_key_zeitraum = 0;
+			try {
+				PreparedStatement ps = con.prepareStatement(sql_zeitraum, Statement.RETURN_GENERATED_KEYS);
+	
+				ps.setDate(1, sql_date_zeitraum_von);
+				ps.setDate(2, sql_date_zeitraum_bis);
+				ps.setInt(3, Integer.parseInt(lb_dif_tage.getText()));
+				ps.setInt(4, dp_zeitraum_von.getValue().getYear());
+				ps.setInt(5, dp_zeitraum_von.getValue().getMonthValue());
+				ps.setInt(6, dp_zeitraum_von.getValue().getDayOfMonth());
+				ps.setInt(7, dp_zeitraum_bis.getValue().getYear());
+				ps.setInt(8, dp_zeitraum_bis.getValue().getMonthValue());
+				ps.setInt(9, dp_zeitraum_bis.getValue().getDayOfMonth());
+	
+				gen_key_zeitraum = db.executeUpdate(ps);
+				System.out.println(gen_key_zeitraum);
+	
+			} catch (SQLException e) {
 			}
-
-			ResultSet rs_zaehler_erdgas = db.executeQueryWithResult(
-					"SELECT `id` FROM `zaehler` WHERE `nummer`= " + cb_zaehler_erdgas.getValue() + "");
-			if (rs_zaehler_erdgas.next()) {
-				zaehler_id_erdgas = rs_zaehler_erdgas.getInt("id");
+	
+			// SPEICHERN Zaehlerstand
+			// --------------------------------------------------------------------------------------------
+			String sql_zaehlerstand = "INSERT INTO `zaehlerstand`(`zaehler_id_strom`, `zaehler_id_erdgas`, `zaehler_id_wasser`, `strom_alt`, `strom_neu`, `erdgas_alt`, `erdgas_neu`, `wasser_alt`, `wasser_neu`, `differenz_strom`, `differenz_erdgas`, `differenz_wasser`)  "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+	
+			int zaehler_id_strom = 0;
+			int zaehler_id_erdgas = 0;
+			int zaehler_id_wasser = 0;
+			int gen_key_zaehlerstand = 0;
+			try {
+	
+				// GET IDs von den ausgewählten Zählern
+				ResultSet rs_zaehler_strom = db.executeQueryWithResult(
+						"SELECT `id` FROM `zaehler` WHERE `nummer`= " + cb_zaehler_strom.getValue() + "");
+				if (rs_zaehler_strom.next()) {
+					zaehler_id_strom = rs_zaehler_strom.getInt("id");
+				}
+	
+				ResultSet rs_zaehler_erdgas = db.executeQueryWithResult(
+						"SELECT `id` FROM `zaehler` WHERE `nummer`= " + cb_zaehler_erdgas.getValue() + "");
+				if (rs_zaehler_erdgas.next()) {
+					zaehler_id_erdgas = rs_zaehler_erdgas.getInt("id");
+				}
+	
+				ResultSet rs_zaehler_wasser = db.executeQueryWithResult(
+						"SELECT `id` FROM `zaehler` WHERE `nummer`= '" + cb_zaehler_wasser.getValue() + "'");
+				if (rs_zaehler_wasser.next()) {
+					zaehler_id_wasser = rs_zaehler_wasser.getInt("id");
+				}
+				// der Abwasserzähler entspricht immer dem Wasserzähler! => keine Abfrage
+				// benötigt
+	
+				PreparedStatement ps_zaehlerstand = con.prepareStatement(sql_zaehlerstand, Statement.RETURN_GENERATED_KEYS);
+	
+				ps_zaehlerstand.setInt(1, zaehler_id_strom);
+				ps_zaehlerstand.setInt(2, zaehler_id_erdgas);
+				ps_zaehlerstand.setInt(3, zaehler_id_wasser);
+				ps_zaehlerstand.setInt(4, Integer.parseInt(tf_strom_alt.getText()));
+				ps_zaehlerstand.setInt(5, Integer.parseInt(tf_strom_neu.getText()));
+				ps_zaehlerstand.setInt(6, Integer.parseInt(tf_erdgas_alt.getText()));
+				ps_zaehlerstand.setInt(7, Integer.parseInt(tf_erdgas_neu.getText()));
+				ps_zaehlerstand.setInt(8, Integer.parseInt(tf_wasser_alt.getText()));
+				ps_zaehlerstand.setInt(9, Integer.parseInt(tf_wasser_neu.getText()));
+				ps_zaehlerstand.setInt(10, Integer.parseInt(lb_dif_strom.getText()));
+				ps_zaehlerstand.setInt(11, Integer.parseInt(lb_dif_erdgas.getText()));
+				ps_zaehlerstand.setInt(12, Integer.parseInt(lb_dif_wasser.getText()));
+	
+				gen_key_zaehlerstand = db.executeUpdate(ps_zaehlerstand);
+	
+			} catch (SQLException e) {
 			}
-
-			ResultSet rs_zaehler_wasser = db.executeQueryWithResult(
-					"SELECT `id` FROM `zaehler` WHERE `nummer`= '" + cb_zaehler_wasser.getValue() + "'");
-			if (rs_zaehler_wasser.next()) {
-				zaehler_id_wasser = rs_zaehler_wasser.getInt("id");
+	
+			// SPEICHERN Rechnung
+			// --------------------------------------------------------------------------------------------
+			String sql_zahlung = "INSERT INTO `rechnung`(`zeitraum_id`, `zaehlerstand_id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `betrag_menge_strom`, `betrag_menge_erdgas`, `betrag_menge_wasser`, `betrag_menge_abwasser`, `pauschale_strom`, `pauschale_erdgas`, `pauschale_wasser`, `pauschale_abwasser`, `steuer_strom`, `steuer_erdgas`, `betrag_netto_strom`, `betrag_netto_erdgas`, `betrag_netto_wasser`, `betrag_netto_abwasser`, `umsatz_steuer_strom`, `umsatz_steuer_erdgas`, `umsatz_steuer_wasser`, `umsatz_steuer_abwasser`, `betrag_brutto_strom`, `betrag_brutto_erdgas`, `betrag_brutto_wasser`, `betrag_brutto_abwasser`, `betrag_nachzahlung`,`betrag_gezahlte_abschlaege`,`betrag_zukuenftige_abschlaege`)  "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 32
+	
+			try {
+				PreparedStatement ps_zahlung = con.prepareStatement(sql_zahlung, Statement.RETURN_GENERATED_KEYS);
+	
+				// FKs
+				ps_zahlung.setInt(1, gen_key_zeitraum);
+				ps_zahlung.setInt(2, gen_key_zaehlerstand);
+				ps_zahlung.setInt(3, cb_einstellungen_id.getValue());
+	
+				// Mengen
+				String menge_strom_mit_Einheit = lb_menge_strom.getText();
+				String menge_strom_ohne_Einheit = menge_strom_mit_Einheit.substring(0, menge_strom_mit_Einheit.length() -4);
+				String menge_erdgas_mit_Einheit = lb_menge_erdgas.getText();
+				String menge_erdgas_ohne_Einheit = menge_erdgas_mit_Einheit.substring(0, menge_erdgas_mit_Einheit.length() -4);
+				String menge_wasser_mit_Einheit = lb_menge_wasser.getText();
+				String menge_wasser_ohne_Einheit = menge_wasser_mit_Einheit.substring(0, menge_wasser_mit_Einheit.length() -3);
+				String menge_abwasser_mit_Einheit = lb_menge_abwasser.getText();
+				String menge_abwasser_ohne_Einheit = menge_abwasser_mit_Einheit.substring(0, menge_abwasser_mit_Einheit.length() -3);
+				
+				double menge_strom = Double.parseDouble(menge_strom_ohne_Einheit);
+				double menge_erdgas = Double.parseDouble(menge_erdgas_ohne_Einheit);
+				double menge_wasser = Double.parseDouble(menge_wasser_ohne_Einheit);
+				double menge_abwasser = Double.parseDouble(menge_abwasser_ohne_Einheit);
+	
+				ps_zahlung.setDouble(4, menge_strom);
+				ps_zahlung.setDouble(5, menge_erdgas);
+				ps_zahlung.setDouble(6, menge_wasser);
+				ps_zahlung.setDouble(7, menge_abwasser);
+	
+				// Betrag_Mengen
+				double betrag_menge_strom = menge_strom * preis_strom;
+				double betrag_menge_erdgas = menge_erdgas * preis_erdgas;
+				double betrag_menge_wasser = menge_wasser * preis_wasser;
+				double betrag_menge_abwasser = menge_abwasser * preis_abwasser;
+	
+				ps_zahlung.setDouble(8, betrag_menge_strom);
+				ps_zahlung.setDouble(9, betrag_menge_erdgas);
+				ps_zahlung.setDouble(10, betrag_menge_wasser);
+				ps_zahlung.setDouble(11, betrag_menge_abwasser);
+				
+				lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" €");
+				lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" €");
+				lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" €");
+				lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser,2) +" €");
+	
+				// Pauschalen alle /360 * anz_tage_zeitraum
+				int anz_tage = Integer.parseInt(lb_dif_tage.getText());
+	
+				double pauschale_strom_lokal = anz_tage * pauschale_strom / 365;
+				double pauschale_erdgas_lokal = anz_tage * pauschale_erdgas / 365;
+				double pauschale_wasser_lokal = anz_tage * pauschale_wasser / 365;
+				double pauschale_abwasser_lokal = anz_tage * pauschale_abwasser / 365;
+	
+				ps_zahlung.setDouble(12, pauschale_strom_lokal);
+				ps_zahlung.setDouble(13, pauschale_erdgas_lokal);
+				ps_zahlung.setDouble(14, pauschale_wasser_lokal);
+				ps_zahlung.setDouble(15, pauschale_abwasser_lokal);
+	
+				// Steuer - nur für Strom und Erdgas
+				double steuer_strom_betrag = menge_strom * steuer_strom;
+				double steuer_erdgas_betrag = menge_erdgas * steuer_erdgas;
+	
+				ps_zahlung.setDouble(16, steuer_strom_betrag);
+				ps_zahlung.setDouble(17, steuer_erdgas_betrag);
+	
+				// Betrag netto
+				double betrag_netto_strom = betrag_menge_strom + pauschale_strom_lokal + steuer_strom_betrag;
+				double betrag_netto_erdgas = betrag_menge_erdgas + pauschale_erdgas_lokal + steuer_erdgas_betrag;
+				double betrag_netto_wasser = betrag_menge_wasser + pauschale_wasser_lokal;
+				double betrag_netto_abwasser = betrag_menge_abwasser + pauschale_abwasser_lokal;
+	
+				ps_zahlung.setDouble(18, betrag_netto_strom);
+				ps_zahlung.setDouble(19, betrag_netto_erdgas);
+				ps_zahlung.setDouble(20, betrag_netto_wasser);
+				ps_zahlung.setDouble(21, betrag_netto_abwasser);
+	
+				// Umsatzseteuer
+				double umsatzsteuer_strom_lokal = betrag_netto_strom * umsatzsteuer_strom;
+				double umsatzsteuer_erdgas_lokal = betrag_netto_erdgas * umsatzsteuer_erdgas;
+				double umsatzsteuer_wasser_lokal = betrag_netto_wasser * umsatzsteuer_wasser;
+				double umsatzsteuer_abwasser_lokal = betrag_netto_abwasser * umsatzsteuer_abwasser;
+	
+				ps_zahlung.setDouble(22, umsatzsteuer_strom_lokal);
+				ps_zahlung.setDouble(23, umsatzsteuer_erdgas_lokal);
+				ps_zahlung.setDouble(24, umsatzsteuer_wasser_lokal);
+				ps_zahlung.setDouble(25, umsatzsteuer_abwasser_lokal);
+	
+				// Betrag brutto
+				double betrag_brutto_strom = betrag_netto_strom + umsatzsteuer_strom_lokal;
+				double betrag_brutto_erdgas = betrag_netto_erdgas + umsatzsteuer_erdgas_lokal;
+				double betrag_brutto_wasser = betrag_netto_wasser + umsatzsteuer_wasser_lokal;
+				double betrag_brutto_abwasser = betrag_netto_abwasser + umsatzsteuer_abwasser_lokal;
+	
+				ps_zahlung.setDouble(26, betrag_brutto_strom);
+				ps_zahlung.setDouble(27, betrag_brutto_erdgas);
+				ps_zahlung.setDouble(28, betrag_brutto_wasser);
+				ps_zahlung.setDouble(29, betrag_brutto_abwasser);
+				
+				double abweichung = Double.parseDouble(tf_betrag_abweichung.getText());
+				double abschlag_bisher = Double.parseDouble(tf_betrag_abschlagszahlung_bisher.getText());
+				double abschlag_zukunft = Double.parseDouble(tf_betrag_abschlagszahlung_zukunft.getText());
+				
+				ps_zahlung.setDouble(30, abweichung);
+				ps_zahlung.setDouble(31, abschlag_bisher);
+				ps_zahlung.setDouble(32, abschlag_zukunft);
+	
+				int gen_key = db.executeUpdate(ps_zahlung);
+				System.out.println(gen_key);
+	
+			} catch (SQLException e) {
 			}
-			// der Abwasserzähler entspricht immer dem Wasserzähler! => keine Abfrage
-			// benötigt
-
-			PreparedStatement ps_zaehlerstand = con.prepareStatement(sql_zaehlerstand, Statement.RETURN_GENERATED_KEYS);
-
-			ps_zaehlerstand.setInt(1, zaehler_id_strom);
-			ps_zaehlerstand.setInt(2, zaehler_id_erdgas);
-			ps_zaehlerstand.setInt(3, zaehler_id_wasser);
-			ps_zaehlerstand.setInt(4, Integer.parseInt(tf_strom_alt.getText()));
-			ps_zaehlerstand.setInt(5, Integer.parseInt(tf_strom_neu.getText()));
-			ps_zaehlerstand.setInt(6, Integer.parseInt(tf_erdgas_alt.getText()));
-			ps_zaehlerstand.setInt(7, Integer.parseInt(tf_erdgas_neu.getText()));
-			ps_zaehlerstand.setInt(8, Integer.parseInt(tf_wasser_alt.getText()));
-			ps_zaehlerstand.setInt(9, Integer.parseInt(tf_wasser_neu.getText()));
-			ps_zaehlerstand.setInt(10, Integer.parseInt(lb_dif_strom.getText()));
-			ps_zaehlerstand.setInt(11, Integer.parseInt(lb_dif_erdgas.getText()));
-			ps_zaehlerstand.setInt(12, Integer.parseInt(lb_dif_wasser.getText()));
-
-			gen_key_zaehlerstand = db.executeUpdate(ps_zaehlerstand);
-
-		} catch (SQLException e) {
-		}
-
-		// SPEICHERN Rechnung
-		// --------------------------------------------------------------------------------------------
-		String sql_zahlung = "INSERT INTO `rechnung`(`zeitraum_id`, `zaehlerstand_id`, `einstellung_id`, `menge_strom`, `menge_erdgas`, `menge_wasser`, `menge_abwasser`, `betrag_menge_strom`, `betrag_menge_erdgas`, `betrag_menge_wasser`, `betrag_menge_abwasser`, `pauschale_strom`, `pauschale_erdgas`, `pauschale_wasser`, `pauschale_abwasser`, `steuer_strom`, `steuer_erdgas`, `betrag_netto_strom`, `betrag_netto_erdgas`, `betrag_netto_wasser`, `betrag_netto_abwasser`, `umsatz_steuer_strom`, `umsatz_steuer_erdgas`, `umsatz_steuer_wasser`, `umsatz_steuer_abwasser`, `betrag_brutto_strom`, `betrag_brutto_erdgas`, `betrag_brutto_wasser`, `betrag_brutto_abwasser`, `betrag_nachzahlung`,`betrag_gezahlte_abschlaege`,`betrag_zukuenftige_abschlaege`)  "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"; // 32
-
-		try {
-			PreparedStatement ps_zahlung = con.prepareStatement(sql_zahlung, Statement.RETURN_GENERATED_KEYS);
-
-			// FKs
-			ps_zahlung.setInt(1, gen_key_zeitraum);
-			ps_zahlung.setInt(2, gen_key_zaehlerstand);
-			ps_zahlung.setInt(3, cb_einstellungen_id.getValue());
-
-			// Mengen
-			String menge_strom_mit_Einheit = lb_menge_strom.getText();
-			String menge_strom_ohne_Einheit = menge_strom_mit_Einheit.substring(0, menge_strom_mit_Einheit.length() -4);
-			String menge_erdgas_mit_Einheit = lb_menge_erdgas.getText();
-			String menge_erdgas_ohne_Einheit = menge_erdgas_mit_Einheit.substring(0, menge_erdgas_mit_Einheit.length() -4);
-			String menge_wasser_mit_Einheit = lb_menge_wasser.getText();
-			String menge_wasser_ohne_Einheit = menge_wasser_mit_Einheit.substring(0, menge_wasser_mit_Einheit.length() -3);
-			String menge_abwasser_mit_Einheit = lb_menge_abwasser.getText();
-			String menge_abwasser_ohne_Einheit = menge_abwasser_mit_Einheit.substring(0, menge_abwasser_mit_Einheit.length() -3);
-			
-			double menge_strom = Double.parseDouble(menge_strom_ohne_Einheit);
-			double menge_erdgas = Double.parseDouble(menge_erdgas_ohne_Einheit);
-			double menge_wasser = Double.parseDouble(menge_wasser_ohne_Einheit);
-			double menge_abwasser = Double.parseDouble(menge_abwasser_ohne_Einheit);
-
-			ps_zahlung.setDouble(4, menge_strom);
-			ps_zahlung.setDouble(5, menge_erdgas);
-			ps_zahlung.setDouble(6, menge_wasser);
-			ps_zahlung.setDouble(7, menge_abwasser);
-
-			// Betrag_Mengen
-			double betrag_menge_strom = menge_strom * preis_strom;
-			double betrag_menge_erdgas = menge_erdgas * preis_erdgas;
-			double betrag_menge_wasser = menge_wasser * preis_wasser;
-			double betrag_menge_abwasser = menge_abwasser * preis_abwasser;
-
-			ps_zahlung.setDouble(8, betrag_menge_strom);
-			ps_zahlung.setDouble(9, betrag_menge_erdgas);
-			ps_zahlung.setDouble(10, betrag_menge_wasser);
-			ps_zahlung.setDouble(11, betrag_menge_abwasser);
-			
-			lb_betrag_strom.setText(""+betrag_menge_strom +" €");
-			lb_betrag_erdgas.setText(""+betrag_menge_erdgas +" €");
-			lb_betrag_wasser.setText(""+betrag_menge_wasser +" €");
-			lb_betrag_abwasser.setText(""+betrag_menge_abwasser +" €");
-
-			// Pauschalen alle /360 * anz_tage_zeitraum
-			int anz_tage = Integer.parseInt(lb_dif_tage.getText());
-
-			double pauschale_strom_lokal = anz_tage * pauschale_strom / 365;
-			double pauschale_erdgas_lokal = anz_tage * pauschale_erdgas / 365;
-			double pauschale_wasser_lokal = anz_tage * pauschale_wasser / 365;
-			double pauschale_abwasser_lokal = anz_tage * pauschale_abwasser / 365;
-
-			ps_zahlung.setDouble(12, pauschale_strom_lokal);
-			ps_zahlung.setDouble(13, pauschale_erdgas_lokal);
-			ps_zahlung.setDouble(14, pauschale_wasser_lokal);
-			ps_zahlung.setDouble(15, pauschale_abwasser_lokal);
-
-			// Steuer - nur für Strom und Erdgas
-			double steuer_strom_betrag = menge_strom * steuer_strom;
-			double steuer_erdgas_betrag = menge_erdgas * steuer_erdgas;
-
-			ps_zahlung.setDouble(16, steuer_strom_betrag);
-			ps_zahlung.setDouble(17, steuer_erdgas_betrag);
-
-			// Betrag netto
-			double betrag_netto_strom = betrag_menge_strom + pauschale_strom_lokal + steuer_strom_betrag;
-			double betrag_netto_erdgas = betrag_menge_erdgas + pauschale_erdgas_lokal + steuer_erdgas_betrag;
-			double betrag_netto_wasser = betrag_menge_wasser + pauschale_wasser_lokal;
-			double betrag_netto_abwasser = betrag_menge_abwasser + pauschale_abwasser_lokal;
-
-			ps_zahlung.setDouble(18, betrag_netto_strom);
-			ps_zahlung.setDouble(19, betrag_netto_erdgas);
-			ps_zahlung.setDouble(20, betrag_netto_wasser);
-			ps_zahlung.setDouble(21, betrag_netto_abwasser);
-
-			// Umsatzseteuer
-			double umsatzsteuer_strom_lokal = betrag_netto_strom * umsatzsteuer_strom;
-			double umsatzsteuer_erdgas_lokal = betrag_netto_erdgas * umsatzsteuer_erdgas;
-			double umsatzsteuer_wasser_lokal = betrag_netto_wasser * umsatzsteuer_wasser;
-			double umsatzsteuer_abwasser_lokal = betrag_netto_abwasser * umsatzsteuer_abwasser;
-
-			ps_zahlung.setDouble(22, umsatzsteuer_strom_lokal);
-			ps_zahlung.setDouble(23, umsatzsteuer_erdgas_lokal);
-			ps_zahlung.setDouble(24, umsatzsteuer_wasser_lokal);
-			ps_zahlung.setDouble(25, umsatzsteuer_abwasser_lokal);
-
-			// Betrag brutto
-			double betrag_brutto_strom = betrag_netto_strom + umsatzsteuer_strom_lokal;
-			double betrag_brutto_erdgas = betrag_netto_erdgas + umsatzsteuer_erdgas_lokal;
-			double betrag_brutto_wasser = betrag_netto_wasser + umsatzsteuer_wasser_lokal;
-			double betrag_brutto_abwasser = betrag_netto_abwasser + umsatzsteuer_abwasser_lokal;
-
-			ps_zahlung.setDouble(26, betrag_brutto_strom);
-			ps_zahlung.setDouble(27, betrag_brutto_erdgas);
-			ps_zahlung.setDouble(28, betrag_brutto_wasser);
-			ps_zahlung.setDouble(29, betrag_brutto_abwasser);
-			
-			double abweichung = Double.parseDouble(tf_betrag_abweichung.getText());
-			double abschlag_bisher = Double.parseDouble(tf_betrag_abschlagszahlung_bisher.getText());
-			double abschlag_zukunft = Double.parseDouble(tf_betrag_abschlagszahlung_zukunft.getText());
-			
-			ps_zahlung.setDouble(30, abweichung);
-			ps_zahlung.setDouble(31, abschlag_bisher);
-			ps_zahlung.setDouble(32, abschlag_zukunft);
-
-			int gen_key = db.executeUpdate(ps_zahlung);
-			System.out.println(gen_key);
-
-		} catch (SQLException e) {
-		}
+		}//IF von Alert
 
 	}
 	
