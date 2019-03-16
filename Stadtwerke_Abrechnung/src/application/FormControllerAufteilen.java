@@ -2,13 +2,19 @@ package application;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
+import com.sun.javafx.scene.control.skin.ComboBoxPopupControl.FakeFocusTextField;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 
 public class FormControllerAufteilen {
 	
@@ -204,11 +210,7 @@ public class FormControllerAufteilen {
 				
 			}//while
 			
-			if (anz_tage == 0) {
-				//liegt irgendwie dumm
-				//System.out.println("Bitte einen anderen Zeitraum wählen");
-				//--------------------------------------------------------------DIALOG ANZEIGEN
-			}
+						
 			
 			lb_menge_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(menge_strom, 2)+" kWh");
 			lb_kosten_strom_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_brutto_strom, 2)+" €");
@@ -257,11 +259,73 @@ public class FormControllerAufteilen {
 			double gesamtkosten_wohnung_1 = (betrag_brutto_strom + betrag_brutto_erdgas + betrag_brutto_wasser + betrag_brutto_abwasser) * faktor_wohnung_1;
 			double gesamtkosten_wohnung_2 = (betrag_brutto_strom + betrag_brutto_erdgas + betrag_brutto_wasser + betrag_brutto_abwasser) * faktor_wohnung_2;
 			
+			double aufschlag_wohnung1 =0;
+			double aufschlag_wohnung2 =0;
+			double gesamtkosten_zusammen = 0;
+			boolean aufschlag = false;
+			
+			//Wenn Ende nicht gefunden wurde => mittels der zukünftigen Abschläge der letzten Zahlung rechnen
+			if(von_hat_begonnen==true) {
+				aufschlag = true;
+				ResultSet rs_rechnung = db.executeQueryWithResult("SELECT `rechnung`.`id`, `zeitraum_id`, `zeitraum`.`zeitraum_bis` ,`betrag_zukuenftige_abschlaege` FROM `rechnung`\r\n" + 
+						"INNER JOIN `zeitraum` on `rechnung`.`zeitraum_id` = `zeitraum`.`id`\r\n" + 
+						" ORDER BY `rechnung`.`id` DESC LIMIT 1");
+				
+				
+				if(rs_rechnung.next()) {
+					LocalDate zeitraum_bis = rs_rechnung.getDate("zeitraum_bis").toLocalDate();
+					int anz_tage_rest = (int) (ChronoUnit.DAYS.between(zeitraum_bis, bis_in) + 1);
+					
+					double abschlaege = rs_rechnung.getDouble("betrag_zukuenftige_abschlaege");
+					double gesamtbetrag = abschlaege * 12 / 365 * anz_tage_rest;
+					
+					aufschlag_wohnung1 = gesamtbetrag * faktor_wohnung_1;
+					aufschlag_wohnung2 = gesamtbetrag * faktor_wohnung_2;
+					
+					gesamtkosten_zusammen = gesamtkosten_wohnung_1 + gesamtkosten_wohnung_2;
+					
+					gesamtkosten_wohnung_1 += aufschlag_wohnung1;
+					gesamtkosten_wohnung_2 += aufschlag_wohnung2;
+					
+					
+				}
+			}
+			
 			lb_gesamte_kosten_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_wohnung_1, 2)+" €");
 			lb_gesamte_kosten_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_wohnung_2, 2)+" €");
 			lb_gesamte_kosten_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen((gesamtkosten_wohnung_1 + gesamtkosten_wohnung_2), 2)+" €");
 			
+			if(aufschlag) {
+				Alert alert_1 = new Alert(AlertType.INFORMATION, "Gesamtkosten Wohnung 1 ohne Aufschlag: "+BasicFunctions.roundDoubleNachkommastellen((gesamtkosten_wohnung_1 - aufschlag_wohnung1),2)+"€\nGesamtkosten Wohnung 2 ohne Aufschlag: "+BasicFunctions.roundDoubleNachkommastellen((gesamtkosten_wohnung_2 - aufschlag_wohnung2),2)+"€ \nGesamtkosten ohne Aufschlag: "+BasicFunctions.roundDoubleNachkommastellen(gesamtkosten_zusammen,2)+"€ \n\nAufschlag Wohnung 1: "+BasicFunctions.roundDoubleNachkommastellen(aufschlag_wohnung1,2)+" €\nAufschlag Wohnung 2: "+BasicFunctions.roundDoubleNachkommastellen(aufschlag_wohnung2,2)+"€ \n", ButtonType.FINISH);
+				alert_1.setTitle("Berechnung der Kosten");
+				alert_1.setHeaderText("Die berechneten Gesamtkosten wurde teilweise mittels der aktuellen Abschlagszahlungen berechnet");
+				alert_1.showAndWait();
+			}
 			
+			//es existiert keine Rechung für diesen Zeitraum => an Hand der zukünftigen abschlagszahlungen berechnen
+			if (anz_tage == 0) {
+				Alert alert = new Alert(AlertType.INFORMATION, "", ButtonType.FINISH);
+				alert.setTitle("Berechnung der Kosten");
+			    alert.setHeaderText("Die berechneten Gesamtkosten wurden mittels der aktuellen Abschlagszahlungen berechnet");
+				alert.showAndWait();
+				
+				ResultSet rs_rechnung = db.executeQueryWithResult("SELECT `id`,`betrag_zukuenftige_abschlaege` FROM `rechnung` ORDER BY `id` DESC LIMIT 1");
+				
+				if(rs_rechnung.next()) {
+					double abschlaege = rs_rechnung.getDouble("betrag_zukuenftige_abschlaege");
+					double gesamtbetrag = abschlaege * 12 / 365 * anz_tage_soll;
+					
+					double kosten_wohnung_1 = gesamtbetrag * faktor_wohnung_1;
+					double kosten_wohnung_2 = gesamtbetrag * faktor_wohnung_2;
+					
+					lb_gesamte_kosten_wohnung_1.setText(""+BasicFunctions.roundDoubleNachkommastellen(kosten_wohnung_1, 2)+" €");
+					lb_gesamte_kosten_wohnung_2.setText(""+BasicFunctions.roundDoubleNachkommastellen(kosten_wohnung_2, 2)+" €");
+					lb_gesamte_kosten_gesamt.setText(""+BasicFunctions.roundDoubleNachkommastellen((gesamtbetrag), 2)+" €");
+				}
+				//System.out.println("Bitte einen anderen Zeitraum wählen");
+				
+				//--------------------------------------------------------------DIALOG ANZEIGEN
+			}
 				
 			//System.out.println("Ist: "+anz_tage);
 		} catch (SQLException e) {e.printStackTrace();

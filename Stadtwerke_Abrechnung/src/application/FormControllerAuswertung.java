@@ -280,9 +280,9 @@ public class FormControllerAuswertung {
 		Series<String, Double> set_kosten_nachzahlung = new XYChart.Series<String, Double>();
 		Series<String, Double> set_kosten_abschlaege = new XYChart.Series<String, Double>();
 
-		set_kosten_gesamt.setName("Gesamtkosten");
-		set_kosten_nachzahlung.setName("Nachzahlung");
-		set_kosten_abschlaege.setName("Abschlagszahlung");
+		set_kosten_gesamt.setName("Gesamtkosten (€)");
+		set_kosten_nachzahlung.setName("Nachzahlung (€)");
+		set_kosten_abschlaege.setName("Abschlagszahlung (€)");
 
 		try {
 			while (rs_rechnungs_zeitpunkte.next()) {
@@ -295,7 +295,7 @@ public class FormControllerAuswertung {
 				String rechungs_datum = rs_rechnungs_zeitpunkte.getString("zeitraum_bis");
 				//System.out.println("" + rechungs_datum);
 
-				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), MAX(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`, `zeitraum_bis_monat`  FROM `rechnung`\r\n"
+				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), AVG(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`, `zeitraum_bis_monat`  FROM `rechnung`\r\n"
 						+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis` LIKE '"+ rechungs_datum + "'";
 				ResultSet rs_kosten_pro_rechnungs_datum = db.executeQueryWithResult(sql_kosten_pro_jahr);
 
@@ -317,13 +317,13 @@ public class FormControllerAuswertung {
 
 					set_gesamt.getData().add(new XYChart.Data<String, Double>("Gesamtbetrag", gesamtbetrag));
 					set_strom.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Strom", rs_kosten_pro_rechnungs_datum.getDouble(2)));
+							.add(new XYChart.Data<String, Double>("Betrag Strom (€)", rs_kosten_pro_rechnungs_datum.getDouble(2)));
 					set_erdgas.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Erdgas", rs_kosten_pro_rechnungs_datum.getDouble(3)));
+							.add(new XYChart.Data<String, Double>("Betrag Erdgas (€)", rs_kosten_pro_rechnungs_datum.getDouble(3)));
 					set_wasser.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Wasser", rs_kosten_pro_rechnungs_datum.getDouble(4)));
+							.add(new XYChart.Data<String, Double>("Betrag Wasser (€)", rs_kosten_pro_rechnungs_datum.getDouble(4)));
 					set_abwasser.getData()
-							.add(new XYChart.Data<String, Double>("Betrag Abwasser", rs_kosten_pro_rechnungs_datum.getDouble(5)));
+							.add(new XYChart.Data<String, Double>("Betrag Abwasser (€)", rs_kosten_pro_rechnungs_datum.getDouble(5)));
 					
 					if(monats_ansicht) {//Wenn Ansicht Monat ist ausgewählt
 						bc_allgmeein_kosten.getData().addAll(set_gesamt);
@@ -431,7 +431,7 @@ public class FormControllerAuswertung {
 						set_gesamt.setName("" + rechungs_jahr);
 						
 	
-						set_gesamt.getData().add(new XYChart.Data<String, Double>("Gesamtbetrag", gesamtbetrag));
+						set_gesamt.getData().add(new XYChart.Data<String, Double>("Gesamtbetrag (€)", gesamtbetrag));
 						
 												bc_allgmeein_kosten.getData().addAll(set_gesamt);
 					}
