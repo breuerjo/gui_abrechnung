@@ -1,11 +1,8 @@
 package application;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 import com.jfoenix.controls.JFXCheckBox;
@@ -136,13 +133,11 @@ public class FormControllerAktuellerStand {
 				
 			
 				zeitraum_id = rs_zeitraum.getInt("id");
-				//java.sql.Date sql_date_zeitraum_von = rs_zeitraum.getDate("zeitraum_von");
-				
+								
 				LocalDate zeitraum_bis = rs_zeitraum.getDate("zeitraum_bis").toLocalDate();
 				
 				anz_tage_aktuell = ChronoUnit.DAYS.between(zeitraum_bis, dp_aktuelles_datum.getValue()) + 1;	//da inkl. Bis Datum
 				lb_anzahl_tage_aktuell.setText("Anzahl Tage: "+anz_tage_aktuell);
-				//System.out.println(""+anz_tage);
 				
 				//Mittels der Zeitraum-ID die Rechnung --> Zählerstand-ID holen
 
@@ -339,30 +334,7 @@ public class FormControllerAktuellerStand {
 		
 		double gesamtabweichung_prozent = faktor_strom * abw_strom + faktor_erdgas * abw_erdgas + faktor_wasser * abw_wasser + faktor_abwasser * abw_abwasser;
 		
-		//System.out.println("Gesamtabweichung: "+gesamtabweichung_prozent);		
-		/* alte Berechnung anhand des Betrages des Vergleichzeitraumes
-		 * double abweichung_strom = 0;
-		double abweichung_erdgas = 0;
-		double abweichung_wasser = 0;
-		double abweichung_abwasser = 0;
-		ResultSet rs_verleichzeitraum_rechnung = db.executeQueryWithResult("SELECT `betrag_brutto_strom`,`betrag_brutto_erdgas`,`betrag_brutto_wasser`,`betrag_brutto_abwasser` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");
-		try {
-			if(rs_verleichzeitraum_rechnung.next()) {
-				double betrag_strom = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_strom");
-				double betrag_erdgas = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_erdgas");
-				double betrag_wasser = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_wasser");
-				double betrag_abwasser = rs_verleichzeitraum_rechnung.getDouble("betrag_brutto_abwasser");
-				
-				abweichung_strom = betrag_strom * abw_strom / 100; //da Abweichung in % => /100
-				abweichung_erdgas = betrag_erdgas * abw_erdgas / 100;
-				abweichung_wasser = betrag_wasser * abw_wasser / 100;
-				abweichung_abwasser = betrag_abwasser * abw_abwasser / 100;
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		*/
+		
 		double zukuenftige_abschlaege =0;
 		ResultSet rs_letzte_rechnung = db.executeQueryWithResult("SELECT `betrag_zukuenftige_abschlaege` FROM `rechnung` ORDER BY `id` DESC LIMIT 1");
 		try {

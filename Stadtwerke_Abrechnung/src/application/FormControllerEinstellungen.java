@@ -177,7 +177,6 @@ public class FormControllerEinstellungen {
 			while (rs_kategorie.next()) {
 
 				list_kategorien.add(rs_kategorie.getString("kategorie"));
-				//System.out.println(rs_kategorie.getString("kategorie"));
 
 			}
 
@@ -224,7 +223,6 @@ public class FormControllerEinstellungen {
 	}
 	
 	public void action_einstellung_id_gewaehlt() {
-		//System.out.println(cb_einstellung_id.getValue());
 		
 		DB db = new DB();
 		ResultSet rs = db.executeQueryWithResult("SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellung_id.getValue()+"");
@@ -262,7 +260,6 @@ public class FormControllerEinstellungen {
 	}
 	
 	public void action_einstellung_neu_id_gewaehlt() {
-		//System.out.println(cb_einstellung_id.getValue());
 		
 		DB db = new DB();
 		ResultSet rs = db.executeQueryWithResult("SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellung_neu_id.getValue()+"");

@@ -9,9 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -44,10 +41,6 @@ public class FormControllerUebersicht {
 	public TableColumn<RechnungData, String> table_clmn_nachzahlung;
 	@FXML
 	public TableColumn<RechnungData, String> table_clmn_abschlagszahlungen;
-	/*@FXML
-	private ComboBox<Date> cb_zeitraum_von;
-	@FXML
-	private ComboBox<Date> cb_zeitraum_bis;*/
 	
 	@FXML
 	private JFXButton bt_zeitraum_geweahlt;
@@ -73,8 +66,6 @@ public class FormControllerUebersicht {
 	// Labels Strom Kostenberechnung
 	@FXML
 	private Label strom_kosten_zeitraum;
-	// @FXML
-	// private Label strom_kosten_bezeichnung;
 	@FXML
 	private Label strom_kosten_menge;
 	@FXML
@@ -343,7 +334,6 @@ public class FormControllerUebersicht {
 
 			// Rechnung mit Zeitraum holen
 			if (rs_zeitraum.next()) {
-				// RechnungDataStrom z_d = new RechnungDataStrom();
 
 				ResultSet rs_rechnung = db.executeQueryWithResult(
 						"SELECT * FROM `rechnung` WHERE `zeitraum_id` = " + rs_zeitraum.getString(1) + "");
@@ -354,7 +344,6 @@ public class FormControllerUebersicht {
 
 				ResultSet rs_einstellung = db.executeQueryWithResult(
 						"SELECT * FROM `einstellung` WHERE `id` = " + rs_rechnung.getString("einstellung_id") + "");
-				// data_strom.add(z_d);
 
 				rs_zaehlerstand.next();
 
@@ -502,10 +491,8 @@ public class FormControllerUebersicht {
 	}
 	
 	public void action_tabelle_zeitraum_ausgewaehlt() {
-		//System.out.println("Zeile ausgewählt");
-		RechnungData rechnung_data = uebersicht_table_zahlungen.getSelectionModel().getSelectedItem();
-		//System.out.println(rechnung_data.getZeitraum_von());  
-		//System.out.println(rechnung_data.getZeitraum_bis());  
+		//1 Zeile ist ausgewählt
+		RechnungData rechnung_data = uebersicht_table_zahlungen.getSelectionModel().getSelectedItem(); 
 	}
 
 	public void action_menu_uebersicht() {

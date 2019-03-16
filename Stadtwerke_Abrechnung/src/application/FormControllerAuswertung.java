@@ -86,7 +86,7 @@ public class FormControllerAuswertung {
 	private BarChart<String, Double> bc_abwasser_menge;
 
 	// ------------------------------------------------------Preisentwicklungen
-	// LinceChart-------------------------
+	// ---------------------------------------------------------LinceChart-------------------------
 	@FXML
 	private CategoryAxis xAxis_lc_preise_strom;
 	@FXML
@@ -116,7 +116,7 @@ public class FormControllerAuswertung {
 	private LineChart<String, Double> lc_preise_abwasser;
 
 	// ------------------------------------------------------Pauschalen-Entwicklungen
-	// LinceChart-------------------------
+	// --------------------------------------------------------------LinceChart-------------------------
 	@FXML
 	private CategoryAxis xAxis_lc_pauschale_strom;
 	@FXML
@@ -293,7 +293,6 @@ public class FormControllerAuswertung {
 				double gesamtbetrag = 0;
 
 				String rechungs_datum = rs_rechnungs_zeitpunkte.getString("zeitraum_bis");
-				//System.out.println("" + rechungs_datum);
 
 				String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`), SUM(`menge_strom`), SUM(`menge_erdgas`), SUM(`menge_wasser`), SUM(`menge_abwasser`), SUM(`betrag_nachzahlung`), AVG(`betrag_gezahlte_abschlaege`), `zeitraum_von_jahr`, `zeitraum_bis_monat`  FROM `rechnung`\r\n"
 						+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis` LIKE '"+ rechungs_datum + "'";
@@ -414,7 +413,6 @@ public class FormControllerAuswertung {
 					double gesamtbetrag = 0;
 	
 					String rechungs_jahr = rs_jahre.getString("zeitraum_bis_jahr");
-					//System.out.println("" + rechungs_jahr);
 	
 					String sql_kosten_pro_jahr = "SELECT `zeitraum_id`, SUM(`betrag_brutto_strom`), SUM(`betrag_brutto_wasser`), SUM(`betrag_brutto_erdgas`), SUM(`betrag_brutto_abwasser`) `zeitraum_von_jahr`  FROM `rechnung`\r\n"
 							+ "Inner join `zeitraum` on `zeitraum`.`id` = `rechnung`.`zeitraum_id` WHERE `zeitraum_bis_jahr` = "+ rechungs_jahr + "";
@@ -503,7 +501,6 @@ public class FormControllerAuswertung {
 		pc_kostenzusammensetzung.getData().clear();
 		pc_kostenzusammensetzung.getData().addAll(pieChartData);
 
-		//System.out.println("Init Pie Chart");
 	}
 
 	public void initLineChartPreise(DB db) {

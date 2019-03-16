@@ -14,7 +14,6 @@ public class DB {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ui_stadtwerke_db","root","");
-			//System.out.println(this.con);
 		}catch (Exception e) {}
 		
 		
@@ -22,11 +21,9 @@ public class DB {
 	}
 	
 	public Connection getConnection() {
-		//Get actual connection to data base
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.con=DriverManager.getConnection("jdbc:mysql://localhost:3306/ui_stadtwerke_db","root","");
-			//System.out.println(this.con);
 		} catch (Exception e) {}
 		
 		return this.con;

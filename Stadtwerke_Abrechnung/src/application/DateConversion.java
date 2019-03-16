@@ -9,8 +9,7 @@ import java.util.Date;
 
 public class DateConversion {
 
-	// Date conversion because PreparedStatement#setDate(..) expects a java.sql.Date
-	// argument
+	// Date zu java.sqlDate
 	public static java.sql.Date dateConversion(String date) {
 		java.sql.Date sql_date = null;
 		try {
