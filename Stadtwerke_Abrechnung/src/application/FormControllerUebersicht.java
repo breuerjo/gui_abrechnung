@@ -3,6 +3,7 @@ package application;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
@@ -295,8 +296,8 @@ public class FormControllerUebersicht {
 						.executeQueryWithResult("SELECT `zeitraum_von`, `zeitraum_bis` FROM `zeitraum` WHERE `id` = "
 								+ rs.getString("zeitraum_id") + " ORDER BY `zeitraum_bis`");
 				rs_zeitraum.next();
-				z_d.zeitraum_von.set(rs_zeitraum.getString("zeitraum_von"));
-				z_d.zeitraum_bis.set(rs_zeitraum.getString("zeitraum_bis"));
+				z_d.zeitraum_von.set(DateConversion.dateFormating(rs_zeitraum.getString("zeitraum_von")));
+				z_d.zeitraum_bis.set(DateConversion.dateFormating(rs_zeitraum.getString("zeitraum_bis")));
 
 				// Daten zu den einzelnen Rechnungen
 				ResultSet rs_gesbetrag = db.executeQueryWithResult(
@@ -311,14 +312,14 @@ public class FormControllerUebersicht {
 								+ "'");
 				rs_gesbetrag.next();
 				z_d.nummer.set(rs_gesbetrag.getString("id"));
-				z_d.menge_strom.set(rs_gesbetrag.getString("menge_strom"));
-				z_d.menge_erdgas.set(rs_gesbetrag.getString("menge_erdgas"));
-				z_d.menge_wasser.set(rs_gesbetrag.getString("menge_wasser"));
-				z_d.menge_abwasser.set(rs_gesbetrag.getString("menge_abwasser"));
-				z_d.gesamtbetrag.set(rs_gesbetrag.getString(9));
+				z_d.menge_strom.set(rs_gesbetrag.getString("menge_strom")+ " kWh");
+				z_d.menge_erdgas.set(rs_gesbetrag.getString("menge_erdgas")+ " kWh");
+				z_d.menge_wasser.set(rs_gesbetrag.getString("menge_wasser")+ " m³");
+				z_d.menge_abwasser.set(rs_gesbetrag.getString("menge_abwasser")+ " m³");
+				z_d.gesamtbetrag.set(rs_gesbetrag.getString(9)+ " €");
 				z_d.einstellungen.set(rs_gesbetrag.getString("einstellung_id"));
-				z_d.nachzahlung.set(rs_gesbetrag.getString("betrag_nachzahlung"));
-				z_d.abschlagszahlungen.set(rs_gesbetrag.getString("betrag_gezahlte_abschlaege"));
+				z_d.nachzahlung.set(rs_gesbetrag.getString("betrag_nachzahlung")+ " €");
+				z_d.abschlagszahlungen.set(rs_gesbetrag.getString("betrag_gezahlte_abschlaege") + " €");
 
 				data.add(z_d);
 			}
@@ -335,7 +336,7 @@ public class FormControllerUebersicht {
 		//
 		try {
 
-			String zeitraum_ges = zeitraum_von + " bis " + zeitraum_bis;
+			String zeitraum_ges = DateConversion.dateFormating(zeitraum_von) + " bis " + DateConversion.dateFormating(zeitraum_bis);
 			ResultSet rs_zeitraum = db.executeQueryWithResult(
 					"SELECT MAX(id), MAX(differenz_tage) FROM `zeitraum` WHERE `zeitraum_von` = '" + zeitraum_von
 							+ "' and  `zeitraum_bis` = '" + zeitraum_bis + "'");
@@ -489,7 +490,15 @@ public class FormControllerUebersicht {
 		//System.out.println(rechnung_data.getZeitraum_bis());
 			
 		DB db = new DB();
-		initTables(db, rechnung_data.getZeitraum_von(), rechnung_data.getZeitraum_bis());
+		String zeitraum_von = "";
+		String zeitraum_bis = "";
+		
+		try {
+			zeitraum_von = DateConversion.dateFormatingBack(rechnung_data.getZeitraum_von());
+			zeitraum_bis = DateConversion.dateFormatingBack(rechnung_data.getZeitraum_bis());
+		} catch (ParseException e) {}
+		
+		initTables(db, zeitraum_von , zeitraum_bis);
 	}
 	
 	public void action_tabelle_zeitraum_ausgewaehlt() {

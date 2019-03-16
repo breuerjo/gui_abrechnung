@@ -2,6 +2,7 @@ package application;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -186,13 +187,6 @@ public class FormControllerAuswertung {
 	private NumberAxis yAxis_lc_kosten_allgemein;
 	@FXML
 	private LineChart<String, Double> lc_kosten_allgemein;
-	//------------------------------------------------------------------Bar-Chart Gesamte Kosten pro Jahr
-	/*@FXML
-	private CategoryAxis xAxis_bc_kosten_allgemein_jahr;
-	@FXML
-	private NumberAxis yAxis_bc_kosten_allgemein_jahr;
-	@FXML
-	private BarChart<String, Double> bc_kosten_allgemein_jahr;*/
 
 	// -------------------------------------------------------------Allgemein--------------------------
 	@FXML
@@ -315,11 +309,11 @@ public class FormControllerAuswertung {
 					Series<String, Double> set_erdgas = new XYChart.Series<String, Double>();
 					Series<String, Double> set_wasser = new XYChart.Series<String, Double>();
 					Series<String, Double> set_abwasser = new XYChart.Series<String, Double>();
-					set_gesamt.setName("" + rechungs_datum);
-					set_strom.setName("" + rechungs_datum);
-					set_erdgas.setName("" + rechungs_datum);
-					set_wasser.setName("" + rechungs_datum);
-					set_abwasser.setName("" + rechungs_datum);
+					set_gesamt.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_strom.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_erdgas.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_wasser.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_abwasser.setName("" + DateConversion.dateFormating(rechungs_datum));
 
 					set_gesamt.getData().add(new XYChart.Data<String, Double>("Gesamtbetrag", gesamtbetrag));
 					set_strom.getData()
@@ -344,17 +338,17 @@ public class FormControllerAuswertung {
 
 					// -----------------------------KostenChart-LineChart--------------------------------------
 
-					set_kosten_gesamt.getData().add(new XYChart.Data<String, Double>("" + rechungs_datum, gesamtbetrag));
+					set_kosten_gesamt.getData().add(new XYChart.Data<String, Double>("" + DateConversion.dateFormating(rechungs_datum), gesamtbetrag));
 					set_kosten_nachzahlung.getData()
-							.add(new XYChart.Data<String, Double>("" + rechungs_datum, rs_kosten_pro_rechnungs_datum.getDouble(10)));
+							.add(new XYChart.Data<String, Double>("" + DateConversion.dateFormating(rechungs_datum), rs_kosten_pro_rechnungs_datum.getDouble(10)));
 					
 					if(rs_kosten_pro_rechnungs_datum.getInt("zeitraum_bis_monat") == 5) {
 						set_kosten_abschlaege.getData()
-						.add(new XYChart.Data<String, Double>("" + rechungs_datum, (rs_kosten_pro_rechnungs_datum.getDouble(11) * 5)));
+						.add(new XYChart.Data<String, Double>("" + DateConversion.dateFormating(rechungs_datum), (rs_kosten_pro_rechnungs_datum.getDouble(11) * 5)));
 					}
 					else {
 						set_kosten_abschlaege.getData()
-						.add(new XYChart.Data<String, Double>("" + rechungs_datum, (rs_kosten_pro_rechnungs_datum.getDouble(11) * 7)));
+						.add(new XYChart.Data<String, Double>("" + DateConversion.dateFormating(rechungs_datum), (rs_kosten_pro_rechnungs_datum.getDouble(11) * 7)));
 					}
 					
 					if(!monats_ansicht && initDone == false) {
@@ -368,10 +362,10 @@ public class FormControllerAuswertung {
 					Series<String, Double> set_erdgas_menge = new XYChart.Series<String, Double>();
 					Series<String, Double> set_wasser_menge = new XYChart.Series<String, Double>();
 					Series<String, Double> set_abwasser_menge = new XYChart.Series<String, Double>();
-					set_strom_menge.setName("" + rechungs_datum);
-					set_erdgas_menge.setName("" + rechungs_datum);
-					set_wasser_menge.setName("" + rechungs_datum);
-					set_abwasser_menge.setName("" + rechungs_datum);
+					set_strom_menge.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_erdgas_menge.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_wasser_menge.setName("" + DateConversion.dateFormating(rechungs_datum));
+					set_abwasser_menge.setName("" + DateConversion.dateFormating(rechungs_datum));
 
 					set_strom_menge.getData().add(
 							new XYChart.Data<String, Double>("Menge Strom (kWh)", rs_kosten_pro_rechnungs_datum.getDouble(6)));
@@ -606,34 +600,38 @@ public class FormControllerAuswertung {
 						gezahlte_pauschale_abwasser = rs_einstellung.getDouble("quadratmeter_gesamt")
 								* rs_einstellung.getDouble("pauschale_abwasser_faktor") / 365 * anzahl_tage;
 
-						set_preise_strom.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("preis_strom")));
-						set_pauschale_strom.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("pauschale_strom")));
+						try {
+							set_preise_strom.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("preis_strom")));
+							set_pauschale_strom.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("pauschale_strom")));
 
-						set_preise_erdgas.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("preis_erdgas")));
-						set_pauschale_erdgas.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("pauschale_erdgas")));
+							set_preise_erdgas.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("preis_erdgas")));
+							set_pauschale_erdgas.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("pauschale_erdgas")));
 
-						set_preise_wasser.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("preis_wasser")));
-						set_pauschale_wasser.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("pauschale_wasser")));
+							set_preise_wasser.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("preis_wasser")));
+							set_pauschale_wasser.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("pauschale_wasser")));
 
-						set_preise_abwasser.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										rs_einstellung.getDouble("preis_abwasser")));
-						set_pauschale_abwasser.getData()
-								.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-										(rs_einstellung.getDouble("quadratmeter_gesamt")
-												* (rs_einstellung.getDouble("pauschale_abwasser_faktor")))));
+							set_preise_abwasser.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											rs_einstellung.getDouble("preis_abwasser")));
+							set_pauschale_abwasser.getData()
+									.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+											(rs_einstellung.getDouble("quadratmeter_gesamt")
+													* (rs_einstellung.getDouble("pauschale_abwasser_faktor")))));
+						} catch (ParseException e1) {
+							e1.printStackTrace();
+						}
 						
 						double gesamtbetrag_strom = rs_rechnung.getDouble("betrag_menge_strom") + gezahlte_pauschale_strom;
 						double anteil_pauschale_strom = gezahlte_pauschale_strom / gesamtbetrag_strom * 100;
@@ -650,31 +648,35 @@ public class FormControllerAuswertung {
 								+ gezahlte_pauschale_abwasser;
 						double anteil_pauschale_abwasser = gezahlte_pauschale_abwasser / gesamtbetrag_abwasser * 100;
 						
-						set_zusammensetzung_strom_pauschale.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(anteil_pauschale_strom)));
-						set_zusammensetzung_erdgas_pauschale.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(anteil_pauschale_erdgas)));
-						set_zusammensetzung_wasser_pauschale.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(anteil_pauschale_wasser)));
-						set_zusammensetzung_abwasser_pauschale.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(anteil_pauschale_abwasser)));
+						try {
+							set_zusammensetzung_strom_pauschale.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(anteil_pauschale_strom)));
+							set_zusammensetzung_erdgas_pauschale.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(anteil_pauschale_erdgas)));
+							set_zusammensetzung_wasser_pauschale.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(anteil_pauschale_wasser)));
+							set_zusammensetzung_abwasser_pauschale.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(anteil_pauschale_abwasser)));
 
-						set_zusammensetzung_strom_verbrauch.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(100 - anteil_pauschale_strom)));
-						set_zusammensetzung_erdgas_verbrauch.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(100 - anteil_pauschale_erdgas)));
-						set_zusammensetzung_wasser_verbrauch.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(100 - anteil_pauschale_wasser)));
-						set_zusammensetzung_abwasser_verbrauch.getData()
-						.add(new XYChart.Data<String, Double>(rs_zeitpunkte_rechnung.getString("zeitraum_bis"),
-								(100 - anteil_pauschale_abwasser)));
+							set_zusammensetzung_strom_verbrauch.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(100 - anteil_pauschale_strom)));
+							set_zusammensetzung_erdgas_verbrauch.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(100 - anteil_pauschale_erdgas)));
+							set_zusammensetzung_wasser_verbrauch.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(100 - anteil_pauschale_wasser)));
+							set_zusammensetzung_abwasser_verbrauch.getData()
+							.add(new XYChart.Data<String, Double>(DateConversion.dateFormating(rs_zeitpunkte_rechnung.getString("zeitraum_bis")),
+									(100 - anteil_pauschale_abwasser)));
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
 					}
 
 					

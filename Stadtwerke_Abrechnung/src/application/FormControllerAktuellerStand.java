@@ -218,8 +218,8 @@ public class FormControllerAktuellerStand {
 				vergleichszeitraum_id = rs_vergleichszeitraum.getInt(1);	//Testfall = 34
 				int differenz_tage_vergleichszeitraum = rs_vergleichszeitraum.getInt("differenz_tage");
 				
-				lb_vergleichszeitraum_von.setText("von: "+rs_vergleichszeitraum.getDate("zeitraum_von"));
-				lb_vergleichszeitraum_bis.setText("bis: "+rs_vergleichszeitraum.getDate("zeitraum_bis"));
+				lb_vergleichszeitraum_von.setText("von: "+(DateConversion.dateFormating(rs_vergleichszeitraum.getString("zeitraum_von"))));
+				lb_vergleichszeitraum_bis.setText("bis: "+(DateConversion.dateFormating(rs_vergleichszeitraum.getString("zeitraum_bis"))));
 				
 				//Mittels der Zeitraum-ID die Rechnung --> Zählerstand-ID holen
 				ResultSet rs_vergleichs_zaehlerstand_id = db.executeQueryWithResult("SELECT `einstellung_id`, `zaehlerstand_id` FROM `rechnung` WHERE `zeitraum_id` = "+vergleichszeitraum_id+"");

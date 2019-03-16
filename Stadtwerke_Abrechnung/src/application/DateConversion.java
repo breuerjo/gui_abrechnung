@@ -29,5 +29,20 @@ public class DateConversion {
 		}
 		return return_value;
 	}
+	
+	public static String dateFormating(String date_string) throws ParseException {
+		
+		Date date = new SimpleDateFormat("yyyy-MM-dd").parse(date_string);
+		
+		return (new SimpleDateFormat("dd.MM.yyyy").format(date));
+	}
+	
+	
+	public static String dateFormatingBack(String date_string) throws ParseException {
+		
+		Date date = new SimpleDateFormat("dd.MM.yyyy").parse(date_string);
+		
+		return (new SimpleDateFormat("yyyy-MM-dd").format(date));
+	}
 
 }

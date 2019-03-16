@@ -263,6 +263,11 @@ public class FormControllerZahlung {
 
 			lb_dif_strom.setText("" + strom_dif);
 			lb_menge_strom.setText("" + strom_dif * Double.parseDouble(lb_faktor_strom.getText())+" kWh" );
+			
+			// Betrag_Mengen
+			double betrag_menge_strom = strom_dif *  Double.parseDouble(lb_faktor_strom.getText()) * preis_strom;
+			lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" €");
+
 		}
 	}
 
@@ -274,6 +279,10 @@ public class FormControllerZahlung {
 
 			lb_dif_erdgas.setText("" + (erdgas_dif));
 			lb_menge_erdgas.setText("" + (int) Math.round(erdgas_dif * erdgas_faktor_zustandszahl * erdgas_faktor_brennwert)+" kWh");
+			
+			// Betrag_Mengen
+			double betrag_menge_erdgas = erdgas_dif *  Double.parseDouble(lb_faktor_erdgas.getText()) * preis_erdgas;
+			lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" €");
 		}
 	}
 
@@ -285,6 +294,10 @@ public class FormControllerZahlung {
 
 			lb_dif_wasser.setText("" + (wasser_neu - wasser_alt));
 			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText())+" m³");
+			
+			// Betrag_Mengen
+			double betrag_menge_wasser = wasser_dif *  Double.parseDouble(lb_faktor_wasser.getText()) * preis_wasser;
+			lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" €");
 		}
 	}
 
@@ -296,6 +309,10 @@ public class FormControllerZahlung {
 
 			lb_dif_abwasser.setText("" + (abwasser_dif));
 			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText())+" m³");
+			
+			// Betrag_Mengen
+			double betrag_menge_abwasser = abwasser_dif *  Double.parseDouble(lb_faktor_abwasser.getText()) * preis_abwasser;
+			lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser, 2) +" €");
 		}
 	}
 

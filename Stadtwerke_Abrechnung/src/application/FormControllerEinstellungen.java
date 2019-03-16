@@ -145,6 +145,7 @@ public class FormControllerEinstellungen {
 		DB db = new DB();
 		//EinstellungsComboBox
 		ResultSet rs = db.executeQueryWithResult("SELECT `id` FROM `einstellung`");
+		ResultSet rs_einstellung = db.executeQueryWithResult("SELECT `id` FROM `einstellung` ORDER BY `id`DESC LIMIT 1");
 		
 		try {
 			ObservableList<Integer> list_einstellungen_ids = FXCollections.observableArrayList();
@@ -153,6 +154,13 @@ public class FormControllerEinstellungen {
 
 				list_einstellungen_ids.add(rs.getInt("id"));
 
+			}
+			
+			if(rs_einstellung.next()) {
+				cb_einstellung_id.setValue(rs_einstellung.getInt("id"));
+				cb_einstellung_neu_id.setValue(rs_einstellung.getInt("id"));
+				action_einstellung_id_gewaehlt();
+				action_einstellung_neu_id_gewaehlt();
 			}
 
 			cb_einstellung_id.setItems(list_einstellungen_ids);
@@ -199,6 +207,9 @@ public class FormControllerEinstellungen {
 		
 		int quadratmeter_wohnung_1 = Integer.parseInt(tf_quadratmeter_wohnung_1.getText());
 		int quadratmeter_wohnung_2 = Integer.parseInt(tf_quadratmeter_wohnung_2.getText());
+		
+		tf_quadratmeter_wohnung_1.setText(""+quadratmeter_wohnung_1+" m²");
+		tf_quadratmeter_wohnung_2.setText(""+quadratmeter_wohnung_2+" m²");
 		
 		DB db = new DB();
 		Connection con = db.getConnection();
