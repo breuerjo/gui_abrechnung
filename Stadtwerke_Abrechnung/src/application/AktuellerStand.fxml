@@ -159,7 +159,7 @@
 
 		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 			<children>
-				<GridPane alignment="CENTER" prefHeight="405.0" prefWidth="1709.0" stylesheets="@application.css">
+				<GridPane alignment="CENTER" prefHeight="770.0" prefWidth="1690.0" stylesheets="@application.css">
 					<columnConstraints>
 						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
 						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
