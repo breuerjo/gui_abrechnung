@@ -594,6 +594,15 @@ public class FormControllerZahlung {
 		}
 	}
 	
+	public void actionZeitraumTaschenrechnerEingegeben() {
+		int jahr = dp_zeitraum_von_taschenrechner.getValue().getYear();
+		
+		String date = ""+jahr+"-12-31";
+        LocalDate datum_wechsel = LocalDate.parse(date);
+        dp_zeitraum_wechsel_taschenrechner.setValue(datum_wechsel);
+        
+	}
+	
 	public int[] getWertFuerZeitraum() {
 		LocalDate zt_von = dp_zeitraum_von_taschenrechner.getValue();
 		LocalDate zt_bis = dp_zeitraum_bis_taschenrechner.getValue();

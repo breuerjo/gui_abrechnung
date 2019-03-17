@@ -678,10 +678,10 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <JFXDatePicker fx:id="dp_zeitraum_bis_taschenrechner" defaultColor="#fabf26" onHiding="#action_datum_berechnen" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="2" />
-                              <JFXDatePicker fx:id="dp_zeitraum_von_taschenrechner" defaultColor="#fabf26" onHiding="#action_datum_berechnen" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" />
+                              <JFXDatePicker fx:id="dp_zeitraum_bis_taschenrechner" defaultColor="#fabf26" onAction="#actionZeitraumTaschenrechnerEingegeben" onHiding="#action_datum_berechnen" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="2" />
+                              <JFXDatePicker fx:id="dp_zeitraum_von_taschenrechner" defaultColor="#fabf26" onAction="#actionZeitraumTaschenrechnerEingegeben" onHiding="#action_datum_berechnen" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" />
                               <JFXDatePicker fx:id="dp_zeitraum_wechsel_taschenrechner" defaultColor="#fabf26" onHiding="#action_datum_berechnen" prefHeight="31.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <JFXTextField fx:id="tf_wert_von" focusColor="#fabf26" maxWidth="150.0" onAction="#action_taschenrechner_fertig" prefHeight="25.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <JFXTextField fx:id="tf_wert_von" focusColor="#fabf26" maxWidth="150.0" prefHeight="25.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <JFXTextField fx:id="tf_wert_bis" focusColor="#fabf26" maxWidth="150.0" onAction="#action_taschenrechner_fertig" prefHeight="25.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
