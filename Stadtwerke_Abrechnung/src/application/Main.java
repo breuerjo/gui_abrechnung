@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 	
 	public static Stage window = null;
+	public BorderPane root;
 	
 	
 	public static void main(String[] args) {
@@ -24,7 +25,7 @@ public class Main extends Application {
 		window = primaryStage;
 		
 		try { 
-			BorderPane root =  (BorderPane) FXMLLoader.load(Main.class.getResource("Uebersicht.fxml"));
+			root =  (BorderPane) FXMLLoader.load(Main.class.getResource("Uebersicht.fxml"));
 			Scene scene_start = new Scene(root,1920,998);
 			scene_start.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
@@ -36,6 +37,10 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	/*public BorderPane getRootPane() {
+        return root ;
+    }*/
 	
 	public static void setStage(String scene_name) {
 		try {

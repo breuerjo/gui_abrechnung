@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import javafx.collections.FXCollections;
@@ -93,6 +94,32 @@ public class FormControllerZahlung {
 	private Button bt_speichern;
 	@FXML
 	private ComboBox<Integer> cb_einstellungen_id;
+	@FXML
+	private Button bt_taschenrechner_strom;
+	@FXML
+	private Button bt_taschenrechner_erdgas;
+	@FXML
+	private Button bt_taschenrechner_wasser;
+	@FXML
+	private Button bt_taschenrechner_abwasser;
+	
+	//----------------------------------------------------------"Taschenrechner"----------------------
+	@FXML
+	private Label lb_taschenrechner_zeitraum_ges;
+	@FXML
+	private Label lb_taschenrechner_zeitraum_wechsel;
+	@FXML
+	private Label lb_taschenrechner_wert;
+	@FXML
+	private TextField tf_wert_von;
+	@FXML
+	private TextField tf_wert_bis;
+	@FXML
+	private DatePicker dp_zeitraum_wechsel_taschenrechner;
+	@FXML
+	private DatePicker dp_zeitraum_von_taschenrechner;
+	@FXML
+	private DatePicker dp_zeitraum_bis_taschenrechner;
 
 	 public static double faktor_strom = 1; 
 	 public static double faktor_wasser = 1; 
@@ -121,6 +148,8 @@ public class FormControllerZahlung {
 	 public static double umsatzsteuer_wasser = 0.07; 
 	 public static double umsatzsteuer_abwasser = 0.0;
 	 
+	 public static String bt_kategorie;
+	 
 
 	public void initialize() {
 		DB db = new DB();
@@ -128,6 +157,8 @@ public class FormControllerZahlung {
 
 		init_CB_Zaehler(db);
 		initCBEinstellungen(db);
+		
+		showTaschenrechner(false);//Taschenrechner nicht anzeigen
 
 	}
 
@@ -538,6 +569,117 @@ public class FormControllerZahlung {
 		}//IF von Alert
 
 	}
+	
+	//------------------------------------------------Taschenrechner--------------------
+	public void showTaschenrechner(boolean anzeigen) {
+		if(anzeigen) {
+			lb_taschenrechner_wert.setVisible(true);
+			lb_taschenrechner_zeitraum_ges.setVisible(true);
+			lb_taschenrechner_zeitraum_wechsel.setVisible(true);
+			dp_zeitraum_von_taschenrechner.setVisible(true);
+			dp_zeitraum_bis_taschenrechner.setVisible(true);
+			dp_zeitraum_wechsel_taschenrechner.setVisible(true);
+			tf_wert_von.setVisible(true);
+			tf_wert_bis.setVisible(true);
+		}
+		else {
+			lb_taschenrechner_wert.setVisible(false);
+			lb_taschenrechner_zeitraum_ges.setVisible(false);
+			lb_taschenrechner_zeitraum_wechsel.setVisible(false);
+			dp_zeitraum_von_taschenrechner.setVisible(false);
+			dp_zeitraum_bis_taschenrechner.setVisible(false);
+			dp_zeitraum_wechsel_taschenrechner.setVisible(false);
+			tf_wert_von.setVisible(false);
+			tf_wert_bis.setVisible(false);
+		}
+	}
+	
+	public int[] getWertFuerZeitraum() {
+		LocalDate zt_von = dp_zeitraum_von_taschenrechner.getValue();
+		LocalDate zt_bis = dp_zeitraum_bis_taschenrechner.getValue();
+		LocalDate zt_wechsel = dp_zeitraum_wechsel_taschenrechner.getValue();
+		
+		double anz_tage_ges = ChronoUnit.DAYS.between(zt_von, zt_bis) + 1;
+		double anz_tage_zt1 = ChronoUnit.DAYS.between(zt_von, zt_wechsel) +1 ;
+		//double anz_tage_zt2 = anz_tage_ges - anz_tage_zt1;
+		
+		int wert_alt = Integer.parseInt(tf_wert_von.getText());
+		int wert_neu = Integer.parseInt(tf_wert_bis.getText());
+		int dif = wert_neu - wert_alt;
+		
+		LocalDate zt_von_allg = dp_zeitraum_von.getValue();
+		double faktor = anz_tage_zt1 / anz_tage_ges ; 
+		
+		if(zt_von_allg.isAfter(zt_wechsel) || zt_von_allg.isEqual(zt_wechsel)) {//=> Zeitraum 2
+			int wert_alt_zt2 = (int)(wert_alt + dif * faktor);
+			int wert_neu_zt2 = wert_neu;
+			
+			
+			return (new int[] {wert_alt_zt2, wert_neu_zt2});
+			
+		}
+		else {//=> Zeitraum 1
+			
+			int wert_alt_zt1 = wert_alt;
+			int wert_neu_zt1 = (int)(wert_alt + dif * faktor);
+			
+			return (new int[] {wert_alt_zt1, wert_neu_zt1});
+		}
+		
+	}
+	
+	public void action_taschenrechner_strom() {
+		showTaschenrechner(true);
+		bt_kategorie = "Strom";
+				
+	}
+	
+	public void action_taschenrechner_erdgas() {
+		bt_kategorie = "Erdgas";
+		showTaschenrechner(true);
+	}
+
+	public void action_taschenrechner_wasser() {
+		bt_kategorie = "Wasser";
+		showTaschenrechner(true);
+	}
+
+	public void action_taschenrechner_abwasser() {
+		bt_kategorie = "Abwasser";
+		showTaschenrechner(true);
+	}
+	
+	public void action_taschenrechner_fertig() {
+		//Werte in labels eingeben
+		//Taschenrechner wieder ausblenden
+		
+		int[] werte = getWertFuerZeitraum();
+		switch (bt_kategorie) {
+		case "Strom":
+			tf_strom_alt.setText(""+werte[0]);
+			tf_strom_neu.setText(""+werte[1]);
+			break;
+		case "Erdgas":
+			tf_erdgas_alt.setText(""+werte[0]);
+			tf_erdgas_neu.setText(""+werte[1]);
+			break;
+		case "Wasser":
+			tf_wasser_alt.setText(""+werte[0]);
+			tf_wasser_neu.setText(""+werte[1]);
+			break;
+		case "Abwasser":
+			tf_abwasser_alt.setText(""+werte[0]);
+			tf_abwasser_neu.setText(""+werte[1]);
+			break;
+		}
+		
+		
+		tf_wert_von.setText("");
+		tf_wert_bis.setText("");
+		
+		showTaschenrechner(false);	//wieder ausblenden
+	}
+
 	
 	
 	public void action_menu_uebersicht() {
