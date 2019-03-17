@@ -132,7 +132,7 @@ public class FormControllerZahlung {
 	 public static double preis_wasser = 2.27; 
 	 public static double preis_abwasser = 1.10;
 	 
-	 // müssen alle noch /360 * anz_tage_zeitraum 
+	 // mÃ¼ssen alle noch /360 * anz_tage_zeitraum 
 	 public static double pauschale_strom = 46.44; // im Jahr 
 	 public static double pauschale_erdgas = 168.48; // im Jahr 
 	 public static double pauschale_wasser = 28.66; // im Jahr 
@@ -229,9 +229,9 @@ public class FormControllerZahlung {
 	}
 
 	public void action_einstellung_geweahlt() {
-		// Einstellungs-Konstanten des Controllers aus der gewäehlten Einstellung initialisieren
+		// Einstellungs-Konstanten des Controllers aus der gewÃ¤ehlten Einstellung initialisieren
 		DB db = new DB();
-		// Get gewählte Einstellungen
+		// Get gewÃ¤hlte Einstellungen
 		
 		String sql_geweahlte_einstellungen = "SELECT * FROM `einstellung` WHERE `id` = "+cb_einstellungen_id.getValue()+"";
 		ResultSet rs_einstellungen = db.executeQueryWithResult(sql_geweahlte_einstellungen);
@@ -270,7 +270,7 @@ public class FormControllerZahlung {
 			e.printStackTrace();
 		}
 		
-		//Werte neu berechnen, wenn neue Einstellung gewählt wurde
+		//Werte neu berechnen, wenn neue Einstellung gewÃ¤hlt wurde
 		action_strom_berechnen();
 		action_ergas_berechnen();
 		action_wasser_berechnen();
@@ -296,7 +296,7 @@ public class FormControllerZahlung {
 			
 			// Betrag_Mengen
 			double betrag_menge_strom = strom_dif *  Double.parseDouble(lb_faktor_strom.getText()) * preis_strom;
-			lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" €");
+			lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" Â€");
 
 		}
 	}
@@ -312,7 +312,7 @@ public class FormControllerZahlung {
 			
 			// Betrag_Mengen
 			double betrag_menge_erdgas = erdgas_dif *  Double.parseDouble(lb_faktor_erdgas.getText()) * preis_erdgas;
-			lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" €");
+			lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" Â€");
 		}
 	}
 
@@ -323,11 +323,11 @@ public class FormControllerZahlung {
 			int wasser_dif = wasser_neu - wasser_alt;
 
 			lb_dif_wasser.setText("" + (wasser_neu - wasser_alt));
-			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText())+" m³");
+			lb_menge_wasser.setText("" + wasser_dif * Double.parseDouble(lb_faktor_wasser.getText())+" mÂ³");
 			
 			// Betrag_Mengen
 			double betrag_menge_wasser = wasser_dif *  Double.parseDouble(lb_faktor_wasser.getText()) * preis_wasser;
-			lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" €");
+			lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" Â€");
 		}
 	}
 
@@ -338,11 +338,11 @@ public class FormControllerZahlung {
 			int abwasser_dif = abwasser_neu - abwasser_alt;
 
 			lb_dif_abwasser.setText("" + (abwasser_dif));
-			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText())+" m³");
+			lb_menge_abwasser.setText("" + abwasser_dif * Double.parseDouble(lb_faktor_abwasser.getText())+" mÂ³");
 			
 			// Betrag_Mengen
 			double betrag_menge_abwasser = abwasser_dif *  Double.parseDouble(lb_faktor_abwasser.getText()) * preis_abwasser;
-			lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser, 2) +" €");
+			lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser, 2) +" Â€");
 		}
 	}
 
@@ -410,7 +410,7 @@ public class FormControllerZahlung {
 			int gen_key_zaehlerstand = 0;
 			try {
 	
-				// GET IDs von den ausgewählten Zählern
+				// GET IDs von den ausgewÃ¤hlten ZÃ¤hlern
 				ResultSet rs_zaehler_strom = db.executeQueryWithResult(
 						"SELECT `id` FROM `zaehler` WHERE `nummer`= " + cb_zaehler_strom.getValue() + "");
 				if (rs_zaehler_strom.next()) {
@@ -428,8 +428,8 @@ public class FormControllerZahlung {
 				if (rs_zaehler_wasser.next()) {
 					zaehler_id_wasser = rs_zaehler_wasser.getInt("id");
 				}
-				// der Abwasserzähler entspricht immer dem Wasserzähler! => keine Abfrage
-				// benötigt
+				// der AbwasserzÃ¤hler entspricht immer dem WasserzÃ¤hler! => keine Abfrage
+				// benÃ¶tigt
 	
 				PreparedStatement ps_zaehlerstand = con.prepareStatement(sql_zaehlerstand, Statement.RETURN_GENERATED_KEYS);
 	
@@ -495,10 +495,10 @@ public class FormControllerZahlung {
 				ps_zahlung.setDouble(10, betrag_menge_wasser);
 				ps_zahlung.setDouble(11, betrag_menge_abwasser);
 				
-				lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" €");
-				lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" €");
-				lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" €");
-				lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser,2) +" €");
+				lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" Â€");
+				lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" Â€");
+				lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" Â€");
+				lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser,2) +" Â€");
 	
 				// Pauschalen alle /360 * anz_tage_zeitraum
 				int anz_tage = Integer.parseInt(lb_dif_tage.getText());
@@ -513,7 +513,7 @@ public class FormControllerZahlung {
 				ps_zahlung.setDouble(14, pauschale_wasser_lokal);
 				ps_zahlung.setDouble(15, pauschale_abwasser_lokal);
 	
-				// Steuer - nur für Strom und Erdgas
+				// Steuer - nur fÃ¼r Strom und Erdgas
 				double steuer_strom_betrag = menge_strom * steuer_strom;
 				double steuer_erdgas_betrag = menge_erdgas * steuer_erdgas;
 	
@@ -594,15 +594,6 @@ public class FormControllerZahlung {
 		}
 	}
 	
-	public void actionZeitraumTaschenrechnerEingegeben() {
-		int jahr = dp_zeitraum_von_taschenrechner.getValue().getYear();
-		
-		String date = ""+jahr+"-12-31";
-        LocalDate datum_wechsel = LocalDate.parse(date);
-        dp_zeitraum_wechsel_taschenrechner.setValue(datum_wechsel);
-        
-	}
-	
 	public int[] getWertFuerZeitraum() {
 		LocalDate zt_von = dp_zeitraum_von_taschenrechner.getValue();
 		LocalDate zt_bis = dp_zeitraum_bis_taschenrechner.getValue();
@@ -635,6 +626,15 @@ public class FormControllerZahlung {
 			return (new int[] {wert_alt_zt1, wert_neu_zt1});
 		}
 		
+	}
+	
+	public void actionZeitraumTaschenrechnerEingegeben() {
+		int jahr = dp_zeitraum_von_taschenrechner.getValue().getYear();
+		
+		String date = ""+jahr+"-12-31";
+        LocalDate datum_wechsel = LocalDate.parse(date);
+        dp_zeitraum_wechsel_taschenrechner.setValue(datum_wechsel);
+        
 	}
 	
 	public void action_taschenrechner_strom() {
