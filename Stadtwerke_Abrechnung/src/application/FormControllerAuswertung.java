@@ -243,6 +243,12 @@ public class FormControllerAuswertung {
 		initPieChartKostenzusammensetzung();
 	}
 
+	/**
+	 * 
+	 * @param db
+	 * @param monats_ansicht
+	 * @param initDone
+	 */
 	public void initBarChartAndLineChartKostenAllgemein(DB db, boolean monats_ansicht, boolean initDone) {
 		
 		bc_allgmeein_kosten.getData().clear(); //Chart zurücksetzen

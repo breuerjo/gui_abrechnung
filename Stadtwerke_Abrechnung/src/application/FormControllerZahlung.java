@@ -262,7 +262,7 @@ public class FormControllerZahlung {
 				lb_faktor_strom.setText(""+faktor_strom);
 				lb_faktor_wasser.setText(""+faktor_wasser);
 				lb_faktor_abwasser.setText(""+faktor_abwasser);
-				lb_faktor_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen((erdgas_faktor_brennwert* erdgas_faktor_brennwert),6));
+				lb_faktor_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen((erdgas_faktor_zustandszahl* erdgas_faktor_brennwert),6));
 								
 				//System.out.println("Einstellungen geupdated");
 			}
@@ -296,7 +296,7 @@ public class FormControllerZahlung {
 			
 			// Betrag_Mengen
 			double betrag_menge_strom = strom_dif *  Double.parseDouble(lb_faktor_strom.getText()) * preis_strom;
-			lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" ");
+			lb_betrag_strom.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_strom, 2) +" €");
 
 		}
 	}
@@ -312,7 +312,7 @@ public class FormControllerZahlung {
 			
 			// Betrag_Mengen
 			double betrag_menge_erdgas = erdgas_dif *  Double.parseDouble(lb_faktor_erdgas.getText()) * preis_erdgas;
-			lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" ");
+			lb_betrag_erdgas.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_erdgas, 2) +" €");
 		}
 	}
 
@@ -327,7 +327,7 @@ public class FormControllerZahlung {
 			
 			// Betrag_Mengen
 			double betrag_menge_wasser = wasser_dif *  Double.parseDouble(lb_faktor_wasser.getText()) * preis_wasser;
-			lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" ");
+			lb_betrag_wasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_wasser, 2) +" €");
 		}
 	}
 
@@ -342,7 +342,7 @@ public class FormControllerZahlung {
 			
 			// Betrag_Mengen
 			double betrag_menge_abwasser = abwasser_dif *  Double.parseDouble(lb_faktor_abwasser.getText()) * preis_abwasser;
-			lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser, 2) +" ");
+			lb_betrag_abwasser.setText(""+BasicFunctions.roundDoubleNachkommastellen(betrag_menge_abwasser, 2) +" €");
 		}
 	}
 
